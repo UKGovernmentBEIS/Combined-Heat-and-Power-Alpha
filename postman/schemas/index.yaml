@@ -51,6 +51,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /submission/{ref}:
+    parameters:
+      - name: ref
+        description: The identifier of the scheme
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/SchemeId'
+    post:
+      summary: Create a submission
+      responses:
+        '201':
+          description: The Scheme corresponding to the provided `SchemeId`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Submission'
+        404:
+          description: No Scheme found for the provided `SchemeId`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     UserId:
@@ -109,6 +138,11 @@ components:
           type: number
     Submission:
       type: object
+      required:
+        - ref
+        - submissionId
+        - submittedBy
+        - submittedDate
       properties:
         ref:
           $ref: '#/components/schemas/SchemeId'
@@ -161,8 +195,6 @@ components:
         otherInformation:
           type: string
         otherInformationFilename:
-          type: string
-        submitted:
           type: string
         submittedBy:
           type: string
