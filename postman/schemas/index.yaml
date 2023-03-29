@@ -88,118 +88,237 @@ components:
     Ref:
       description: The identifier of a schema
       type: string
-    Scheme:
+    scheme:
       type: object
-      required:
-        - ref
-        - name
-        - sector
-        - fuelBillFrequency
       properties:
-        ref:
-          $ref: '#/components/schemas/SchemeId'
-        name:
-          type: string
-        sector:
-          type: string
-          enum:
-            - Chemical industry
-            - Commerce
-            - Construction
-            - Electrical and instrument engineering
-            - Extraction, mining and agglomeration
-            - Food, beverages and tobacco
-            - Iron and steel
-            - Mechanical engineering and metal products
-            - Mineral products (eg glass, cement, bricks)
-            - Non ferrous metals
-            - Oil refineries
-            - Other
-            - Other industrial branches
-            - Paper, publishing and printing
-            - Power generation
-            - Public Administration
-            - Sewage treatment
-            - Textiles, clothing and footwear
-            - Transport
-            - Vehicles
-        fuelBillFrequency:
-          type: string
-          enum:
-            - Monthly
-            - Quarterly
-            - Annually
-            - Other
-        totalPowerCapacity:
-          type: number
-        maximumHeatOutput:
-          type: number
-        totalPowerCapacityUnderMHC:
-          type: number
-    Submission:
-      type: object
+        info:
+          type: object
+          properties:
+            ref:
+              type: string
+            name:
+              type: string
+          required:
+            - ref
+            - name
+        details:
+          type: object
+          properties:
+            sector:
+              type: string
+              enum:
+                - Chemical industry
+                - Commerce
+                - Construction
+                - Electrical and instrument engineering
+                - Extraction, mining and agglomeration
+                - Food, beverages and tobacco
+                - Iron and steel
+                - Mechanical engineering and metal products
+                - Mineral products (eg glass, cement, bricks)
+                - Non ferrous metals
+                - Oil refineries
+                - Other
+                - Other industrial branches
+                - Paper, publishing and printing
+                - Power generation
+                - Public Administration
+                - Sewage treatment
+                - Textiles, clothing and footwear
+                - Transport
+                - Vehicles
+            fuelBillFrequency:
+              type: string
+              enum:
+                - Monthly
+                - Quarterly
+                - Annually
+                - Other            
+            diagrams:
+              type: array
+              items:
+                type: string
+            primeMovers:
+              type: array
+              items:
+                type: object
+                properties:
+                  tagNumber:
+                    type: number
+                  type:
+                    type: string
+                  fuel:
+                    type: string
+                  manufacturer:
+                    type: string
+                  model:
+                    type: string
+                  yearCommissioned:
+                    type: number
+                  maximumRatedHeat:
+                    type: string
+                  maximumRatedPower:
+                    type: string
+                required:
+                  - tagNumber
+                  - type
+                  - fuel
+                  - manufacturer
+                  - model
+                  - yearCommissioned
+                  - maximumRatedHeat
+                  - maximumRatedPower
+            boilers:
+              type: array
+              items:
+                type: object
+                properties:
+                  tagNumber:
+                    type: number
+                  type:
+                    type: string
+                  details:
+                    type: string
+                  manufacturer:
+                    type: string
+                  model:
+                    type: string
+                  yearCommissioned:
+                    type: number
+                  maximumRatedHeat:
+                    type: string
+                  maximumRatedPower:
+                    type: string
+                required:
+                  - tagNumber
+                  - type
+                  - details
+                  - manufacturer
+                  - model
+                  - yearCommissioned
+                  - maximumRatedHeat
+                  - maximumRatedPower
+          required:
+            - sector
+            - fuelBillFrequency
+            - diagrams
+            - primeMovers
+            - boilers
+        meters:
+          type: object
+          properties:
+            fuelMeters:
+              type: array
+              items:
+                type: object
+                properties:
+                  tag:
+                    type: string
+                  diagramReferenceNumber:
+                    type: string
+                  yearInstalled:
+                    type: number
+                  outputsRange:
+                    type: string
+                  outputsUnit:
+                    type: string
+                  modelType:
+                    type: string
+                  uncertainty:
+                    type: number
+                  meterPointReference:
+                    type: string
+                  serialNumber:
+                    type: string
+                required:
+                  - tag
+                  - diagramReferenceNumber
+                  - yearInstalled
+                  - outputsRange
+                  - outputsUnit
+                  - modelType
+                  - uncertainty
+                  - serialNumber
+            electricityMeters:
+              type: array
+              items:
+                type: object
+                properties:
+                  tag:
+                    type: string
+                  diagramReferenceNumber:
+                    type: string
+                  yearInstalled:
+                    type: number
+                  outputsRange:
+                    type: string
+                  outputsUnit:
+                    type: string
+                  modelType:
+                    type: string
+                  uncertainty:
+                    type: number
+                  serialNumber:
+                    type: string
+                  meterPointReference:
+                    type: string
+                required:
+                  - tag
+                  - diagramReferenceNumber
+                  - yearInstalled
+                  - outputsRange
+                  - outputsUnit
+                  - modelType
+                  - uncertainty
+                  - serialNumber
+            heatMeters:
+              type: array
+              items:
+                type: object
+                properties:
+                  tag:
+                    type: string
+                  diagramReferenceNumber:
+                    type: string
+                  yearInstalled:
+                    type: number
+                  outputsRange:
+                    type: string
+                  outputsUnit:
+                    type: string
+                  modelType:
+                    type: string
+                  uncertainty:
+                    type: number
+                  serialNumber:
+                    type: string
+                  meterPointReference:
+                    type: string
+                required:
+                  - tag
+                  - diagramReferenceNumber
+                  - yearInstalled
+                  - outputsRange
+                  - outputsUnit
+                  - modelType
+                  - uncertainty
+                  - serialNumber
+          required:
+            - fuelMeters
+            - electricityMeters
+            - heatMeters
+        additionalInformation:
+          type: object
+          properties:
+            details:
+              type: string
+          required:
+            - details
       required:
-        - ref
-        - submissionId
-        - submittedBy
-        - submittedDate
-      properties:
-        ref:
-          $ref: '#/components/schemas/SchemeId'
-        submissionId:
-          type: string
-        schemeId:
-          type: string
-        annualOperatingHours:
-          type: number
-        estimatedEnergyInputPrimeMover:
-          type: number
-        estimatedEnergyInputBoilers:
-          type: number
-        estimatedHeatOutputPrimeMover:
-          type: number
-        estimatedHeatOutputBoilers:
-          type: number
-        uncertaintyAdjustmentFactorFuel:
-          type: number
-        uncertaintyAdjustmentFactorHeat:
-          type: number
-        uncertaintyAdjustmentFactorPower:
-          type: number
-        uncertaintyAdjustmentFactorFilename:
-          type: number
-        powerEfficiancyPrecentage:
-          type: number
-        qualityIndexScore:
-          type: number
-        claimRenewableCertificate:
-          type: boolean
-        qualifyForContractsOfDifference:
-          type: boolean
-        claimSecretaryOfStateCertificate:
-          type: boolean
-        doesExportElectricity:
-          type: boolean
-        doesExportHeat:
-          type: boolean
-        heatExportCustomer:
-          type: string
-        claimClimateChangeLevyLastYear:
-          type: boolean
-        claimClimatePriceFloorExemptionLastYear:
-          type: boolean
-        designHeatRecoveryCapacity:
-          type: number
-        designPowerEfficiency:
-          type: number
-        otherInformation:
-          type: string
-        otherInformationFilename:
-          type: string
-        submittedBy:
-          type: string
-        submittedDate:
-          type: string
+        - info
+        - details
+        - meters
+        - additionalInformation
     Error:
       type: object
       required:
