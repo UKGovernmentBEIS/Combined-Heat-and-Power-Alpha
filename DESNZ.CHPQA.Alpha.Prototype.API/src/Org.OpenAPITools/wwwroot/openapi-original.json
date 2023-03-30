@@ -1,0 +1,664 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "description" : "CHPQA Schemes and Submissions Proxy/Facade API",
+    "title" : "CHPQA Alpha Prototype API",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "/"
+  } ],
+  "security" : [ {
+    "ApiKey" : [ ]
+  } ],
+  "paths" : {
+    "/schemes/{userId}" : {
+      "get" : {
+        "parameters" : [ {
+          "description" : "The user id of the Responsible Person (RP)",
+          "explode" : false,
+          "in" : "path",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/UserId"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/scheme"
+                }
+              }
+            },
+            "description" : "The Scheme corresponding to the provided `SchemeId`"
+          }
+        },
+        "summary" : "Read all schemes for the supplied userId"
+      }
+    },
+    "/scheme/{ref}" : {
+      "get" : {
+        "parameters" : [ {
+          "description" : "The identifier of the scheme",
+          "explode" : false,
+          "in" : "path",
+          "name" : "ref",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/schemeId"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/scheme"
+                }
+              }
+            },
+            "description" : "The Scheme corresponding to the provided `SchemeId`"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            },
+            "description" : "No Scheme found for the provided `SchemeId`"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            },
+            "description" : "Unexpected error"
+          }
+        },
+        "summary" : "Read a Scheme"
+      }
+    },
+    "/submission/{ref}" : {
+      "post" : {
+        "parameters" : [ {
+          "description" : "The identifier of the scheme",
+          "explode" : false,
+          "in" : "path",
+          "name" : "ref",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/schemeId"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/scheme"
+                }
+              }
+            },
+            "description" : "The Scheme corresponding to the provided `SchemeId`"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            },
+            "description" : "No Scheme found for the provided `SchemeId`"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            },
+            "description" : "Unexpected error"
+          }
+        },
+        "summary" : "Create a submission"
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "UserId" : {
+        "description" : "The identifier of a Responsible Person (RP)",
+        "type" : "string"
+      },
+      "schemeId" : {
+        "description" : "The identifier of a schema",
+        "type" : "string"
+      },
+      "scheme" : {
+        "example" : {
+          "additionalInformation" : {
+            "details" : "details"
+          },
+          "details" : {
+            "boilers" : [ {
+              "tagNumber" : 1.4658129805029452,
+              "yearCommissioned" : 5.962133916683182,
+              "maximumRatedPower" : "maximumRatedPower",
+              "details" : "details",
+              "model" : "model",
+              "maximumRatedHeat" : "maximumRatedHeat",
+              "type" : "type",
+              "manufacturer" : "manufacturer"
+            }, {
+              "tagNumber" : 1.4658129805029452,
+              "yearCommissioned" : 5.962133916683182,
+              "maximumRatedPower" : "maximumRatedPower",
+              "details" : "details",
+              "model" : "model",
+              "maximumRatedHeat" : "maximumRatedHeat",
+              "type" : "type",
+              "manufacturer" : "manufacturer"
+            } ],
+            "fuelBillFrequency" : "Monthly",
+            "primeMovers" : [ {
+              "tagNumber" : 0.8008281904610115,
+              "yearCommissioned" : 6.027456183070403,
+              "fuel" : "fuel",
+              "maximumRatedPower" : "maximumRatedPower",
+              "model" : "model",
+              "maximumRatedHeat" : "maximumRatedHeat",
+              "type" : "type",
+              "manufacturer" : "manufacturer"
+            }, {
+              "tagNumber" : 0.8008281904610115,
+              "yearCommissioned" : 6.027456183070403,
+              "fuel" : "fuel",
+              "maximumRatedPower" : "maximumRatedPower",
+              "model" : "model",
+              "maximumRatedHeat" : "maximumRatedHeat",
+              "type" : "type",
+              "manufacturer" : "manufacturer"
+            } ],
+            "diagrams" : [ "diagrams", "diagrams" ],
+            "sector" : "Chemical industry"
+          },
+          "info" : {
+            "ref" : "ref",
+            "name" : "name"
+          },
+          "meters" : {
+            "electricityMeters" : [ {
+              "yearInstalled" : 7.061401241503109,
+              "serialNumber" : "serialNumber",
+              "outputsRange" : "outputsRange",
+              "tag" : "tag",
+              "modelType" : "modelType",
+              "uncertainty" : 9.301444243932576,
+              "diagramReferenceNumber" : "diagramReferenceNumber",
+              "meterPointReference" : "meterPointReference",
+              "outputsUnit" : "outputsUnit"
+            }, {
+              "yearInstalled" : 7.061401241503109,
+              "serialNumber" : "serialNumber",
+              "outputsRange" : "outputsRange",
+              "tag" : "tag",
+              "modelType" : "modelType",
+              "uncertainty" : 9.301444243932576,
+              "diagramReferenceNumber" : "diagramReferenceNumber",
+              "meterPointReference" : "meterPointReference",
+              "outputsUnit" : "outputsUnit"
+            } ],
+            "fuelMeters" : [ {
+              "yearInstalled" : 5.637376656633329,
+              "serialNumber" : "serialNumber",
+              "outputsRange" : "outputsRange",
+              "tag" : "tag",
+              "modelType" : "modelType",
+              "uncertainty" : 2.3021358869347655,
+              "diagramReferenceNumber" : "diagramReferenceNumber",
+              "meterPointReference" : "meterPointReference",
+              "outputsUnit" : "outputsUnit"
+            }, {
+              "yearInstalled" : 5.637376656633329,
+              "serialNumber" : "serialNumber",
+              "outputsRange" : "outputsRange",
+              "tag" : "tag",
+              "modelType" : "modelType",
+              "uncertainty" : 2.3021358869347655,
+              "diagramReferenceNumber" : "diagramReferenceNumber",
+              "meterPointReference" : "meterPointReference",
+              "outputsUnit" : "outputsUnit"
+            } ],
+            "heatMeters" : [ {
+              "yearInstalled" : 7.061401241503109,
+              "serialNumber" : "serialNumber",
+              "outputsRange" : "outputsRange",
+              "tag" : "tag",
+              "modelType" : "modelType",
+              "uncertainty" : 9.301444243932576,
+              "diagramReferenceNumber" : "diagramReferenceNumber",
+              "meterPointReference" : "meterPointReference",
+              "outputsUnit" : "outputsUnit"
+            }, {
+              "yearInstalled" : 7.061401241503109,
+              "serialNumber" : "serialNumber",
+              "outputsRange" : "outputsRange",
+              "tag" : "tag",
+              "modelType" : "modelType",
+              "uncertainty" : 9.301444243932576,
+              "diagramReferenceNumber" : "diagramReferenceNumber",
+              "meterPointReference" : "meterPointReference",
+              "outputsUnit" : "outputsUnit"
+            } ]
+          }
+        },
+        "properties" : {
+          "info" : {
+            "$ref" : "#/components/schemas/scheme_info"
+          },
+          "details" : {
+            "$ref" : "#/components/schemas/scheme_details"
+          },
+          "meters" : {
+            "$ref" : "#/components/schemas/scheme_meters"
+          },
+          "additionalInformation" : {
+            "$ref" : "#/components/schemas/scheme_additionalInformation"
+          }
+        },
+        "required" : [ "additionalInformation", "details", "info", "meters" ],
+        "type" : "object"
+      },
+      "Error" : {
+        "properties" : {
+          "message" : {
+            "description" : "A human readable error message",
+            "type" : "string"
+          }
+        },
+        "required" : [ "message" ],
+        "type" : "object"
+      },
+      "scheme_info" : {
+        "example" : {
+          "ref" : "ref",
+          "name" : "name"
+        },
+        "properties" : {
+          "ref" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "name", "ref" ],
+        "type" : "object"
+      },
+      "scheme_details_primeMovers_inner" : {
+        "example" : {
+          "tagNumber" : 0.8008281904610115,
+          "yearCommissioned" : 6.027456183070403,
+          "fuel" : "fuel",
+          "maximumRatedPower" : "maximumRatedPower",
+          "model" : "model",
+          "maximumRatedHeat" : "maximumRatedHeat",
+          "type" : "type",
+          "manufacturer" : "manufacturer"
+        },
+        "properties" : {
+          "tagNumber" : {
+            "type" : "number"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "fuel" : {
+            "type" : "string"
+          },
+          "manufacturer" : {
+            "type" : "string"
+          },
+          "model" : {
+            "type" : "string"
+          },
+          "yearCommissioned" : {
+            "type" : "number"
+          },
+          "maximumRatedHeat" : {
+            "type" : "string"
+          },
+          "maximumRatedPower" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "fuel", "manufacturer", "maximumRatedHeat", "maximumRatedPower", "model", "tagNumber", "type", "yearCommissioned" ],
+        "type" : "object"
+      },
+      "scheme_details_boilers_inner" : {
+        "example" : {
+          "tagNumber" : 1.4658129805029452,
+          "yearCommissioned" : 5.962133916683182,
+          "maximumRatedPower" : "maximumRatedPower",
+          "details" : "details",
+          "model" : "model",
+          "maximumRatedHeat" : "maximumRatedHeat",
+          "type" : "type",
+          "manufacturer" : "manufacturer"
+        },
+        "properties" : {
+          "tagNumber" : {
+            "type" : "number"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "details" : {
+            "type" : "string"
+          },
+          "manufacturer" : {
+            "type" : "string"
+          },
+          "model" : {
+            "type" : "string"
+          },
+          "yearCommissioned" : {
+            "type" : "number"
+          },
+          "maximumRatedHeat" : {
+            "type" : "string"
+          },
+          "maximumRatedPower" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "details", "manufacturer", "maximumRatedHeat", "maximumRatedPower", "model", "tagNumber", "type", "yearCommissioned" ],
+        "type" : "object"
+      },
+      "scheme_details" : {
+        "example" : {
+          "boilers" : [ {
+            "tagNumber" : 1.4658129805029452,
+            "yearCommissioned" : 5.962133916683182,
+            "maximumRatedPower" : "maximumRatedPower",
+            "details" : "details",
+            "model" : "model",
+            "maximumRatedHeat" : "maximumRatedHeat",
+            "type" : "type",
+            "manufacturer" : "manufacturer"
+          }, {
+            "tagNumber" : 1.4658129805029452,
+            "yearCommissioned" : 5.962133916683182,
+            "maximumRatedPower" : "maximumRatedPower",
+            "details" : "details",
+            "model" : "model",
+            "maximumRatedHeat" : "maximumRatedHeat",
+            "type" : "type",
+            "manufacturer" : "manufacturer"
+          } ],
+          "fuelBillFrequency" : "Monthly",
+          "primeMovers" : [ {
+            "tagNumber" : 0.8008281904610115,
+            "yearCommissioned" : 6.027456183070403,
+            "fuel" : "fuel",
+            "maximumRatedPower" : "maximumRatedPower",
+            "model" : "model",
+            "maximumRatedHeat" : "maximumRatedHeat",
+            "type" : "type",
+            "manufacturer" : "manufacturer"
+          }, {
+            "tagNumber" : 0.8008281904610115,
+            "yearCommissioned" : 6.027456183070403,
+            "fuel" : "fuel",
+            "maximumRatedPower" : "maximumRatedPower",
+            "model" : "model",
+            "maximumRatedHeat" : "maximumRatedHeat",
+            "type" : "type",
+            "manufacturer" : "manufacturer"
+          } ],
+          "diagrams" : [ "diagrams", "diagrams" ],
+          "sector" : "Chemical industry"
+        },
+        "properties" : {
+          "sector" : {
+            "enum" : [ "Chemical industry", "Commerce", "Construction", "Electrical and instrument engineering", "Extraction, mining and agglomeration", "Food, beverages and tobacco", "Iron and steel", "Mechanical engineering and metal products", "Mineral products (eg glass, cement, bricks)", "Non ferrous metals", "Oil refineries", "Other", "Other industrial branches", "Paper, publishing and printing", "Power generation", "Public Administration", "Sewage treatment", "Textiles, clothing and footwear", "Transport", "Vehicles" ],
+            "type" : "string"
+          },
+          "fuelBillFrequency" : {
+            "enum" : [ "Monthly", "Quarterly", "Annually", "Other" ],
+            "type" : "string"
+          },
+          "diagrams" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "primeMovers" : {
+            "items" : {
+              "$ref" : "#/components/schemas/scheme_details_primeMovers_inner"
+            },
+            "type" : "array"
+          },
+          "boilers" : {
+            "items" : {
+              "$ref" : "#/components/schemas/scheme_details_boilers_inner"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "boilers", "diagrams", "fuelBillFrequency", "primeMovers", "sector" ],
+        "type" : "object"
+      },
+      "scheme_meters_fuelMeters_inner" : {
+        "example" : {
+          "yearInstalled" : 5.637376656633329,
+          "serialNumber" : "serialNumber",
+          "outputsRange" : "outputsRange",
+          "tag" : "tag",
+          "modelType" : "modelType",
+          "uncertainty" : 2.3021358869347655,
+          "diagramReferenceNumber" : "diagramReferenceNumber",
+          "meterPointReference" : "meterPointReference",
+          "outputsUnit" : "outputsUnit"
+        },
+        "properties" : {
+          "tag" : {
+            "type" : "string"
+          },
+          "diagramReferenceNumber" : {
+            "type" : "string"
+          },
+          "yearInstalled" : {
+            "type" : "number"
+          },
+          "outputsRange" : {
+            "type" : "string"
+          },
+          "outputsUnit" : {
+            "type" : "string"
+          },
+          "modelType" : {
+            "type" : "string"
+          },
+          "uncertainty" : {
+            "type" : "number"
+          },
+          "meterPointReference" : {
+            "type" : "string"
+          },
+          "serialNumber" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "diagramReferenceNumber", "modelType", "outputsRange", "outputsUnit", "serialNumber", "tag", "uncertainty", "yearInstalled" ],
+        "type" : "object"
+      },
+      "scheme_meters_electricityMeters_inner" : {
+        "example" : {
+          "yearInstalled" : 7.061401241503109,
+          "serialNumber" : "serialNumber",
+          "outputsRange" : "outputsRange",
+          "tag" : "tag",
+          "modelType" : "modelType",
+          "uncertainty" : 9.301444243932576,
+          "diagramReferenceNumber" : "diagramReferenceNumber",
+          "meterPointReference" : "meterPointReference",
+          "outputsUnit" : "outputsUnit"
+        },
+        "properties" : {
+          "tag" : {
+            "type" : "string"
+          },
+          "diagramReferenceNumber" : {
+            "type" : "string"
+          },
+          "yearInstalled" : {
+            "type" : "number"
+          },
+          "outputsRange" : {
+            "type" : "string"
+          },
+          "outputsUnit" : {
+            "type" : "string"
+          },
+          "modelType" : {
+            "type" : "string"
+          },
+          "uncertainty" : {
+            "type" : "number"
+          },
+          "serialNumber" : {
+            "type" : "string"
+          },
+          "meterPointReference" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "diagramReferenceNumber", "modelType", "outputsRange", "outputsUnit", "serialNumber", "tag", "uncertainty", "yearInstalled" ],
+        "type" : "object"
+      },
+      "scheme_meters" : {
+        "example" : {
+          "electricityMeters" : [ {
+            "yearInstalled" : 7.061401241503109,
+            "serialNumber" : "serialNumber",
+            "outputsRange" : "outputsRange",
+            "tag" : "tag",
+            "modelType" : "modelType",
+            "uncertainty" : 9.301444243932576,
+            "diagramReferenceNumber" : "diagramReferenceNumber",
+            "meterPointReference" : "meterPointReference",
+            "outputsUnit" : "outputsUnit"
+          }, {
+            "yearInstalled" : 7.061401241503109,
+            "serialNumber" : "serialNumber",
+            "outputsRange" : "outputsRange",
+            "tag" : "tag",
+            "modelType" : "modelType",
+            "uncertainty" : 9.301444243932576,
+            "diagramReferenceNumber" : "diagramReferenceNumber",
+            "meterPointReference" : "meterPointReference",
+            "outputsUnit" : "outputsUnit"
+          } ],
+          "fuelMeters" : [ {
+            "yearInstalled" : 5.637376656633329,
+            "serialNumber" : "serialNumber",
+            "outputsRange" : "outputsRange",
+            "tag" : "tag",
+            "modelType" : "modelType",
+            "uncertainty" : 2.3021358869347655,
+            "diagramReferenceNumber" : "diagramReferenceNumber",
+            "meterPointReference" : "meterPointReference",
+            "outputsUnit" : "outputsUnit"
+          }, {
+            "yearInstalled" : 5.637376656633329,
+            "serialNumber" : "serialNumber",
+            "outputsRange" : "outputsRange",
+            "tag" : "tag",
+            "modelType" : "modelType",
+            "uncertainty" : 2.3021358869347655,
+            "diagramReferenceNumber" : "diagramReferenceNumber",
+            "meterPointReference" : "meterPointReference",
+            "outputsUnit" : "outputsUnit"
+          } ],
+          "heatMeters" : [ {
+            "yearInstalled" : 7.061401241503109,
+            "serialNumber" : "serialNumber",
+            "outputsRange" : "outputsRange",
+            "tag" : "tag",
+            "modelType" : "modelType",
+            "uncertainty" : 9.301444243932576,
+            "diagramReferenceNumber" : "diagramReferenceNumber",
+            "meterPointReference" : "meterPointReference",
+            "outputsUnit" : "outputsUnit"
+          }, {
+            "yearInstalled" : 7.061401241503109,
+            "serialNumber" : "serialNumber",
+            "outputsRange" : "outputsRange",
+            "tag" : "tag",
+            "modelType" : "modelType",
+            "uncertainty" : 9.301444243932576,
+            "diagramReferenceNumber" : "diagramReferenceNumber",
+            "meterPointReference" : "meterPointReference",
+            "outputsUnit" : "outputsUnit"
+          } ]
+        },
+        "properties" : {
+          "fuelMeters" : {
+            "items" : {
+              "$ref" : "#/components/schemas/scheme_meters_fuelMeters_inner"
+            },
+            "type" : "array"
+          },
+          "electricityMeters" : {
+            "items" : {
+              "$ref" : "#/components/schemas/scheme_meters_electricityMeters_inner"
+            },
+            "type" : "array"
+          },
+          "heatMeters" : {
+            "items" : {
+              "$ref" : "#/components/schemas/scheme_meters_electricityMeters_inner"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "electricityMeters", "fuelMeters", "heatMeters" ],
+        "type" : "object"
+      },
+      "scheme_additionalInformation" : {
+        "example" : {
+          "details" : "details"
+        },
+        "properties" : {
+          "details" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "details" ],
+        "type" : "object"
+      }
+    },
+    "securitySchemes" : {
+      "ApiKey" : {
+        "in" : "header",
+        "name" : "X-Api-Key",
+        "type" : "apiKey"
+      }
+    }
+  }
+}
