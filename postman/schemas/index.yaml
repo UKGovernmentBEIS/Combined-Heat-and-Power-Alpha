@@ -21,7 +21,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Scheme'
+                $ref: '#/components/schemas/scheme'
   /scheme/{ref}:
     parameters:
       - name: ref
@@ -29,7 +29,7 @@ paths:
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/SchemeId'
+          $ref: '#/components/schemas/schemeId'
     get:
       summary: Read a Scheme
       responses:
@@ -38,7 +38,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Scheme'
+                $ref: '#/components/schemas/scheme'
         404:
           description: No Scheme found for the provided `SchemeId`
           content:
@@ -58,7 +58,7 @@ paths:
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/SchemeId'
+          $ref: '#/components/schemas/schemeId'
     post:
       summary: Create a submission
       responses:
@@ -67,7 +67,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Submission'
+                $ref: '#/components/schemas/scheme'
         404:
           description: No Scheme found for the provided `SchemeId`
           content:
@@ -85,7 +85,7 @@ components:
     UserId:
       description: The identifier of a Responsible Person (RP)
       type: string
-    Ref:
+    schemeId:
       description: The identifier of a schema
       type: string
     scheme:
