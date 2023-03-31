@@ -38,21 +38,34 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
         /// </summary>
         [Required]
         [DataMember(Name="details", EmitDefaultValue=false)]
-        public SchemeDetails Details { get; set; }
+        public Details Details { get; set; }
+
+        /// <summary>
+        /// Gets or Sets PrimeMovers
+        /// </summary>
+        [Required]
+        [DataMember(Name="primeMovers", EmitDefaultValue=false)]
+        public List<PrimeMover> PrimeMovers { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Boilers
+        /// </summary>
+        [Required]
+        [DataMember(Name="boilers", EmitDefaultValue=false)]
+        public List<Boiler> Boilers { get; set; }
+
+        /// <summary>
+        /// Gets or Sets AdditionalInformation
+        /// </summary>
+        [DataMember(Name="additionalInformation", EmitDefaultValue=false)]
+        public SchemeAdditionalInformation AdditionalInformation { get; set; }
 
         /// <summary>
         /// Gets or Sets Meters
         /// </summary>
         [Required]
         [DataMember(Name="meters", EmitDefaultValue=false)]
-        public SchemeMeters Meters { get; set; }
-
-        /// <summary>
-        /// Gets or Sets AdditionalInformation
-        /// </summary>
-        [Required]
-        [DataMember(Name="additionalInformation", EmitDefaultValue=false)]
-        public SchemeAdditionalInformation AdditionalInformation { get; set; }
+        public Meters Meters { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -64,8 +77,10 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
             sb.Append("class Scheme {\n");
             sb.Append("  Info: ").Append(Info).Append("\n");
             sb.Append("  Details: ").Append(Details).Append("\n");
-            sb.Append("  Meters: ").Append(Meters).Append("\n");
+            sb.Append("  PrimeMovers: ").Append(PrimeMovers).Append("\n");
+            sb.Append("  Boilers: ").Append(Boilers).Append("\n");
             sb.Append("  AdditionalInformation: ").Append(AdditionalInformation).Append("\n");
+            sb.Append("  Meters: ").Append(Meters).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -113,14 +128,26 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
                     Details.Equals(other.Details)
                 ) && 
                 (
-                    Meters == other.Meters ||
-                    Meters != null &&
-                    Meters.Equals(other.Meters)
+                    PrimeMovers == other.PrimeMovers ||
+                    PrimeMovers != null &&
+                    other.PrimeMovers != null &&
+                    PrimeMovers.SequenceEqual(other.PrimeMovers)
+                ) && 
+                (
+                    Boilers == other.Boilers ||
+                    Boilers != null &&
+                    other.Boilers != null &&
+                    Boilers.SequenceEqual(other.Boilers)
                 ) && 
                 (
                     AdditionalInformation == other.AdditionalInformation ||
                     AdditionalInformation != null &&
                     AdditionalInformation.Equals(other.AdditionalInformation)
+                ) && 
+                (
+                    Meters == other.Meters ||
+                    Meters != null &&
+                    Meters.Equals(other.Meters)
                 );
         }
 
@@ -138,10 +165,14 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
                     hashCode = hashCode * 59 + Info.GetHashCode();
                     if (Details != null)
                     hashCode = hashCode * 59 + Details.GetHashCode();
-                    if (Meters != null)
-                    hashCode = hashCode * 59 + Meters.GetHashCode();
+                    if (PrimeMovers != null)
+                    hashCode = hashCode * 59 + PrimeMovers.GetHashCode();
+                    if (Boilers != null)
+                    hashCode = hashCode * 59 + Boilers.GetHashCode();
                     if (AdditionalInformation != null)
                     hashCode = hashCode * 59 + AdditionalInformation.GetHashCode();
+                    if (Meters != null)
+                    hashCode = hashCode * 59 + Meters.GetHashCode();
                 return hashCode;
             }
         }

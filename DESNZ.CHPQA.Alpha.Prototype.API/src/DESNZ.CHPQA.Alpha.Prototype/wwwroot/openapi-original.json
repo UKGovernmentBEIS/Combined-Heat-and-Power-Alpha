@@ -34,7 +34,7 @@
                 }
               }
             },
-            "description" : "The Scheme corresponding to the provided `SchemeId`"
+            "description" : "The Schemes available to the supplied userId"
           }
         },
         "summary" : "Read all schemes for the supplied userId"
@@ -62,7 +62,7 @@
                 }
               }
             },
-            "description" : "The Scheme corresponding to the provided `SchemeId`"
+            "description" : "The Scheme identified by the supplied ref parameter"
           },
           "404" : {
             "content" : {
@@ -72,7 +72,7 @@
                 }
               }
             },
-            "description" : "No Scheme found for the provided `SchemeId`"
+            "description" : "No Scheme found for the provided `ref`"
           },
           "500" : {
             "content" : {
@@ -91,7 +91,7 @@
     "/submission/{ref}" : {
       "post" : {
         "parameters" : [ {
-          "description" : "The identifier of the scheme",
+          "description" : "The Scheme ref",
           "explode" : false,
           "in" : "path",
           "name" : "ref",
@@ -110,7 +110,7 @@
                 }
               }
             },
-            "description" : "The Scheme corresponding to the provided `SchemeId`"
+            "description" : "The Scheme identified by the provided `ref`"
           },
           "404" : {
             "content" : {
@@ -120,7 +120,7 @@
                 }
               }
             },
-            "description" : "No Scheme found for the provided `SchemeId`"
+            "description" : "No Scheme found for the provided `ref` parameter"
           },
           "500" : {
             "content" : {
@@ -140,7 +140,7 @@
   "components" : {
     "schemas" : {
       "UserId" : {
-        "description" : "The identifier of a Responsible Person (RP)",
+        "description" : "The identifier for a Responsible Person (RP)",
         "type" : "string"
       },
       "schemeId" : {
@@ -149,49 +149,49 @@
       },
       "scheme" : {
         "example" : {
+          "boilers" : [ {
+            "tagNumber" : 1.4658129805029452,
+            "yearCommissioned" : 5.962133916683182,
+            "maximumRatedPower" : "maximumRatedPower",
+            "details" : "details",
+            "model" : "model",
+            "maximumRatedHeat" : "maximumRatedHeat",
+            "type" : "type",
+            "manufacturer" : "manufacturer"
+          }, {
+            "tagNumber" : 1.4658129805029452,
+            "yearCommissioned" : 5.962133916683182,
+            "maximumRatedPower" : "maximumRatedPower",
+            "details" : "details",
+            "model" : "model",
+            "maximumRatedHeat" : "maximumRatedHeat",
+            "type" : "type",
+            "manufacturer" : "manufacturer"
+          } ],
           "additionalInformation" : {
             "details" : "details"
           },
+          "primeMovers" : [ {
+            "tagNumber" : 0.8008281904610115,
+            "yearCommissioned" : 6.027456183070403,
+            "fuel" : "fuel",
+            "maximumRatedPower" : "maximumRatedPower",
+            "model" : "model",
+            "maximumRatedHeat" : "maximumRatedHeat",
+            "type" : "type",
+            "manufacturer" : "manufacturer"
+          }, {
+            "tagNumber" : 0.8008281904610115,
+            "yearCommissioned" : 6.027456183070403,
+            "fuel" : "fuel",
+            "maximumRatedPower" : "maximumRatedPower",
+            "model" : "model",
+            "maximumRatedHeat" : "maximumRatedHeat",
+            "type" : "type",
+            "manufacturer" : "manufacturer"
+          } ],
           "details" : {
-            "boilers" : [ {
-              "tagNumber" : 1.4658129805029452,
-              "yearCommissioned" : 5.962133916683182,
-              "maximumRatedPower" : "maximumRatedPower",
-              "details" : "details",
-              "model" : "model",
-              "maximumRatedHeat" : "maximumRatedHeat",
-              "type" : "type",
-              "manufacturer" : "manufacturer"
-            }, {
-              "tagNumber" : 1.4658129805029452,
-              "yearCommissioned" : 5.962133916683182,
-              "maximumRatedPower" : "maximumRatedPower",
-              "details" : "details",
-              "model" : "model",
-              "maximumRatedHeat" : "maximumRatedHeat",
-              "type" : "type",
-              "manufacturer" : "manufacturer"
-            } ],
             "fuelBillFrequency" : "Monthly",
-            "primeMovers" : [ {
-              "tagNumber" : 0.8008281904610115,
-              "yearCommissioned" : 6.027456183070403,
-              "fuel" : "fuel",
-              "maximumRatedPower" : "maximumRatedPower",
-              "model" : "model",
-              "maximumRatedHeat" : "maximumRatedHeat",
-              "type" : "type",
-              "manufacturer" : "manufacturer"
-            }, {
-              "tagNumber" : 0.8008281904610115,
-              "yearCommissioned" : 6.027456183070403,
-              "fuel" : "fuel",
-              "maximumRatedPower" : "maximumRatedPower",
-              "model" : "model",
-              "maximumRatedHeat" : "maximumRatedHeat",
-              "type" : "type",
-              "manufacturer" : "manufacturer"
-            } ],
             "diagrams" : [ "diagrams", "diagrams" ],
             "sector" : "Chemical industry"
           },
@@ -201,22 +201,24 @@
           },
           "meters" : {
             "electricityMeters" : [ {
-              "yearInstalled" : 7.061401241503109,
+              "yearInstalled" : 5.637376656633329,
               "serialNumber" : "serialNumber",
               "outputsRange" : "outputsRange",
+              "reading" : null,
               "tag" : "tag",
               "modelType" : "modelType",
-              "uncertainty" : 9.301444243932576,
+              "uncertainty" : 2.3021358869347655,
               "diagramReferenceNumber" : "diagramReferenceNumber",
               "meterPointReference" : "meterPointReference",
               "outputsUnit" : "outputsUnit"
             }, {
-              "yearInstalled" : 7.061401241503109,
+              "yearInstalled" : 5.637376656633329,
               "serialNumber" : "serialNumber",
               "outputsRange" : "outputsRange",
+              "reading" : null,
               "tag" : "tag",
               "modelType" : "modelType",
-              "uncertainty" : 9.301444243932576,
+              "uncertainty" : 2.3021358869347655,
               "diagramReferenceNumber" : "diagramReferenceNumber",
               "meterPointReference" : "meterPointReference",
               "outputsUnit" : "outputsUnit"
@@ -225,6 +227,7 @@
               "yearInstalled" : 5.637376656633329,
               "serialNumber" : "serialNumber",
               "outputsRange" : "outputsRange",
+              "reading" : null,
               "tag" : "tag",
               "modelType" : "modelType",
               "uncertainty" : 2.3021358869347655,
@@ -235,6 +238,7 @@
               "yearInstalled" : 5.637376656633329,
               "serialNumber" : "serialNumber",
               "outputsRange" : "outputsRange",
+              "reading" : null,
               "tag" : "tag",
               "modelType" : "modelType",
               "uncertainty" : 2.3021358869347655,
@@ -243,22 +247,24 @@
               "outputsUnit" : "outputsUnit"
             } ],
             "heatMeters" : [ {
-              "yearInstalled" : 7.061401241503109,
+              "yearInstalled" : 5.637376656633329,
               "serialNumber" : "serialNumber",
               "outputsRange" : "outputsRange",
+              "reading" : null,
               "tag" : "tag",
               "modelType" : "modelType",
-              "uncertainty" : 9.301444243932576,
+              "uncertainty" : 2.3021358869347655,
               "diagramReferenceNumber" : "diagramReferenceNumber",
               "meterPointReference" : "meterPointReference",
               "outputsUnit" : "outputsUnit"
             }, {
-              "yearInstalled" : 7.061401241503109,
+              "yearInstalled" : 5.637376656633329,
               "serialNumber" : "serialNumber",
               "outputsRange" : "outputsRange",
+              "reading" : null,
               "tag" : "tag",
               "modelType" : "modelType",
-              "uncertainty" : 9.301444243932576,
+              "uncertainty" : 2.3021358869347655,
               "diagramReferenceNumber" : "diagramReferenceNumber",
               "meterPointReference" : "meterPointReference",
               "outputsUnit" : "outputsUnit"
@@ -270,45 +276,56 @@
             "$ref" : "#/components/schemas/scheme_info"
           },
           "details" : {
-            "$ref" : "#/components/schemas/scheme_details"
+            "$ref" : "#/components/schemas/details"
           },
-          "meters" : {
-            "$ref" : "#/components/schemas/scheme_meters"
+          "primeMovers" : {
+            "items" : {
+              "$ref" : "#/components/schemas/primeMover"
+            },
+            "type" : "array"
+          },
+          "boilers" : {
+            "items" : {
+              "$ref" : "#/components/schemas/boiler"
+            },
+            "type" : "array"
           },
           "additionalInformation" : {
             "$ref" : "#/components/schemas/scheme_additionalInformation"
+          },
+          "meters" : {
+            "$ref" : "#/components/schemas/meters"
           }
         },
-        "required" : [ "additionalInformation", "details", "info", "meters" ],
+        "required" : [ "boilers", "details", "info", "meters", "primeMovers" ],
         "type" : "object"
       },
-      "Error" : {
-        "properties" : {
-          "message" : {
-            "description" : "A human readable error message",
-            "type" : "string"
-          }
-        },
-        "required" : [ "message" ],
-        "type" : "object"
-      },
-      "scheme_info" : {
+      "details" : {
         "example" : {
-          "ref" : "ref",
-          "name" : "name"
+          "fuelBillFrequency" : "Monthly",
+          "diagrams" : [ "diagrams", "diagrams" ],
+          "sector" : "Chemical industry"
         },
         "properties" : {
-          "ref" : {
+          "sector" : {
+            "enum" : [ "Chemical industry", "Commerce", "Construction", "Electrical and instrument engineering", "Extraction, mining and agglomeration", "Food, beverages and tobacco", "Iron and steel", "Mechanical engineering and metal products", "Mineral products (eg glass, cement, bricks)", "Non ferrous metals", "Oil refineries", "Other", "Other industrial branches", "Paper, publishing and printing", "Power generation", "Public Administration", "Sewage treatment", "Textiles, clothing and footwear", "Transport", "Vehicles" ],
             "type" : "string"
           },
-          "name" : {
+          "fuelBillFrequency" : {
+            "enum" : [ "Monthly", "Quarterly", "Annually", "Other" ],
             "type" : "string"
+          },
+          "diagrams" : {
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
           }
         },
-        "required" : [ "name", "ref" ],
+        "required" : [ "diagrams", "fuelBillFrequency", "sector" ],
         "type" : "object"
       },
-      "scheme_details_primeMovers_inner" : {
+      "primeMover" : {
         "example" : {
           "tagNumber" : 0.8008281904610115,
           "yearCommissioned" : 6.027456183070403,
@@ -348,7 +365,7 @@
         "required" : [ "fuel", "manufacturer", "maximumRatedHeat", "maximumRatedPower", "model", "tagNumber", "type", "yearCommissioned" ],
         "type" : "object"
       },
-      "scheme_details_boilers_inner" : {
+      "boiler" : {
         "example" : {
           "tagNumber" : 1.4658129805029452,
           "yearCommissioned" : 5.962133916683182,
@@ -388,86 +405,12 @@
         "required" : [ "details", "manufacturer", "maximumRatedHeat", "maximumRatedPower", "model", "tagNumber", "type", "yearCommissioned" ],
         "type" : "object"
       },
-      "scheme_details" : {
-        "example" : {
-          "boilers" : [ {
-            "tagNumber" : 1.4658129805029452,
-            "yearCommissioned" : 5.962133916683182,
-            "maximumRatedPower" : "maximumRatedPower",
-            "details" : "details",
-            "model" : "model",
-            "maximumRatedHeat" : "maximumRatedHeat",
-            "type" : "type",
-            "manufacturer" : "manufacturer"
-          }, {
-            "tagNumber" : 1.4658129805029452,
-            "yearCommissioned" : 5.962133916683182,
-            "maximumRatedPower" : "maximumRatedPower",
-            "details" : "details",
-            "model" : "model",
-            "maximumRatedHeat" : "maximumRatedHeat",
-            "type" : "type",
-            "manufacturer" : "manufacturer"
-          } ],
-          "fuelBillFrequency" : "Monthly",
-          "primeMovers" : [ {
-            "tagNumber" : 0.8008281904610115,
-            "yearCommissioned" : 6.027456183070403,
-            "fuel" : "fuel",
-            "maximumRatedPower" : "maximumRatedPower",
-            "model" : "model",
-            "maximumRatedHeat" : "maximumRatedHeat",
-            "type" : "type",
-            "manufacturer" : "manufacturer"
-          }, {
-            "tagNumber" : 0.8008281904610115,
-            "yearCommissioned" : 6.027456183070403,
-            "fuel" : "fuel",
-            "maximumRatedPower" : "maximumRatedPower",
-            "model" : "model",
-            "maximumRatedHeat" : "maximumRatedHeat",
-            "type" : "type",
-            "manufacturer" : "manufacturer"
-          } ],
-          "diagrams" : [ "diagrams", "diagrams" ],
-          "sector" : "Chemical industry"
-        },
-        "properties" : {
-          "sector" : {
-            "enum" : [ "Chemical industry", "Commerce", "Construction", "Electrical and instrument engineering", "Extraction, mining and agglomeration", "Food, beverages and tobacco", "Iron and steel", "Mechanical engineering and metal products", "Mineral products (eg glass, cement, bricks)", "Non ferrous metals", "Oil refineries", "Other", "Other industrial branches", "Paper, publishing and printing", "Power generation", "Public Administration", "Sewage treatment", "Textiles, clothing and footwear", "Transport", "Vehicles" ],
-            "type" : "string"
-          },
-          "fuelBillFrequency" : {
-            "enum" : [ "Monthly", "Quarterly", "Annually", "Other" ],
-            "type" : "string"
-          },
-          "diagrams" : {
-            "items" : {
-              "type" : "string"
-            },
-            "type" : "array"
-          },
-          "primeMovers" : {
-            "items" : {
-              "$ref" : "#/components/schemas/scheme_details_primeMovers_inner"
-            },
-            "type" : "array"
-          },
-          "boilers" : {
-            "items" : {
-              "$ref" : "#/components/schemas/scheme_details_boilers_inner"
-            },
-            "type" : "array"
-          }
-        },
-        "required" : [ "boilers", "diagrams", "fuelBillFrequency", "primeMovers", "sector" ],
-        "type" : "object"
-      },
-      "scheme_meters_fuelMeters_inner" : {
+      "meter" : {
         "example" : {
           "yearInstalled" : 5.637376656633329,
           "serialNumber" : "serialNumber",
           "outputsRange" : "outputsRange",
+          "reading" : null,
           "tag" : "tag",
           "modelType" : "modelType",
           "uncertainty" : 2.3021358869347655,
@@ -502,74 +445,35 @@
           },
           "serialNumber" : {
             "type" : "string"
+          },
+          "reading" : {
+            "$ref" : "#/components/schemas/meter_reading"
           }
         },
         "required" : [ "diagramReferenceNumber", "modelType", "outputsRange", "outputsUnit", "serialNumber", "tag", "uncertainty", "yearInstalled" ],
         "type" : "object"
       },
-      "scheme_meters_electricityMeters_inner" : {
-        "example" : {
-          "yearInstalled" : 7.061401241503109,
-          "serialNumber" : "serialNumber",
-          "outputsRange" : "outputsRange",
-          "tag" : "tag",
-          "modelType" : "modelType",
-          "uncertainty" : 9.301444243932576,
-          "diagramReferenceNumber" : "diagramReferenceNumber",
-          "meterPointReference" : "meterPointReference",
-          "outputsUnit" : "outputsUnit"
-        },
-        "properties" : {
-          "tag" : {
-            "type" : "string"
-          },
-          "diagramReferenceNumber" : {
-            "type" : "string"
-          },
-          "yearInstalled" : {
-            "type" : "number"
-          },
-          "outputsRange" : {
-            "type" : "string"
-          },
-          "outputsUnit" : {
-            "type" : "string"
-          },
-          "modelType" : {
-            "type" : "string"
-          },
-          "uncertainty" : {
-            "type" : "number"
-          },
-          "serialNumber" : {
-            "type" : "string"
-          },
-          "meterPointReference" : {
-            "type" : "string"
-          }
-        },
-        "required" : [ "diagramReferenceNumber", "modelType", "outputsRange", "outputsUnit", "serialNumber", "tag", "uncertainty", "yearInstalled" ],
-        "type" : "object"
-      },
-      "scheme_meters" : {
+      "meters" : {
         "example" : {
           "electricityMeters" : [ {
-            "yearInstalled" : 7.061401241503109,
+            "yearInstalled" : 5.637376656633329,
             "serialNumber" : "serialNumber",
             "outputsRange" : "outputsRange",
+            "reading" : null,
             "tag" : "tag",
             "modelType" : "modelType",
-            "uncertainty" : 9.301444243932576,
+            "uncertainty" : 2.3021358869347655,
             "diagramReferenceNumber" : "diagramReferenceNumber",
             "meterPointReference" : "meterPointReference",
             "outputsUnit" : "outputsUnit"
           }, {
-            "yearInstalled" : 7.061401241503109,
+            "yearInstalled" : 5.637376656633329,
             "serialNumber" : "serialNumber",
             "outputsRange" : "outputsRange",
+            "reading" : null,
             "tag" : "tag",
             "modelType" : "modelType",
-            "uncertainty" : 9.301444243932576,
+            "uncertainty" : 2.3021358869347655,
             "diagramReferenceNumber" : "diagramReferenceNumber",
             "meterPointReference" : "meterPointReference",
             "outputsUnit" : "outputsUnit"
@@ -578,6 +482,7 @@
             "yearInstalled" : 5.637376656633329,
             "serialNumber" : "serialNumber",
             "outputsRange" : "outputsRange",
+            "reading" : null,
             "tag" : "tag",
             "modelType" : "modelType",
             "uncertainty" : 2.3021358869347655,
@@ -588,6 +493,7 @@
             "yearInstalled" : 5.637376656633329,
             "serialNumber" : "serialNumber",
             "outputsRange" : "outputsRange",
+            "reading" : null,
             "tag" : "tag",
             "modelType" : "modelType",
             "uncertainty" : 2.3021358869347655,
@@ -596,22 +502,24 @@
             "outputsUnit" : "outputsUnit"
           } ],
           "heatMeters" : [ {
-            "yearInstalled" : 7.061401241503109,
+            "yearInstalled" : 5.637376656633329,
             "serialNumber" : "serialNumber",
             "outputsRange" : "outputsRange",
+            "reading" : null,
             "tag" : "tag",
             "modelType" : "modelType",
-            "uncertainty" : 9.301444243932576,
+            "uncertainty" : 2.3021358869347655,
             "diagramReferenceNumber" : "diagramReferenceNumber",
             "meterPointReference" : "meterPointReference",
             "outputsUnit" : "outputsUnit"
           }, {
-            "yearInstalled" : 7.061401241503109,
+            "yearInstalled" : 5.637376656633329,
             "serialNumber" : "serialNumber",
             "outputsRange" : "outputsRange",
+            "reading" : null,
             "tag" : "tag",
             "modelType" : "modelType",
-            "uncertainty" : 9.301444243932576,
+            "uncertainty" : 2.3021358869347655,
             "diagramReferenceNumber" : "diagramReferenceNumber",
             "meterPointReference" : "meterPointReference",
             "outputsUnit" : "outputsUnit"
@@ -620,24 +528,114 @@
         "properties" : {
           "fuelMeters" : {
             "items" : {
-              "$ref" : "#/components/schemas/scheme_meters_fuelMeters_inner"
+              "$ref" : "#/components/schemas/meter"
             },
             "type" : "array"
           },
           "electricityMeters" : {
             "items" : {
-              "$ref" : "#/components/schemas/scheme_meters_electricityMeters_inner"
+              "$ref" : "#/components/schemas/meter"
             },
             "type" : "array"
           },
           "heatMeters" : {
             "items" : {
-              "$ref" : "#/components/schemas/scheme_meters_electricityMeters_inner"
+              "$ref" : "#/components/schemas/meter"
             },
             "type" : "array"
           }
         },
         "required" : [ "electricityMeters", "fuelMeters", "heatMeters" ],
+        "type" : "object"
+      },
+      "fuelMeterReading" : {
+        "properties" : {
+          "fuelCategory" : {
+            "type" : "string"
+          },
+          "fuelType" : {
+            "type" : "string"
+          },
+          "haveUsedCalculations" : {
+            "type" : "boolean"
+          },
+          "values" : {
+            "items" : {
+              "$ref" : "#/components/schemas/meterReading"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "heatMeterReading" : {
+        "properties" : {
+          "heatType" : {
+            "type" : "string"
+          },
+          "haveUsedCalculations" : {
+            "type" : "boolean"
+          },
+          "values" : {
+            "items" : {
+              "$ref" : "#/components/schemas/meterReading"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "electricityMeterReading" : {
+        "properties" : {
+          "powerOutputType" : {
+            "type" : "string"
+          },
+          "haveUsedCalculations" : {
+            "type" : "boolean"
+          },
+          "values" : {
+            "items" : {
+              "$ref" : "#/components/schemas/meterReading"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "meterReading" : {
+        "properties" : {
+          "month" : {
+            "type" : "number"
+          },
+          "value" : {
+            "type" : "number"
+          }
+        },
+        "type" : "object"
+      },
+      "Error" : {
+        "properties" : {
+          "message" : {
+            "description" : "A human readable error message",
+            "type" : "string"
+          }
+        },
+        "required" : [ "message" ],
+        "type" : "object"
+      },
+      "scheme_info" : {
+        "example" : {
+          "ref" : "ref",
+          "name" : "name"
+        },
+        "properties" : {
+          "ref" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        },
         "type" : "object"
       },
       "scheme_additionalInformation" : {
@@ -649,8 +647,16 @@
             "type" : "string"
           }
         },
-        "required" : [ "details" ],
         "type" : "object"
+      },
+      "meter_reading" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/fuelMeterReading"
+        }, {
+          "$ref" : "#/components/schemas/heatMeterReading"
+        }, {
+          "$ref" : "#/components/schemas/electricityMeterReading"
+        } ]
       }
     },
     "securitySchemes" : {

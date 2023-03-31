@@ -29,7 +29,6 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
         /// <summary>
         /// Gets or Sets Details
         /// </summary>
-        [Required]
         [DataMember(Name="details", EmitDefaultValue=false)]
         public string Details { get; set; }
 

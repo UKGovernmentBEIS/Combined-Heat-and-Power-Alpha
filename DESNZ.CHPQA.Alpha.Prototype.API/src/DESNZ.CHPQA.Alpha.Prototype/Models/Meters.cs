@@ -24,19 +24,28 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class SchemeInfo : IEquatable<SchemeInfo>
+    public partial class Meters : IEquatable<Meters>
     {
         /// <summary>
-        /// Gets or Sets Ref
+        /// Gets or Sets FuelMeters
         /// </summary>
-        [DataMember(Name="ref", EmitDefaultValue=false)]
-        public string Ref { get; set; }
+        [Required]
+        [DataMember(Name="fuelMeters", EmitDefaultValue=false)]
+        public List<Meter> FuelMeters { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// Gets or Sets ElectricityMeters
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
-        public string Name { get; set; }
+        [Required]
+        [DataMember(Name="electricityMeters", EmitDefaultValue=false)]
+        public List<Meter> ElectricityMeters { get; set; }
+
+        /// <summary>
+        /// Gets or Sets HeatMeters
+        /// </summary>
+        [Required]
+        [DataMember(Name="heatMeters", EmitDefaultValue=false)]
+        public List<Meter> HeatMeters { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -45,9 +54,10 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class SchemeInfo {\n");
-            sb.Append("  Ref: ").Append(Ref).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("class Meters {\n");
+            sb.Append("  FuelMeters: ").Append(FuelMeters).Append("\n");
+            sb.Append("  ElectricityMeters: ").Append(ElectricityMeters).Append("\n");
+            sb.Append("  HeatMeters: ").Append(HeatMeters).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -70,29 +80,37 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((SchemeInfo)obj);
+            return obj.GetType() == GetType() && Equals((Meters)obj);
         }
 
         /// <summary>
-        /// Returns true if SchemeInfo instances are equal
+        /// Returns true if Meters instances are equal
         /// </summary>
-        /// <param name="other">Instance of SchemeInfo to be compared</param>
+        /// <param name="other">Instance of Meters to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(SchemeInfo other)
+        public bool Equals(Meters other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    Ref == other.Ref ||
-                    Ref != null &&
-                    Ref.Equals(other.Ref)
+                    FuelMeters == other.FuelMeters ||
+                    FuelMeters != null &&
+                    other.FuelMeters != null &&
+                    FuelMeters.SequenceEqual(other.FuelMeters)
                 ) && 
                 (
-                    Name == other.Name ||
-                    Name != null &&
-                    Name.Equals(other.Name)
+                    ElectricityMeters == other.ElectricityMeters ||
+                    ElectricityMeters != null &&
+                    other.ElectricityMeters != null &&
+                    ElectricityMeters.SequenceEqual(other.ElectricityMeters)
+                ) && 
+                (
+                    HeatMeters == other.HeatMeters ||
+                    HeatMeters != null &&
+                    other.HeatMeters != null &&
+                    HeatMeters.SequenceEqual(other.HeatMeters)
                 );
         }
 
@@ -106,10 +124,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Ref != null)
-                    hashCode = hashCode * 59 + Ref.GetHashCode();
-                    if (Name != null)
-                    hashCode = hashCode * 59 + Name.GetHashCode();
+                    if (FuelMeters != null)
+                    hashCode = hashCode * 59 + FuelMeters.GetHashCode();
+                    if (ElectricityMeters != null)
+                    hashCode = hashCode * 59 + ElectricityMeters.GetHashCode();
+                    if (HeatMeters != null)
+                    hashCode = hashCode * 59 + HeatMeters.GetHashCode();
                 return hashCode;
             }
         }
@@ -117,12 +137,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(SchemeInfo left, SchemeInfo right)
+        public static bool operator ==(Meters left, Meters right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(SchemeInfo left, SchemeInfo right)
+        public static bool operator !=(Meters left, Meters right)
         {
             return !Equals(left, right);
         }

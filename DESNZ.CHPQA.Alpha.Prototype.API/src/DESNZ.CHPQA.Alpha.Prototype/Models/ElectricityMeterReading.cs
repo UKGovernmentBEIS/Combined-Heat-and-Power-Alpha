@@ -24,19 +24,25 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class SchemeInfo : IEquatable<SchemeInfo>
+    public partial class ElectricityMeterReading : IEquatable<ElectricityMeterReading>
     {
         /// <summary>
-        /// Gets or Sets Ref
+        /// Gets or Sets PowerOutputType
         /// </summary>
-        [DataMember(Name="ref", EmitDefaultValue=false)]
-        public string Ref { get; set; }
+        [DataMember(Name="powerOutputType", EmitDefaultValue=false)]
+        public string PowerOutputType { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// Gets or Sets HaveUsedCalculations
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
-        public string Name { get; set; }
+        [DataMember(Name="haveUsedCalculations", EmitDefaultValue=true)]
+        public bool HaveUsedCalculations { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Values
+        /// </summary>
+        [DataMember(Name="values", EmitDefaultValue=false)]
+        public List<MeterReading> Values { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -45,9 +51,10 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class SchemeInfo {\n");
-            sb.Append("  Ref: ").Append(Ref).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("class ElectricityMeterReading {\n");
+            sb.Append("  PowerOutputType: ").Append(PowerOutputType).Append("\n");
+            sb.Append("  HaveUsedCalculations: ").Append(HaveUsedCalculations).Append("\n");
+            sb.Append("  Values: ").Append(Values).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -70,29 +77,35 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((SchemeInfo)obj);
+            return obj.GetType() == GetType() && Equals((ElectricityMeterReading)obj);
         }
 
         /// <summary>
-        /// Returns true if SchemeInfo instances are equal
+        /// Returns true if ElectricityMeterReading instances are equal
         /// </summary>
-        /// <param name="other">Instance of SchemeInfo to be compared</param>
+        /// <param name="other">Instance of ElectricityMeterReading to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(SchemeInfo other)
+        public bool Equals(ElectricityMeterReading other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    Ref == other.Ref ||
-                    Ref != null &&
-                    Ref.Equals(other.Ref)
+                    PowerOutputType == other.PowerOutputType ||
+                    PowerOutputType != null &&
+                    PowerOutputType.Equals(other.PowerOutputType)
                 ) && 
                 (
-                    Name == other.Name ||
-                    Name != null &&
-                    Name.Equals(other.Name)
+                    HaveUsedCalculations == other.HaveUsedCalculations ||
+                    
+                    HaveUsedCalculations.Equals(other.HaveUsedCalculations)
+                ) && 
+                (
+                    Values == other.Values ||
+                    Values != null &&
+                    other.Values != null &&
+                    Values.SequenceEqual(other.Values)
                 );
         }
 
@@ -106,10 +119,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Ref != null)
-                    hashCode = hashCode * 59 + Ref.GetHashCode();
-                    if (Name != null)
-                    hashCode = hashCode * 59 + Name.GetHashCode();
+                    if (PowerOutputType != null)
+                    hashCode = hashCode * 59 + PowerOutputType.GetHashCode();
+                    
+                    hashCode = hashCode * 59 + HaveUsedCalculations.GetHashCode();
+                    if (Values != null)
+                    hashCode = hashCode * 59 + Values.GetHashCode();
                 return hashCode;
             }
         }
@@ -117,12 +132,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(SchemeInfo left, SchemeInfo right)
+        public static bool operator ==(ElectricityMeterReading left, ElectricityMeterReading right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(SchemeInfo left, SchemeInfo right)
+        public static bool operator !=(ElectricityMeterReading left, ElectricityMeterReading right)
         {
             return !Equals(left, right);
         }

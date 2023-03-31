@@ -24,19 +24,25 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class SchemeInfo : IEquatable<SchemeInfo>
+    public partial class HeatMeterReading : IEquatable<HeatMeterReading>
     {
         /// <summary>
-        /// Gets or Sets Ref
+        /// Gets or Sets HeatType
         /// </summary>
-        [DataMember(Name="ref", EmitDefaultValue=false)]
-        public string Ref { get; set; }
+        [DataMember(Name="heatType", EmitDefaultValue=false)]
+        public string HeatType { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// Gets or Sets HaveUsedCalculations
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
-        public string Name { get; set; }
+        [DataMember(Name="haveUsedCalculations", EmitDefaultValue=true)]
+        public bool HaveUsedCalculations { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Values
+        /// </summary>
+        [DataMember(Name="values", EmitDefaultValue=false)]
+        public List<MeterReading> Values { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -45,9 +51,10 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class SchemeInfo {\n");
-            sb.Append("  Ref: ").Append(Ref).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("class HeatMeterReading {\n");
+            sb.Append("  HeatType: ").Append(HeatType).Append("\n");
+            sb.Append("  HaveUsedCalculations: ").Append(HaveUsedCalculations).Append("\n");
+            sb.Append("  Values: ").Append(Values).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -70,29 +77,35 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((SchemeInfo)obj);
+            return obj.GetType() == GetType() && Equals((HeatMeterReading)obj);
         }
 
         /// <summary>
-        /// Returns true if SchemeInfo instances are equal
+        /// Returns true if HeatMeterReading instances are equal
         /// </summary>
-        /// <param name="other">Instance of SchemeInfo to be compared</param>
+        /// <param name="other">Instance of HeatMeterReading to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(SchemeInfo other)
+        public bool Equals(HeatMeterReading other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    Ref == other.Ref ||
-                    Ref != null &&
-                    Ref.Equals(other.Ref)
+                    HeatType == other.HeatType ||
+                    HeatType != null &&
+                    HeatType.Equals(other.HeatType)
                 ) && 
                 (
-                    Name == other.Name ||
-                    Name != null &&
-                    Name.Equals(other.Name)
+                    HaveUsedCalculations == other.HaveUsedCalculations ||
+                    
+                    HaveUsedCalculations.Equals(other.HaveUsedCalculations)
+                ) && 
+                (
+                    Values == other.Values ||
+                    Values != null &&
+                    other.Values != null &&
+                    Values.SequenceEqual(other.Values)
                 );
         }
 
@@ -106,10 +119,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Ref != null)
-                    hashCode = hashCode * 59 + Ref.GetHashCode();
-                    if (Name != null)
-                    hashCode = hashCode * 59 + Name.GetHashCode();
+                    if (HeatType != null)
+                    hashCode = hashCode * 59 + HeatType.GetHashCode();
+                    
+                    hashCode = hashCode * 59 + HaveUsedCalculations.GetHashCode();
+                    if (Values != null)
+                    hashCode = hashCode * 59 + Values.GetHashCode();
                 return hashCode;
             }
         }
@@ -117,12 +132,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(SchemeInfo left, SchemeInfo right)
+        public static bool operator ==(HeatMeterReading left, HeatMeterReading right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(SchemeInfo left, SchemeInfo right)
+        public static bool operator !=(HeatMeterReading left, HeatMeterReading right)
         {
             return !Equals(left, right);
         }
