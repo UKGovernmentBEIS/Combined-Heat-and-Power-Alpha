@@ -7,7 +7,7 @@ env:
   AZURE_WEBAPP_NAME: CHPQAAlphaPrototypeApi
   AZURE_WEBAPP_PACKAGE_PATH: src/DESNZ.CHPQA.Alpha.Prototype/published
   CONFIGURATION: Release
-  DOTNET_CORE_VERSION: 5.0.x
+  DOTNET_CORE_VERSION: 7.0.x
   WORKING_DIRECTORY: src/DESNZ.CHPQA.Alpha.Prototype
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v1.8.0
+      uses: actions/setup-dotnet@v3
       with:
         include-prerelease: True
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
