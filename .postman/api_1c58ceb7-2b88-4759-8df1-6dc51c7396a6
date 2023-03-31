@@ -14,7 +14,10 @@ rootDirectory = postman/collections
 
 [config.relations.apiDefinition]
 rootDirectory = postman/schemas
+files[] = {"path":"aspnetcore-config.yaml","metaData":{}}
+files[] = {"path":"functions-config.yaml","metaData":{}}
 files[] = {"path":"index.yaml","metaData":{}}
+files[] = {"path":"openapitools.json","metaData":{}}
 
 [config.relations.apiDefinition.metaData]
 type = openapi:3
