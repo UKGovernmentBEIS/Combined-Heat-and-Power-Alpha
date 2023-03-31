@@ -2,5 +2,5 @@ additionalProperties:
   netCoreVersion: 6.0
   packageAuthors: stuart.brown@equalexperts.com
   packageDescription: DESNZ CHPQA Alpha Prototype Azure Function Based API
-  packageName: DESNZ.CHPQA.Alpha.Prototype
+  packageName: DESNZ.CHPQA.Alpha.Prototype.API.Functions
   packageTitle: API.Functions
