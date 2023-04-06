@@ -282,23 +282,23 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
         [SwaggerResponse(statusCode: 201, type: typeof(Services.Scheme), description: "The Scheme identified by the provided &#x60;ref&#x60;")]
         [SwaggerResponse(statusCode: 404, type: typeof(Error), description: "No Scheme found for the provided &#x60;ref&#x60; parameter")]
         [SwaggerResponse(statusCode: 500, type: typeof(Error), description: "Unexpected error")]
-        public virtual IActionResult SubmissionRefPost([FromRoute(Name = "ref")][Required] string _ref, [FromBody][Required] dynamic submission)
+        public virtual IActionResult SubmissionRefPost([FromRoute(Name = "ref")][Required] string _ref, [FromBody][Required] dynamic scheme)
         {
 
             _telemetryClient.TrackEvent("Submission", new Dictionary<string, string>()
             {
                 { "ref", _ref },
-                { "submission", submission.ToString() }
+                { "submission", scheme.ToString() }
             });
 
             (var serviceClient, var service) = GetService();
 
             try
             {
-                var scheme = service.SchemeSet.FirstOrDefault(x => x.Ref == _ref);
+                var existingScheme = service.SchemeSet.FirstOrDefault(x => x.Ref == _ref);
 
                 // Return not found if scheme not set
-                if (scheme == null)
+                if (existingScheme == null)
                 {
                     return StatusCode(404, default(Error));
                 }
@@ -307,21 +307,21 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                 var relationships = scheme.RelationProperties.ToList();
                 foreach (var relationship in relationships)
                 {
-                    service.LoadProperty(scheme, relationship.Key);
+                    service.LoadProperty(existingScheme, relationship.Key);
                 }
 
 
 
                 // Details (Sector, FuelBillFrequency, Diagrams)
 
-                var sector = submission.Sector;
+                var sector = scheme.Sector;
 
 
                 // 
 
 
 
-                return new ObjectResult(submission);
+                return new ObjectResult(scheme);
             }
             catch (Exception ex)
             {
