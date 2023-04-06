@@ -181,7 +181,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                         },
                         additionalInformation = new
                         {
-                            details = "" //WebUtility.UrlEncode(scheme.AdditionalInformation)
+                            details = scheme.AdditionalInformation
                         },
                         details = new
                         {
@@ -288,7 +288,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
             _telemetryClient.TrackEvent("Submission", new Dictionary<string, string>()
             {
                 { "ref", _ref },
-                { "submission", scheme.ToString() }
+                { "scheme", scheme.ToString() }
             });
 
             (var serviceClient, var service) = GetService();
@@ -304,7 +304,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                 }
 
                 // Load related entities
-                var relationships = scheme.RelationProperties.ToList();
+                var relationships = existingScheme.RelationProperties.ToList();
                 foreach (var relationship in relationships)
                 {
                     service.LoadProperty(existingScheme, relationship.Key);
@@ -312,12 +312,17 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
 
 
 
-                // Details (Sector, FuelBillFrequency, Diagrams)
+                // Details (Sector, FuelBillFrequency)
+                existingScheme.Sector = scheme.scheme.info.sector;
+                existingScheme.FuelBillFrequency = scheme.scheme.info.fuelBillFrequency;
 
-                var sector = scheme.Sector;
+                // Additional information
+                existingScheme.AdditionalInformation = scheme.scheme.additionalInformation.details;
+
+                // Meters & readings
 
 
-                // 
+                service.SaveChanges();
 
 
 
