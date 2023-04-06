@@ -1,6 +1,7 @@
 using DESNZ.CHPQA.Alpha.Prototype.Attributes;
 using DESNZ.CHPQA.Alpha.Prototype.Models;
 using DESNZ.CHPQA.Alpha.Prototype.Services;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.PowerPlatform.Dataverse.Client;
@@ -21,10 +22,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
     public class DefaultApiController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly TelemetryClient _telemetryClient;
 
-        public DefaultApiController(IConfiguration configuration)
+        public DefaultApiController(IConfiguration configuration, TelemetryClient telemetryClient)
         {
             _configuration = configuration;
+            _telemetryClient = telemetryClient;
         }
 
         private (ServiceClient serviceClient, XrmServiceContext service) GetService()
@@ -279,23 +282,55 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
         [SwaggerResponse(statusCode: 201, type: typeof(Services.Scheme), description: "The Scheme identified by the provided &#x60;ref&#x60;")]
         [SwaggerResponse(statusCode: 404, type: typeof(Error), description: "No Scheme found for the provided &#x60;ref&#x60; parameter")]
         [SwaggerResponse(statusCode: 500, type: typeof(Error), description: "Unexpected error")]
-        public virtual IActionResult SubmissionRefPost([FromRoute(Name = "ref")][Required] string _ref)
+        public virtual IActionResult SubmissionRefPost([FromRoute(Name = "ref")][Required] string _ref, [FromBody][Required] dynamic submission)
         {
 
-            //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(201, default(Scheme));
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404, default(Error));
-            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(500, default(Error));
-            string exampleJson = null;
-            exampleJson = "{\r\n  \"boilers\" : [ {\r\n    \"tagNumber\" : 1.4658129805029452,\r\n    \"yearCommissioned\" : 5.962133916683182,\r\n    \"maximumRatedPower\" : \"maximumRatedPower\",\r\n    \"details\" : \"details\",\r\n    \"model\" : \"model\",\r\n    \"maximumRatedHeat\" : \"maximumRatedHeat\",\r\n    \"type\" : \"type\",\r\n    \"manufacturer\" : \"manufacturer\"\r\n  }, {\r\n    \"tagNumber\" : 1.4658129805029452,\r\n    \"yearCommissioned\" : 5.962133916683182,\r\n    \"maximumRatedPower\" : \"maximumRatedPower\",\r\n    \"details\" : \"details\",\r\n    \"model\" : \"model\",\r\n    \"maximumRatedHeat\" : \"maximumRatedHeat\",\r\n    \"type\" : \"type\",\r\n    \"manufacturer\" : \"manufacturer\"\r\n  } ],\r\n  \"additionalInformation\" : {\r\n    \"details\" : \"details\"\r\n  },\r\n  \"primeMovers\" : [ {\r\n    \"tagNumber\" : 0.8008281904610115,\r\n    \"yearCommissioned\" : 6.027456183070403,\r\n    \"fuel\" : \"fuel\",\r\n    \"maximumRatedPower\" : \"maximumRatedPower\",\r\n    \"model\" : \"model\",\r\n    \"maximumRatedHeat\" : \"maximumRatedHeat\",\r\n    \"type\" : \"type\",\r\n    \"manufacturer\" : \"manufacturer\"\r\n  }, {\r\n    \"tagNumber\" : 0.8008281904610115,\r\n    \"yearCommissioned\" : 6.027456183070403,\r\n    \"fuel\" : \"fuel\",\r\n    \"maximumRatedPower\" : \"maximumRatedPower\",\r\n    \"model\" : \"model\",\r\n    \"maximumRatedHeat\" : \"maximumRatedHeat\",\r\n    \"type\" : \"type\",\r\n    \"manufacturer\" : \"manufacturer\"\r\n  } ],\r\n  \"details\" : {\r\n    \"fuelBillFrequency\" : \"Monthly\",\r\n    \"diagrams\" : [ \"diagrams\", \"diagrams\" ],\r\n    \"sector\" : \"Chemical industry\"\r\n  },\r\n  \"info\" : {\r\n    \"ref\" : \"ref\",\r\n    \"name\" : \"name\"\r\n  },\r\n  \"meters\" : {\r\n    \"electricityMeters\" : [ {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    }, {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    } ],\r\n    \"fuelMeters\" : [ {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    }, {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    } ],\r\n    \"heatMeters\" : [ {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    }, {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    } ]\r\n  }\r\n}";
+            _telemetryClient.TrackEvent("Submission", new Dictionary<string, string>()
+            {
+                { "ref", _ref },
+                { "submission", submission.ToString() }
+            });
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Services.Scheme>(exampleJson)
-            : default(Services.Scheme);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
+            (var serviceClient, var service) = GetService();
+
+            try
+            {
+                var scheme = service.SchemeSet.FirstOrDefault(x => x.Ref == _ref);
+
+                // Return not found if scheme not set
+                if (scheme == null)
+                {
+                    return StatusCode(404, default(Error));
+                }
+
+                // Load related entities
+                var relationships = scheme.RelationProperties.ToList();
+                foreach (var relationship in relationships)
+                {
+                    service.LoadProperty(scheme, relationship.Key);
+                }
+
+
+
+                // Details (Sector, FuelBillFrequency, Diagrams)
+
+                var sector = submission.Sector;
+
+
+                // 
+
+
+
+                return new ObjectResult(submission);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(ex);
+                throw;
+            }
+
+
+            return new ObjectResult(result);
         }
     }
 }
