@@ -328,9 +328,6 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                 return new BadRequestObjectResult(ex);
                 throw;
             }
-
-
-            return new ObjectResult(result);
         }
     }
 }
