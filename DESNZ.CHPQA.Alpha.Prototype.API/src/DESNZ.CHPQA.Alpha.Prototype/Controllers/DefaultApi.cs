@@ -1,7 +1,6 @@
 using DESNZ.CHPQA.Alpha.Prototype.Attributes;
 using DESNZ.CHPQA.Alpha.Prototype.Models;
 using DESNZ.CHPQA.Alpha.Prototype.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.PowerPlatform.Dataverse.Client;
@@ -12,7 +11,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net;
 
 namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
 {
@@ -139,8 +137,8 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                         },
                         details = new
                         {
-                            sector = scheme.Sector.ToString().ToUpper(),
-                            fuelBillFrequency = scheme.FuelBillFrequency.ToString().ToUpper(),
+                            sector = scheme.Sector,
+                            fuelBillFrequency = scheme.FuelBillFrequency,
                             diagrams = scheme.DiagramsOfScheme?.Select(diagram => diagram.Filename),
                             primeMovers = scheme.PrimeMoversOfScheme?.Select(primeMover => new
                             {

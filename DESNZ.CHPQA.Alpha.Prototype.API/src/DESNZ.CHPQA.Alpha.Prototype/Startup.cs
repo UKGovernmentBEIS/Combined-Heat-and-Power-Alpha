@@ -44,15 +44,6 @@ namespace DESNZ.CHPQA.Alpha.Prototype
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddTransient<IAuthorizationHandler, ApiKeyRequirementHandler>();
-            //var apiKey = Configuration["ApiKey"];
-            //services.AddAuthorization(authConfig =>
-            //{
-            //    authConfig.AddPolicy("ApiKey", policyBuilder =>
-            //    {
-            //        policyBuilder.AddRequirements(new ApiKeyRequirement(new[] { apiKey }, "ApiKey"));
-            //    });
-            //});
 
             // The following line enables Application Insights telemetry collection.
             services.AddApplicationInsightsTelemetry();
