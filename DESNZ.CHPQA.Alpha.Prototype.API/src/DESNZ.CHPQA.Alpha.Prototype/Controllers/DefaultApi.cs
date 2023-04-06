@@ -147,10 +147,10 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                             primeMovers = scheme.PrimeMoversOfScheme?.Select(primeMover => new
                             {
                                 primeMover.TagNumber,
-                                primeMover.TypeName,
-                                primeMover.FuelName,
-                                primeMover.ManufacturerName,
-                                primeMover.ModelName,
+                                type = primeMover.TypeName,
+                                fuel = primeMover.FuelName,
+                                manufacturer = primeMover.ManufacturerName,
+                                model = primeMover.ModelName,
                                 primeMover.YearCommissioned,
                                 primeMover.MaximumRatedHeat,
                                 primeMover.MaximumRatedPower
@@ -158,10 +158,10 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                             boilers = scheme.BoilersOfScheme?.Select(boiler => new
                             {
                                 boiler.TagNumber,
-                                boiler.TypeName,
+                                type = boiler.TypeName,
                                 boiler.Details,
-                                boiler.ManufacturerName,
-                                boiler.ModelName,
+                                manufacturer = boiler.ManufacturerName,
+                                model = boiler.ModelName,
                                 boiler.YearCommissioned,
                                 boiler.MaximumRatedHeat,
                                 boiler.MaximumRatedPower
