@@ -47,7 +47,6 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
         /// <response code="200">The Schemes available to the supplied userId</response>
         [HttpGet]
         [Route("/schemes/{userId}")]
-        //[Authorize(Policy = "ApiKey")]
         [ValidateModelState]
         [SwaggerOperation("SchemesUserIdGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Services.Scheme>), description: "The Schemes available to the supplied userId")]
@@ -99,7 +98,6 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
         /// <response code="500">Unexpected error</response>
         [HttpGet]
         [Route("/scheme/{ref}")]
-        //[Authorize(Policy = "ApiKey")]
         [ValidateModelState]
         [SwaggerOperation("SchemeRefGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(Services.Scheme), description: "The Scheme identified by the supplied ref parameter")]
@@ -233,7 +231,6 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
         /// <response code="500">Unexpected error</response>
         [HttpPost]
         [Route("/submission/{ref}")]
-        [Authorize(Policy = "ApiKey")]
         [ValidateModelState]
         [SwaggerOperation("SubmissionRefPost")]
         [SwaggerResponse(statusCode: 201, type: typeof(Services.Scheme), description: "The Scheme identified by the provided &#x60;ref&#x60;")]

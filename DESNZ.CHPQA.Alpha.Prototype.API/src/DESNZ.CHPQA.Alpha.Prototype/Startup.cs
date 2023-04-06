@@ -1,6 +1,8 @@
-using System;
-using System.IO;
-using System.Reflection;
+using DESNZ.CHPQA.Alpha.Prototype.Authentication;
+using DESNZ.CHPQA.Alpha.Prototype.Filters;
+using DESNZ.CHPQA.Alpha.Prototype.Formatters;
+using DESNZ.CHPQA.Alpha.Prototype.OpenApi;
+using DESNZ.CHPQA.Alpha.Prototype.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,10 +12,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using DESNZ.CHPQA.Alpha.Prototype.Authentication;
-using DESNZ.CHPQA.Alpha.Prototype.Filters;
-using DESNZ.CHPQA.Alpha.Prototype.OpenApi;
-using DESNZ.CHPQA.Alpha.Prototype.Formatters;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace DESNZ.CHPQA.Alpha.Prototype
 {
@@ -42,20 +44,24 @@ namespace DESNZ.CHPQA.Alpha.Prototype
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IAuthorizationHandler, ApiKeyRequirementHandler>();
-            services.AddAuthorization(authConfig =>
-            {
-                authConfig.AddPolicy("ApiKey", policyBuilder =>
-                {
-                    policyBuilder
-                        .AddRequirements(new ApiKeyRequirement(new[] { "my-secret-key" },"ApiKey"));
-                });
-            });
+            //services.AddTransient<IAuthorizationHandler, ApiKeyRequirementHandler>();
+            //var apiKey = Configuration["ApiKey"];
+            //services.AddAuthorization(authConfig =>
+            //{
+            //    authConfig.AddPolicy("ApiKey", policyBuilder =>
+            //    {
+            //        policyBuilder.AddRequirements(new ApiKeyRequirement(new[] { apiKey }, "ApiKey"));
+            //    });
+            //});
+
+            // The following line enables Application Insights telemetry collection.
+            services.AddApplicationInsightsTelemetry();
 
             // Add framework services.
             services
                 // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
-                .AddControllers(options => {
+                .AddControllers(options =>
+                {
                     options.InputFormatters.Insert(0, new InputFormatterStream());
                 })
                 .AddNewtonsoftJson(opts =>
@@ -67,11 +73,13 @@ namespace DESNZ.CHPQA.Alpha.Prototype
                     });
                 });
 
+            services.AddTransient<ApiKeyMiddleware>();
+
             services
                 .AddSwaggerGen(c =>
                 {
                     c.EnableAnnotations(enableAnnotationsForInheritance: true, enableAnnotationsForPolymorphism: true);
-                    
+
                     c.SwaggerDoc("1.0.0", new OpenApiInfo
                     {
                         Title = "CHPQA Alpha Prototype API",
@@ -96,9 +104,32 @@ namespace DESNZ.CHPQA.Alpha.Prototype
                     // Include DataAnnotation attributes on Controller Action parameters as OpenAPI validation rules (e.g required, pattern, ..)
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
+
+                    c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+                    {
+                        Description = "ApiKey must appear in header",
+                        Type = SecuritySchemeType.ApiKey,
+                        Name = "x-api-key",
+                        In = ParameterLocation.Header,
+                        Scheme = "ApiKeyScheme"
+                    });
+                    var key = new OpenApiSecurityScheme()
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "ApiKey"
+                        },
+                        In = ParameterLocation.Header
+                    };
+                    var requirement = new OpenApiSecurityRequirement
+                    {
+                             { key, new List<string>() }
+                    };
+                    c.AddSecurityRequirement(requirement);
                 });
-                services
-                    .AddSwaggerGenNewtonsoftSupport();
+            services
+                .AddSwaggerGenNewtonsoftSupport();
 
             services.AddCors(options =>
             {
@@ -139,15 +170,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype
                 {
                     // set route prefix to openapi, e.g. http://localhost:8080/openapi/index.html
                     c.RoutePrefix = "openapi";
-                    //TODO: Either use the SwaggerGen generated OpenAPI contract (generated from C# classes)
                     c.SwaggerEndpoint("/openapi/1.0.0/openapi.json", "CHPQA Alpha Prototype API");
-
-                    //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
-                    // c.SwaggerEndpoint("/openapi-original.json", "CHPQA Alpha Prototype API Original");
                 });
 
-
             app.UseRouting();
+
+            app.UseMiddleware<ApiKeyMiddleware>();
 
             app.UseCors();
 
