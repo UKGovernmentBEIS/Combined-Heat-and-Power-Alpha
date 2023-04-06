@@ -77,79 +77,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                     details = new
                     {
                         x.Sector,
-                        x.FuelBillFrequency,
-                        diagrams = x.DiagramsOfScheme?.Select(diagram => diagram.Filename)
-                    },
-                    additionalInformation = new
-                    {
-                        details = WebUtility.UrlEncode(x.AdditionalInformation)
-                    },
-                    primeMovers = x.PrimeMoversOfScheme?.Select(primeMover => new
-                    {
-                        primeMover.TagNumber,
-                        primeMover.TypeName,
-                        primeMover.FuelName,
-                        primeMover.ManufacturerName,
-                        primeMover.ModelName,
-                        primeMover.YearCommissioned,
-                        primeMover.MaximumRatedHeat,
-                        primeMover.MaximumRatedPower
-                    }),
-                    boilers = x.BoilersOfScheme?.Select(boiler => new
-                    {
-                        boiler.TagNumber,
-                        boiler.TypeName,
-                        boiler.Details,
-                        boiler.ManufacturerName,
-                        boiler.ModelName,
-                        boiler.YearCommissioned,
-                        boiler.MaximumRatedHeat,
-                        boiler.MaximumRatedPower
-                    }),
-                    meters = new
-                    {
-                        fuelMeters = x.MetersOfScheme?
-                            .Where(meter => meter.MeterType == GlobalEnums.MeterType.Fuel)
-                            .Select(meter => new
-                            {
-                                meter.Tag,
-                                meter.DiagramReferenceNumber,
-                                meter.YearInstalled,
-                                meter.OutputsRange,
-                                meter.OutputsUnit,
-                                meter.ModelType,
-                                meter.Uncertainty,
-                                meter.MeterPointReference,
-                                meter.SerialNumber
-                            }),
-                        electricityMeters = x.MetersOfScheme?
-                            .Where(meter => meter.MeterType == GlobalEnums.MeterType.Electricity)
-                            .Select(meter => new
-                            {
-                                meter.Tag,
-                                meter.DiagramReferenceNumber,
-                                meter.YearInstalled,
-                                meter.OutputsRange,
-                                meter.OutputsUnit,
-                                meter.ModelType,
-                                meter.Uncertainty,
-                                meter.MeterPointReference,
-                                meter.SerialNumber
-                            }),
-                        heatMeters = x.MetersOfScheme?
-                            .Where(meter => meter.MeterType == GlobalEnums.MeterType.Heat)
-                            .Select(meter => new
-                            {
-                                meter.Tag,
-                                meter.DiagramReferenceNumber,
-                                meter.YearInstalled,
-                                meter.OutputsRange,
-                                meter.OutputsUnit,
-                                meter.ModelType,
-                                meter.Uncertainty,
-                                meter.MeterPointReference,
-                                meter.SerialNumber
-                            }),
+                        x.FuelBillFrequency
                     }
                 });
 
@@ -237,10 +165,11 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                                 boiler.YearCommissioned,
                                 boiler.MaximumRatedHeat,
                                 boiler.MaximumRatedPower
-                            }),
-                            meters = new
-                            {
-                                fuelMeters = scheme.MetersOfScheme?
+                            })
+                        },
+                        meters = new
+                        {
+                            fuelMeters = scheme.MetersOfScheme?
                             .Where(meter => meter.MeterType == GlobalEnums.MeterType.Fuel)
                             .Select(meter => new
                             {
@@ -254,7 +183,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                                 meter.MeterPointReference,
                                 meter.SerialNumber
                             }),
-                                electricityMeters = scheme.MetersOfScheme?
+                            electricityMeters = scheme.MetersOfScheme?
                             .Where(meter => meter.MeterType == GlobalEnums.MeterType.Electricity)
                             .Select(meter => new
                             {
@@ -268,7 +197,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                                 meter.MeterPointReference,
                                 meter.SerialNumber
                             }),
-                                heatMeters = scheme.MetersOfScheme?
+                            heatMeters = scheme.MetersOfScheme?
                             .Where(meter => meter.MeterType == GlobalEnums.MeterType.Heat)
                             .Select(meter => new
                             {
@@ -282,7 +211,6 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                                 meter.MeterPointReference,
                                 meter.SerialNumber
                             }),
-                            }
                         }
                     }
                 };
