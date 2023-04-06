@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Meter = DESNZ.CHPQA.Alpha.Prototype.Services.Meter;
 
 namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
 {
@@ -310,23 +311,45 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                     service.LoadProperty(existingScheme, relationship.Key);
                 }
 
-
+                var submission = new Submission();
+                submission.Ref = _ref;
+                submission.Scheme = existingScheme.SchemeId;
 
                 // Details (Sector, FuelBillFrequency)
-                existingScheme.Sector = scheme.scheme.info.sector;
-                existingScheme.FuelBillFrequency = scheme.scheme.info.fuelBillFrequency;
+                submission.Sector = scheme.scheme.details.sector;
+                submission.FuelBillFrequency = scheme.scheme.details.fuelBillFrequency;
 
                 // Additional information
-                existingScheme.AdditionalInformation = scheme.scheme.additionalInformation.details;
+                submission.AdditionalInformation = scheme.scheme.additionalInformation.details;
 
                 // Meters & readings
+                var meters = new List<dynamic>();
+                meters.AddRange(scheme.scheme.meters.fuelMeters);
+                meters.AddRange(scheme.scheme.meters.electricityMeters);
+                meters.AddRange(scheme.scheme.meters.heatMeters);
 
+                foreach (var meter in meters)
+                {
+                    var submissionMeter = new Services.Meter()
+                    {
+                        DiagramReferenceNumber = meter.DiagramReferenceNumber,
+                        MeterPointReference = meter.MeterPointReference,
+                        MeterType = meter.MeterType,
+                        ModelType = meter.ModelType,
+                        OutputsRange = meter.OutputsRange,
+                        OutputsUnit = meter.OutputsUnit,
+                        SerialNumber = meter.SerialNumber,
+                        Tag = meter.Tag,
+                        YearInstalled = meter.YearInstalled,
+                        Uncertainty = meter.Uncertainty
+                    };
+                    submission.MetersOfSubmission.Append(submissionMeter);
+                }
 
+                service.SubmissionSet.Append(submission);
                 service.SaveChanges();
 
-
-
-                return new ObjectResult(scheme);
+                return new ObjectResult(submission);
             }
             catch (Exception ex)
             {

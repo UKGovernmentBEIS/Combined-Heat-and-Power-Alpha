@@ -21059,6 +21059,22 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			}
 		}
 
+		[AttributeLogicalName("chpqa_additionalinformation"), MaxLength(8000), StringLength(8000)]
+		public string AdditionalInformation
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("chpqa_additionalinformation");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_additionalinformation"))
+				    value = (string) backupAttributeCollection["chpqa_additionalinformation"];
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("chpqa_additionalinformation", value);
+			}
+		}
+
 		[AttributeLogicalName("chpqa_fuelbillfrequency"), Required]
 		public GlobalEnums.FuelBillFrequency? FuelBillFrequency
 		{
@@ -22279,6 +22295,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 		{
 			#region Logical names
 
+			public const string AdditionalInformation = "chpqa_additionalinformation";
 			public const string FuelBillFrequency = "chpqa_fuelbillfrequency";
 			public const string Ref = "chpqa_name";
 			public const string Scheme = "chpqa_scheme";
@@ -22309,6 +22326,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 
 			public static class Schema
 			{
+				public const string AdditionalInformation = "chpqa_AdditionalInformation";
 				public const string FuelBillFrequency = "chpqa_FuelBillFrequency";
 				public const string Ref = "chpqa_Name";
 				public const string Scheme = "chpqa_Scheme";
@@ -22340,6 +22358,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 
 			public static class Labels
 			{
+				public static IDictionary<int, string> AdditionalInformation { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Additional Information"},
+					};
+
 				public static IDictionary<int, string> FuelBillFrequency { get; set; } =
 					new Dictionary<int, string>
 					{
