@@ -99,6 +99,17 @@ namespace DESNZ.CHPQA.Alpha.Prototype
                 });
                 services
                     .AddSwaggerGenNewtonsoftSupport();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("DefaultCors",
+                                      policy =>
+                                      {
+                                          policy.WithOrigins("http://localhost:9000")
+                                                              .AllowAnyHeader()
+                                                              .AllowAnyMethod();
+                                      });
+            });
         }
 
         /// <summary>
@@ -134,11 +145,18 @@ namespace DESNZ.CHPQA.Alpha.Prototype
                     //TODO: Or alternatively use the original OpenAPI contract that's included in the static files
                     // c.SwaggerEndpoint("/openapi-original.json", "CHPQA Alpha Prototype API Original");
                 });
+
+
             app.UseRouting();
+
+            app.UseCors();
+
             app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
                 });
+
+
         }
     }
 }

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
 {
@@ -28,6 +29,17 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
             _configuration = configuration;
         }
 
+        private (ServiceClient serviceClient, XrmServiceContext service) GetService()
+        {
+            var clientId = _configuration.GetValue("ClientId", string.Empty);
+            var clientSecret = _configuration.GetValue("ClientSecret", string.Empty);
+            var environmentUrl = _configuration.GetValue("EnvironmentUrl", string.Empty);
+            var instanceUri = new Uri(environmentUrl);
+            var serviceClient = new ServiceClient(instanceUri, clientId, clientSecret, true);
+            var service = new XrmServiceContext(serviceClient);
+            return (serviceClient, service);
+        }
+
         /// <summary>
         /// Read all schemes for the supplied userId
         /// </summary>
@@ -41,9 +53,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(List<Services.Scheme>), description: "The Schemes available to the supplied userId")]
         public async Task<IActionResult> SchemesUserIdGet([FromRoute(Name = "userId")][Required] string userId)
         {
-            var serviceClient = new ServiceClient(_configuration.GetConnectionString("DataverseConnectionString"));
-            var service = new XrmServiceContext(serviceClient);
-            //service.MergeOption = MergeOption.NoTracking;
+            (var serviceClient, var service) = GetService();
 
             try
             {
@@ -70,8 +80,9 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                         x.FuelBillFrequency,
                         diagrams = x.DiagramsOfScheme?.Select(diagram => diagram.Filename)
                     },
-                    additionalInformation = new {
-                        details = x.AdditionalInformation
+                    additionalInformation = new
+                    {
+                        details = WebUtility.UrlEncode(x.AdditionalInformation)
                     },
                     primeMovers = x.PrimeMoversOfScheme?.Select(primeMover => new
                     {
@@ -146,7 +157,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                return new BadRequestObjectResult(ex);
                 throw;
             }
         }
@@ -160,7 +171,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
         /// <response code="500">Unexpected error</response>
         [HttpGet]
         [Route("/scheme/{ref}")]
-        [Authorize(Policy = "ApiKey")]
+        //[Authorize(Policy = "ApiKey")]
         [ValidateModelState]
         [SwaggerOperation("SchemeRefGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(Services.Scheme), description: "The Scheme identified by the supplied ref parameter")]
@@ -168,21 +179,121 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
         [SwaggerResponse(statusCode: 500, type: typeof(Error), description: "Unexpected error")]
         public virtual IActionResult SchemeRefGet([FromRoute(Name = "ref")][Required] string _ref)
         {
+            (var serviceClient, var service) = GetService();
 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Scheme));
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404, default(Error));
-            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(500, default(Error));
-            string exampleJson = null;
-            exampleJson = "{\r\n  \"boilers\" : [ {\r\n    \"tagNumber\" : 1.4658129805029452,\r\n    \"yearCommissioned\" : 5.962133916683182,\r\n    \"maximumRatedPower\" : \"maximumRatedPower\",\r\n    \"details\" : \"details\",\r\n    \"model\" : \"model\",\r\n    \"maximumRatedHeat\" : \"maximumRatedHeat\",\r\n    \"type\" : \"type\",\r\n    \"manufacturer\" : \"manufacturer\"\r\n  }, {\r\n    \"tagNumber\" : 1.4658129805029452,\r\n    \"yearCommissioned\" : 5.962133916683182,\r\n    \"maximumRatedPower\" : \"maximumRatedPower\",\r\n    \"details\" : \"details\",\r\n    \"model\" : \"model\",\r\n    \"maximumRatedHeat\" : \"maximumRatedHeat\",\r\n    \"type\" : \"type\",\r\n    \"manufacturer\" : \"manufacturer\"\r\n  } ],\r\n  \"additionalInformation\" : {\r\n    \"details\" : \"details\"\r\n  },\r\n  \"primeMovers\" : [ {\r\n    \"tagNumber\" : 0.8008281904610115,\r\n    \"yearCommissioned\" : 6.027456183070403,\r\n    \"fuel\" : \"fuel\",\r\n    \"maximumRatedPower\" : \"maximumRatedPower\",\r\n    \"model\" : \"model\",\r\n    \"maximumRatedHeat\" : \"maximumRatedHeat\",\r\n    \"type\" : \"type\",\r\n    \"manufacturer\" : \"manufacturer\"\r\n  }, {\r\n    \"tagNumber\" : 0.8008281904610115,\r\n    \"yearCommissioned\" : 6.027456183070403,\r\n    \"fuel\" : \"fuel\",\r\n    \"maximumRatedPower\" : \"maximumRatedPower\",\r\n    \"model\" : \"model\",\r\n    \"maximumRatedHeat\" : \"maximumRatedHeat\",\r\n    \"type\" : \"type\",\r\n    \"manufacturer\" : \"manufacturer\"\r\n  } ],\r\n  \"details\" : {\r\n    \"fuelBillFrequency\" : \"Monthly\",\r\n    \"diagrams\" : [ \"diagrams\", \"diagrams\" ],\r\n    \"sector\" : \"Chemical industry\"\r\n  },\r\n  \"info\" : {\r\n    \"ref\" : \"ref\",\r\n    \"name\" : \"name\"\r\n  },\r\n  \"meters\" : {\r\n    \"electricityMeters\" : [ {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    }, {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    } ],\r\n    \"fuelMeters\" : [ {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    }, {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    } ],\r\n    \"heatMeters\" : [ {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    }, {\r\n      \"yearInstalled\" : 5.637376656633329,\r\n      \"serialNumber\" : \"serialNumber\",\r\n      \"outputsRange\" : \"outputsRange\",\r\n      \"tag\" : \"tag\",\r\n      \"modelType\" : \"modelType\",\r\n      \"uncertainty\" : 2.3021358869347655,\r\n      \"diagramReferenceNumber\" : \"diagramReferenceNumber\",\r\n      \"meterPointReference\" : \"meterPointReference\",\r\n      \"outputsUnit\" : \"outputsUnit\"\r\n    } ]\r\n  }\r\n}";
+            try
+            {
+                var scheme = service.SchemeSet.FirstOrDefault(x => x.Ref == _ref);
 
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Services.Scheme>(exampleJson)
-            : default(Services.Scheme);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
+                // Return not found if scheme not set
+                if (scheme == null)
+                {
+                    return StatusCode(404, default(Error));
+                }
+
+                // Load related entities
+                var relationships = scheme.RelationProperties.ToList();
+                foreach (var relationship in relationships)
+                {
+                    service.LoadProperty(scheme, relationship.Key);
+                }
+
+                var result = new
+                {
+                    scheme = new
+                    {
+                        info = new
+                        {
+                            scheme.Ref,
+                            Name = scheme.CompanyName,
+                        },
+                        details = new
+                        {
+                            scheme.Sector,
+                            scheme.FuelBillFrequency,
+                            diagrams = scheme.DiagramsOfScheme?.Select(diagram => diagram.Filename)
+                        },
+                        additionalInformation = new
+                        {
+                            details = "" //WebUtility.UrlEncode(scheme.AdditionalInformation)
+                        },
+                        primeMovers = scheme.PrimeMoversOfScheme?.Select(primeMover => new
+                        {
+                            primeMover.TagNumber,
+                            primeMover.TypeName,
+                            primeMover.FuelName,
+                            primeMover.ManufacturerName,
+                            primeMover.ModelName,
+                            primeMover.YearCommissioned,
+                            primeMover.MaximumRatedHeat,
+                            primeMover.MaximumRatedPower
+                        }),
+                        boilers = scheme.BoilersOfScheme?.Select(boiler => new
+                        {
+                            boiler.TagNumber,
+                            boiler.TypeName,
+                            boiler.Details,
+                            boiler.ManufacturerName,
+                            boiler.ModelName,
+                            boiler.YearCommissioned,
+                            boiler.MaximumRatedHeat,
+                            boiler.MaximumRatedPower
+                        }),
+                        meters = new
+                        {
+                            fuelMeters = scheme.MetersOfScheme?
+                            .Where(meter => meter.MeterType == GlobalEnums.MeterType.Fuel)
+                            .Select(meter => new
+                            {
+                                meter.Tag,
+                                meter.DiagramReferenceNumber,
+                                meter.YearInstalled,
+                                meter.OutputsRange,
+                                meter.OutputsUnit,
+                                meter.ModelType,
+                                meter.Uncertainty,
+                                meter.MeterPointReference,
+                                meter.SerialNumber
+                            }),
+                            electricityMeters = scheme.MetersOfScheme?
+                            .Where(meter => meter.MeterType == GlobalEnums.MeterType.Electricity)
+                            .Select(meter => new
+                            {
+                                meter.Tag,
+                                meter.DiagramReferenceNumber,
+                                meter.YearInstalled,
+                                meter.OutputsRange,
+                                meter.OutputsUnit,
+                                meter.ModelType,
+                                meter.Uncertainty,
+                                meter.MeterPointReference,
+                                meter.SerialNumber
+                            }),
+                            heatMeters = scheme.MetersOfScheme?
+                            .Where(meter => meter.MeterType == GlobalEnums.MeterType.Heat)
+                            .Select(meter => new
+                            {
+                                meter.Tag,
+                                meter.DiagramReferenceNumber,
+                                meter.YearInstalled,
+                                meter.OutputsRange,
+                                meter.OutputsUnit,
+                                meter.ModelType,
+                                meter.Uncertainty,
+                                meter.MeterPointReference,
+                                meter.SerialNumber
+                            }),
+                        }
+                    }
+                };
+
+                return new ObjectResult(result);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(ex);
+                throw;
+            }
         }
 
         /// <summary>
