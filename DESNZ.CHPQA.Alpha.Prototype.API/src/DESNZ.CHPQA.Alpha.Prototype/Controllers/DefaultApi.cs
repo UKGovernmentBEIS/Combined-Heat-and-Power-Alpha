@@ -328,25 +328,34 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                 meters.AddRange(scheme.scheme.meters.electricityMeters);
                 meters.AddRange(scheme.scheme.meters.heatMeters);
 
+                var submissionMeters = new List<Services.Meter>();
                 foreach (var meter in meters)
                 {
+                    var meterType = GlobalEnums.MeterType.Fuel;
+                    switch (meter.meterType)
+                    {
+                        case "fuel": meterType = GlobalEnums.MeterType.Fuel; break;
+                        case "electricity": meterType = GlobalEnums.MeterType.Electricity; break;
+                        case "heat": meterType = GlobalEnums.MeterType.Heat; break;
+                    }
                     var submissionMeter = new Services.Meter()
                     {
-                        DiagramReferenceNumber = meter.DiagramReferenceNumber,
-                        MeterPointReference = meter.MeterPointReference,
-                        MeterType = meter.MeterType,
-                        ModelType = meter.ModelType,
-                        OutputsRange = meter.OutputsRange,
-                        OutputsUnit = meter.OutputsUnit,
-                        SerialNumber = meter.SerialNumber,
-                        Tag = meter.Tag,
-                        YearInstalled = meter.YearInstalled,
-                        Uncertainty = meter.Uncertainty
+                        DiagramReferenceNumber = meter.diagramReferenceNumber,
+                        MeterPointReference = meter.meterPointReference,
+                        MeterType = meterType,
+                        ModelType = meter.modelType,
+                        OutputsRange = meter.outputsRange,
+                        OutputsUnit = meter.outputsUnit,
+                        SerialNumber = meter.serialNumber,
+                        Tag = meter.tag,
+                        YearInstalled = meter.yearInstalled,
+                        Uncertainty = meter.uncertainty
                     };
-                    submission.MetersOfSubmission.Append(submissionMeter);
+                    submissionMeters.Add(submissionMeter);
                 }
+                submission.MetersOfSubmission = submissionMeters.ToArray();
 
-                service.SubmissionSet.Append(submission);
+                service.AddObject(submission);
                 service.SaveChanges();
 
                 return new ObjectResult(submission);
