@@ -207,41 +207,40 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                             scheme.Ref,
                             Name = scheme.CompanyName,
                         },
-                        details = new
-                        {
-                            scheme.Sector,
-                            scheme.FuelBillFrequency,
-                            diagrams = scheme.DiagramsOfScheme?.Select(diagram => diagram.Filename)
-                        },
                         additionalInformation = new
                         {
                             details = "" //WebUtility.UrlEncode(scheme.AdditionalInformation)
                         },
-                        primeMovers = scheme.PrimeMoversOfScheme?.Select(primeMover => new
+                        details = new
                         {
-                            primeMover.TagNumber,
-                            primeMover.TypeName,
-                            primeMover.FuelName,
-                            primeMover.ManufacturerName,
-                            primeMover.ModelName,
-                            primeMover.YearCommissioned,
-                            primeMover.MaximumRatedHeat,
-                            primeMover.MaximumRatedPower
-                        }),
-                        boilers = scheme.BoilersOfScheme?.Select(boiler => new
-                        {
-                            boiler.TagNumber,
-                            boiler.TypeName,
-                            boiler.Details,
-                            boiler.ManufacturerName,
-                            boiler.ModelName,
-                            boiler.YearCommissioned,
-                            boiler.MaximumRatedHeat,
-                            boiler.MaximumRatedPower
-                        }),
-                        meters = new
-                        {
-                            fuelMeters = scheme.MetersOfScheme?
+                            scheme.Sector,
+                            scheme.FuelBillFrequency,
+                            diagrams = scheme.DiagramsOfScheme?.Select(diagram => diagram.Filename),
+                            primeMovers = scheme.PrimeMoversOfScheme?.Select(primeMover => new
+                            {
+                                primeMover.TagNumber,
+                                primeMover.TypeName,
+                                primeMover.FuelName,
+                                primeMover.ManufacturerName,
+                                primeMover.ModelName,
+                                primeMover.YearCommissioned,
+                                primeMover.MaximumRatedHeat,
+                                primeMover.MaximumRatedPower
+                            }),
+                            boilers = scheme.BoilersOfScheme?.Select(boiler => new
+                            {
+                                boiler.TagNumber,
+                                boiler.TypeName,
+                                boiler.Details,
+                                boiler.ManufacturerName,
+                                boiler.ModelName,
+                                boiler.YearCommissioned,
+                                boiler.MaximumRatedHeat,
+                                boiler.MaximumRatedPower
+                            }),
+                            meters = new
+                            {
+                                fuelMeters = scheme.MetersOfScheme?
                             .Where(meter => meter.MeterType == GlobalEnums.MeterType.Fuel)
                             .Select(meter => new
                             {
@@ -255,7 +254,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                                 meter.MeterPointReference,
                                 meter.SerialNumber
                             }),
-                            electricityMeters = scheme.MetersOfScheme?
+                                electricityMeters = scheme.MetersOfScheme?
                             .Where(meter => meter.MeterType == GlobalEnums.MeterType.Electricity)
                             .Select(meter => new
                             {
@@ -269,7 +268,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                                 meter.MeterPointReference,
                                 meter.SerialNumber
                             }),
-                            heatMeters = scheme.MetersOfScheme?
+                                heatMeters = scheme.MetersOfScheme?
                             .Where(meter => meter.MeterType == GlobalEnums.MeterType.Heat)
                             .Select(meter => new
                             {
@@ -283,6 +282,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                                 meter.MeterPointReference,
                                 meter.SerialNumber
                             }),
+                            }
                         }
                     }
                 };
