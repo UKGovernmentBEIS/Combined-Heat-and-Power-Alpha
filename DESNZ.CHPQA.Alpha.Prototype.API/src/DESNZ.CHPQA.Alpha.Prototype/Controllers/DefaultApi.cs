@@ -87,6 +87,49 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
             }
         }
 
+        private string GetSectorKey(string sector)
+        {
+            switch (sector)
+            {
+                case "Airports": return "AIRPORT";
+                case "Chemical and pharmaceutical industry": return "CHEM";
+                case "Construction": return "CON";
+                case "Defence": return "DEF";
+                case "Education": return "EDU";
+                case "Electrical and instrument engineering": return "ELEC";
+                case "Extraction, mining and agglomeration": return "EXTRACT";
+                case "Food, beverages and tobacco": return "FOOD";
+                case "Health": return "HEALTH";
+                case "Horticulture": return "HORT";
+                case "Hotels": return "HOTELS";
+                case "Iron and steel": return "IRON";
+                case "Local or national government": return "GOV";
+                case "Manufacturing and retail": return "MANUF";
+                case "Mechanical engineering and metal products": return "MECH";
+                case "Mineral products (for example - glass, cement, bricks)": return "MINERAL";
+                case "Mixed community heating": return "MIXED";
+                case "Non-ferrous metals": return "NONFERROUS";
+                case "Offices": return "OFFICES";
+                case "Oil refineries": return "OIL";
+                case "Other commerce": return "OCOMM";
+                case "Other industrial branches": return "OIND";
+                case "Other public administration": return "OADMIN";
+                case "Paper, publishing and printing": return "PAPER";
+                case "Post Office": return "PO";
+                case "Private hospitals": return "PHOSP";
+                case "Public sector housing": return "PHOUSING";
+                case "Royal Household": return "ROYAL";
+                case "Scientific research": return "SCI";
+                case "Sewage treatment": return "SEWAGE";
+                case "Sports and leisure": return "SPORT";
+                case "Textiles, clothing and footwear": return "TEXTILES";
+                case "Timber": return "TIMBER";
+                case "Transport": return "TRANSPORT";
+                case "Vehicles": return "VEH";
+            }
+            return "";
+        }
+
         /// <summary>
         /// Read a Scheme
         /// </summary>
@@ -137,8 +180,8 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                         },
                         details = new
                         {
-                            sector = scheme.Sector,
-                            fuelBillFrequency = scheme.FuelBillFrequency,
+                            sector = GetSectorKey(scheme.Sector.ToString()),
+                            fuelBillFrequency = scheme.FuelBillFrequency.ToString().ToUpper(),
                             diagrams = scheme.DiagramsOfScheme?.Select(diagram => diagram.Filename),
                             primeMovers = scheme.PrimeMoversOfScheme?.Select(primeMover => new
                             {
