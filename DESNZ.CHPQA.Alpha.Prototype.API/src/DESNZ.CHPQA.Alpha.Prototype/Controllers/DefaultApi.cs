@@ -141,8 +141,8 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                         },
                         details = new
                         {
-                            scheme.Sector,
-                            scheme.FuelBillFrequency,
+                            sector = scheme.Sector.ToString().ToUpper(),
+                            fuelBillFrequency = scheme.FuelBillFrequency.ToString().ToUpper(),
                             diagrams = scheme.DiagramsOfScheme?.Select(diagram => diagram.Filename),
                             primeMovers = scheme.PrimeMoversOfScheme?.Select(primeMover => new
                             {
