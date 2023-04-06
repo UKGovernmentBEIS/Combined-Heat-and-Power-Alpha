@@ -126,6 +126,8 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                 case "Timber": return "TIMBER";
                 case "Transport": return "TRANSPORT";
                 case "Vehicles": return "VEH";
+                default:
+                    return sector.ToUpper();
             }
             return "";
         }
