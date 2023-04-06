@@ -348,3 +348,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/DESNZ.CHPQA.Alpha.Prototype.API/src/DESNZ.CHPQA.Alpha.Prototype/appsettings.Development.json
