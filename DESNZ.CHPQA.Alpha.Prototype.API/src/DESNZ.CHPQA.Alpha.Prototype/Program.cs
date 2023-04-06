@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
+
+[assembly: Microsoft.Xrm.Sdk.Client.ProxyTypesAssemblyAttribute()]
 namespace DESNZ.CHPQA.Alpha.Prototype
 {
     /// <summary>
