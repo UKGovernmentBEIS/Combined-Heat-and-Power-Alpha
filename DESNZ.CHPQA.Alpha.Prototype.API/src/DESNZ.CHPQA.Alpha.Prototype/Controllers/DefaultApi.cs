@@ -360,8 +360,8 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                     {
                         var meterReading = new MeterReadings();
                         meterReading.SubmissionAsSubmission = submission;
-                        meterReading.FuelCategory = meter.reading.fuelCategory;
-                        meterReading.FuelType = meter.reading.fuelType;
+                        meterReading.FuelCategoryAsFuelCategory = meter.reading.fuelCategory;
+                        meterReading.FuelTypeAsFuelType = meter.reading.fuelType;
                         meterReading.HaveUsedCalculations = meter.reading.haveUsedCalculations;
                         var meterReadingValues = new List<MeterReadingValue>();
                         foreach (var reading in meter.reading.values)
