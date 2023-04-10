@@ -314,6 +314,8 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                 var submission = new Submission();
                 submission.Ref = _ref;
                 submission.Scheme = existingScheme.SchemeId;
+                submission.Company = existingScheme.Company;
+                submission.Site = existingScheme.Site;
 
                 // Details (Sector, FuelBillFrequency)
                 submission.Sector = scheme.scheme.details.sector;
