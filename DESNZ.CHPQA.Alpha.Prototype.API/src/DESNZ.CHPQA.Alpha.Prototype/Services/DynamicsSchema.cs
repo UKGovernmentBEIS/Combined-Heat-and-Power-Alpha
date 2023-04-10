@@ -11393,6 +11393,89 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 
 		
 		/// <summary>
+		/// 1:N, 'chpqa_Meter_chpqa_Meter_chpqa_MeterReadin'
+		/// </summary>
+		[RelationshipSchemaName("chpqa_Meter_chpqa_Meter_chpqa_MeterReadin")]
+		public MeterReadings[] MeterReadingssOfMeter
+		{
+			get => GetRelatedEntities<MeterReadings>("chpqa_Meter_chpqa_Meter_chpqa_MeterReadin", null)?.ToArray();
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                value?.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities("chpqa_Meter_chpqa_Meter_chpqa_MeterReadin", null, value);
+			}
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship. The record limit accepts '-1', which means 'unlimited'.
+		/// The page param accepts '-1', which means 'all pages'. If a page is specified, the record limit won't exceed '5000' internally.
+        /// To specify columns to fetch, the "attributes" param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch.
+		/// </summary>
+		public MeterReadings[] LoadMeterReadingssOfMeter(IOrganizationService service, XrmServiceContext context,
+			int recordCountLimit = -1, int page = -1, FilterExpression filter = null, params string[] attributes)
+		{
+			if (context.MergeOption == MergeOption.NoTracking) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            var result = GeneratorHelpers.LoadRelation(this, service, "chpqa_meterreadings", LogicalName, "chpqa_meter", "chpqa_meterid", "chpqa_meterid", "chpqa_meterid",
+				recordCountLimit, page, filter, attributes: attributes).Select(entity => entity.ToEntity<MeterReadings>()).ToArray();
+			if (result.Length <= 0) return null;
+			Array.ForEach(result,
+				entity =>
+			    {
+				    var alreadyTracked = context.GetAttachedEntities().FirstOrDefault(attached => attached.Id == entity.Id);
+				    if (alreadyTracked == null) { context.Attach(entity); alreadyTracked = entity; }
+					try { context.AttachLink(this, new Relationship("chpqa_Meter_chpqa_Meter_chpqa_MeterReadin"), alreadyTracked); } catch { }
+			    });
+			if (MeterReadingssOfMeter == null || MeterReadingssOfMeter.Length != result.Length) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            return result;
+		}
+
+		public MeterReadings[] LoadMeterReadingssOfMeter(IOrganizationService service, params string[] attributes)
+		{
+			return LoadMeterReadingssOfMeter(service, -1, -1, null, false, attributes);
+		}
+
+		public MeterReadings[] LoadMeterReadingssOfMeter(IOrganizationService service, bool isDeferred, params string[] attributes)
+		{
+			return LoadMeterReadingssOfMeter(service, -1, -1, null, isDeferred, attributes);
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship. The record limit accepts '-1', which means 'unlimited'.
+		/// The page param accepts '-1', which means 'all pages'. If a page is specified, the record limit won't exceed '5000' internally.
+        /// To specify columns to fetch, the "attributes" param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch. If 'deferred', then loading will be added to the queue to be executed later upon request.
+		/// </summary>
+		public MeterReadings[] LoadMeterReadingssOfMeter(IOrganizationService service, int recordCountLimit, int page = -1,
+			FilterExpression filter = null, bool isDeferred = false, params string[] attributes)
+		{
+			if (RelatedEntities.IsReadOnly)
+				throw new Exception("Relationship collection is ready only. The context that loaded this entity from CRM must be passed as a parameter, " +
+									"or set 'MergeOption' to 'NoTracking' in the context before fetching this entity using LINQ.");
+			MeterReadings[] resultArray = null;
+			var queryActionObject = new QueryAction(GeneratorHelpers.GetLoadRelationQuery(this, service, "chpqa_meterreadings", LogicalName, "chpqa_meter", "chpqa_meterid", "chpqa_meterid", "chpqa_meterid",
+				recordCountLimit, page, filter: filter, attributes: attributes));
+			var queryAction = queryActionObject.Action =
+				result => {
+					var response = result as RetrieveMultipleResponse;
+					resultArray = response == null ? resultArray = ((List<Entity>) result).Select(entityQ => entityQ.ToEntity<MeterReadings>()).ToArray()
+	    				: response.EntityCollection.Entities.Select(entityQ => entityQ.ToEntity<MeterReadings>()).ToArray();
+					DeferredQueriesList.Remove(queryActionObject);
+					if (resultArray.Length <= 0) return;
+					if (MeterReadingssOfMeter == null) { MeterReadingssOfMeter = resultArray; return; }
+					MeterReadingssOfMeter = MeterReadingssOfMeter.Union(resultArray).Distinct<MeterReadings>(new EntityComparer()).ToArray();
+				};
+			if (isDeferred) DeferredQueriesList.Add(queryActionObject);
+			else queryAction.Invoke(GeneratorHelpers.LoadRelation(service, queryActionObject.Query, recordCountLimit, page));
+			return resultArray;
+		}
+		
+		/// <summary>
 		/// N:1, 'chpqa_Meter_chpqa_Scheme_chpqa_Scheme'
 		/// </summary>
 		[RelationshipSchemaName("chpqa_Meter_chpqa_Scheme_chpqa_Scheme"), AttributeLogicalName("chpqa_scheme")]
@@ -11521,6 +11604,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 		}
 		
 		public static class RelationNames {
+			public static RelationName MeterReadingssOfMeter = new RelationName("MeterReadingssOfMeter");
 			public static RelationName SchemeAsScheme = new RelationName("SchemeAsScheme");
 			public static RelationName SubmissionAsSubmission = new RelationName("SubmissionAsSubmission");
 		}
@@ -11528,6 +11612,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 		public override IDictionary<string, object[]> RelationProperties { get {
 			if (relationProperties != null) return relationProperties;
 			relationProperties = new Dictionary<string, object[]>();
+			relationProperties["MeterReadingssOfMeter"] = new object[] { "MeterReadingssOfMeter", "chpqa_meterreadings", "chpqa_meter", "chpqa_meter", "chpqa_meterid", "chpqa_meterid", "chpqa_meterid", "chpqa_Meter_chpqa_Meter_chpqa_MeterReadin", typeof (MeterReadings[]) };
 			relationProperties["SchemeAsScheme"] = new object[] { "SchemeAsScheme", "chpqa_scheme", "chpqa_meter", "chpqa_schemeid", "chpqa_scheme", "chpqa_meterid", "chpqa_meterid", "chpqa_Meter_chpqa_Scheme_chpqa_Scheme", typeof (Scheme) };
 			relationProperties["SubmissionAsSubmission"] = new object[] { "SubmissionAsSubmission", "chpqa_submission", "chpqa_meter", "chpqa_submissionid", "chpqa_submission", "chpqa_meterid", "chpqa_meterid", "chpqa_Meter_chpqa_Submission_chpqa_Submis", typeof (Submission) };
 			return relationProperties; } }
@@ -11960,6 +12045,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 		{
 			public static class OneToN
 			{
+				public const string MeterReadingssOfMeter = "chpqa_Meter_chpqa_Meter_chpqa_MeterReadin";
 			}
 			
 			public static class NToOne
@@ -12164,6 +12250,38 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
                         };
             }
         }
+
+		[AttributeLogicalName("chpqa_meter")]
+		public Guid? Meter
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("chpqa_meter");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_meter"))
+				    value = (EntityReference) backupAttributeCollection["chpqa_meter"];
+                return value?.Id;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("chpqa_meter", new EntityReference("chpqa_meter", value.Value));
+                else
+	                SetAttributeValue("chpqa_meter", value);
+			}
+		}
+
+        public string MeterName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("chpqa_meter");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_meter"))
+				    value = (EntityReference) backupAttributeCollection["chpqa_meter"];
+                return value?.Name;
+            }
+        }
+
+		[Label("1033_chpqa_name", "chpqa_meter", "chpqa_meterid", "chpqa_meter")]
+        public IDictionary<int, string> MeterLabels { get; set; }
 
         /// <summary>
         ///  
@@ -12916,10 +13034,75 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			return result;
 		}
 		
+		/// <summary>
+		/// N:1, 'chpqa_Meter_chpqa_Meter_chpqa_MeterReadin'
+		/// </summary>
+		[RelationshipSchemaName("chpqa_Meter_chpqa_Meter_chpqa_MeterReadin"), AttributeLogicalName("chpqa_meter")]
+		public Meter MeterAsMeter
+		{
+			get => GetRelatedEntity<Meter>("chpqa_Meter_chpqa_Meter_chpqa_MeterReadin", null);
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null) value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<Meter>("chpqa_Meter_chpqa_Meter_chpqa_MeterReadin", null, value);
+			}
+		}
+
+		/// <summary>
+		/// Fetch the record related to this entity on this relationship.
+        /// To specify columns to fetch, the attributes param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch.
+		/// </summary>
+		public Meter LoadMeterAsMeter(IOrganizationService service, XrmServiceContext context, params string[] attributes)
+		{
+			if (context.MergeOption == MergeOption.NoTracking) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            var result = GeneratorHelpers.LoadRelation(this, service, "chpqa_meter", LogicalName, "chpqa_meterid", "chpqa_meter", "chpqa_meterreadingsid", "chpqa_meterreadingsid",
+				-1, -1, null, attributes: attributes).FirstOrDefault();
+			if (result == null) { return null; }
+			var alreadyTracked = context.GetAttachedEntities().FirstOrDefault(attached => attached.Id == result.Id);
+			if (alreadyTracked == null) { context.Attach(result); alreadyTracked = result; }
+			try { context.AttachLink(this, new Relationship("chpqa_Meter_chpqa_Meter_chpqa_MeterReadin"), alreadyTracked); } catch { }
+			if (MeterAsMeter == null || MeterAsMeter.Id != result.Id) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            return result.ToEntity<Meter>();
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship.
+        /// To specify columns to fetch, the attributes param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch. If 'deferred', then loading will be added to the queue to be executed later upon request.
+		/// </summary>
+		public Meter LoadMeterAsMeter(IOrganizationService service, bool isDeferred = false, params string[] attributes)
+		{
+			if (RelatedEntities.IsReadOnly) {
+				throw new Exception("Relationship collection is ready only. The context that loaded this entity from CRM must be passed as a parameter, " +
+					"or set 'MergeOption' to 'NoTracking' in the context before fetching this entity using LINQ.");
+			}
+			Meter result = null;
+			var queryActionObject = new QueryAction(GeneratorHelpers.GetLoadRelationQuery(this, service, "chpqa_meter", LogicalName, "chpqa_meterid", "chpqa_meter", "chpqa_meterreadingsid", "chpqa_meterreadingsid",
+					-1, -1, filter: null, attributes: attributes));
+			var queryAction = queryActionObject.Action =
+				resultQ => {
+					var response = resultQ as RetrieveMultipleResponse;
+					var resultTemp = response == null ? ((List<Entity>) resultQ).FirstOrDefault()
+						: response.EntityCollection.Entities.FirstOrDefault();
+					DeferredQueriesList.Remove(queryActionObject);
+					MeterAsMeter = result = (resultTemp == null ? null : resultTemp.ToEntity<Meter>());
+				};
+			if (isDeferred) DeferredQueriesList.Add(queryActionObject);
+			else queryAction.Invoke(GeneratorHelpers.LoadRelation(service, queryActionObject.Query));
+			return result;
+		}
+		
 		public static class RelationNames {
 			public static RelationName MeterReadingValuesOfMeterReading = new RelationName("MeterReadingValuesOfMeterReading");
 			public static RelationName FuelCategoryAsFuelCategory = new RelationName("FuelCategoryAsFuelCategory");
 			public static RelationName FuelTypeAsFuelType = new RelationName("FuelTypeAsFuelType");
+			public static RelationName MeterAsMeter = new RelationName("MeterAsMeter");
 		}
 
 		public override IDictionary<string, object[]> RelationProperties { get {
@@ -12928,6 +13111,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			relationProperties["MeterReadingValuesOfMeterReading"] = new object[] { "MeterReadingValuesOfMeterReading", "chpqa_meterreadingvalue", "chpqa_meterreadings", "chpqa_meterreading", "chpqa_meterreadingsid", "chpqa_meterreadingsid", "chpqa_meterreadingsid", "chpqa_chpqa_meterreadingvalue_MeterReading_chpq", typeof (MeterReadingValue[]) };
 			relationProperties["FuelCategoryAsFuelCategory"] = new object[] { "FuelCategoryAsFuelCategory", "chpqa_fuelcategory", "chpqa_meterreadings", "chpqa_fuelcategoryid", "chpqa_fuelcategory", "chpqa_meterreadingsid", "chpqa_meterreadingsid", "chpqa_chpqa_meterreadings_FuelCategory_chpqa_fu", typeof (FuelCategory) };
 			relationProperties["FuelTypeAsFuelType"] = new object[] { "FuelTypeAsFuelType", "chpqa_fueltype", "chpqa_meterreadings", "chpqa_fueltypeid", "chpqa_fueltype", "chpqa_meterreadingsid", "chpqa_meterreadingsid", "chpqa_chpqa_meterreadings_FuelType_chpqa_fuelty", typeof (FuelType) };
+			relationProperties["MeterAsMeter"] = new object[] { "MeterAsMeter", "chpqa_meter", "chpqa_meterreadings", "chpqa_meterid", "chpqa_meter", "chpqa_meterreadingsid", "chpqa_meterreadingsid", "chpqa_Meter_chpqa_Meter_chpqa_MeterReadin", typeof (Meter) };
 			return relationProperties; } }
 
 		#endregion
@@ -13101,6 +13285,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public const string FuelType = "chpqa_fueltype";
 			public const string HaveUsedCalculations = "chpqa_haveusedcalculations";
 			public const string HeatType = "chpqa_heattype";
+			public const string Meter = "chpqa_meter";
 			public const string MeterReadingsId = "chpqa_meterreadingsid";
 			public const string Name = "chpqa_name";
 			public const string PowerOutputType = "chpqa_poweroutputtype";
@@ -13132,6 +13317,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 				public const string FuelType = "chpqa_FuelType";
 				public const string HaveUsedCalculations = "chpqa_HaveUsedCalculations";
 				public const string HeatType = "chpqa_HeatType";
+				public const string Meter = "chpqa_Meter";
 				public const string MeterReadingsId = "chpqa_MeterReadingsId";
 				public const string Name = "chpqa_Name";
 				public const string PowerOutputType = "chpqa_PowerOutputType";
@@ -13182,6 +13368,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 					new Dictionary<int, string>
 					{
 						{ 1033, "Heat Type"},
+					};
+
+				public static IDictionary<int, string> Meter { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Meter"},
 					};
 
 				public static IDictionary<int, string> MeterReadingsId { get; set; } =
@@ -13324,11 +13516,13 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			{
 				public const string FuelCategoryAsFuelCategory = "chpqa_chpqa_meterreadings_FuelCategory_chpqa_fu";
 				public const string FuelTypeAsFuelType = "chpqa_chpqa_meterreadings_FuelType_chpqa_fuelty";
+				public const string MeterAsMeter = "chpqa_Meter_chpqa_Meter_chpqa_MeterReadin";
 
 				public static class Lookups
 				{
 					public const string FuelCategoryAsFuelCategory = "chpqa_fuelcategory";
 					public const string FuelTypeAsFuelType = "chpqa_fueltype";
+					public const string MeterAsMeter = "chpqa_meter";
 				}
 			}
 
@@ -21075,6 +21269,38 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			}
 		}
 
+		[AttributeLogicalName("chpqa_company"), Required]
+		public Guid? Company
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("chpqa_company");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_company"))
+				    value = (EntityReference) backupAttributeCollection["chpqa_company"];
+                return value?.Id;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("chpqa_company", new EntityReference("account", value.Value));
+                else
+	                SetAttributeValue("chpqa_company", value);
+			}
+		}
+
+        public string CompanyName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("chpqa_company");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_company"))
+				    value = (EntityReference) backupAttributeCollection["chpqa_company"];
+                return value?.Name;
+            }
+        }
+
+		[Label("1033_name", "account", "accountid", "chpqa_company")]
+        public IDictionary<int, string> CompanyLabels { get; set; }
+
 		[AttributeLogicalName("chpqa_fuelbillfrequency"), Required]
 		public GlobalEnums.FuelBillFrequency? FuelBillFrequency
 		{
@@ -21155,6 +21381,22 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 
 		[Label("1033_chpqa_ref", "chpqa_scheme", "chpqa_schemeid", "chpqa_scheme")]
         public IDictionary<int, string> SchemeLabels { get; set; }
+
+		[AttributeLogicalName("chpqa_schemeref"), Required, MaxLength(100), StringLength(100)]
+		public string SchemeRef
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("chpqa_schemeref");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_schemeref"))
+				    value = (string) backupAttributeCollection["chpqa_schemeref"];
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("chpqa_schemeref", value);
+			}
+		}
 
 		[AttributeLogicalName("chpqa_sector"), Required]
 		public GlobalEnums.Sector? Sector
@@ -22296,9 +22538,11 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			#region Logical names
 
 			public const string AdditionalInformation = "chpqa_additionalinformation";
+			public const string Company = "chpqa_company";
 			public const string FuelBillFrequency = "chpqa_fuelbillfrequency";
 			public const string Ref = "chpqa_name";
 			public const string Scheme = "chpqa_scheme";
+			public const string SchemeRef = "chpqa_schemeref";
 			public const string Sector = "chpqa_sector";
 			public const string Site = "chpqa_site";
 			public const string SubmissionId = "chpqa_submissionid";
@@ -22327,9 +22571,11 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public static class Schema
 			{
 				public const string AdditionalInformation = "chpqa_AdditionalInformation";
+				public const string Company = "chpqa_Company";
 				public const string FuelBillFrequency = "chpqa_FuelBillFrequency";
 				public const string Ref = "chpqa_Name";
 				public const string Scheme = "chpqa_Scheme";
+				public const string SchemeRef = "chpqa_SchemeRef";
 				public const string Sector = "chpqa_Sector";
 				public const string Site = "chpqa_Site";
 				public const string SubmissionId = "chpqa_SubmissionId";
@@ -22364,6 +22610,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 						{ 1033, "Additional Information"},
 					};
 
+				public static IDictionary<int, string> Company { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Company"},
+					};
+
 				public static IDictionary<int, string> FuelBillFrequency { get; set; } =
 					new Dictionary<int, string>
 					{
@@ -22380,6 +22632,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 					new Dictionary<int, string>
 					{
 						{ 1033, "Scheme"},
+					};
+
+				public static IDictionary<int, string> SchemeRef { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Scheme Ref"},
 					};
 
 				public static IDictionary<int, string> Sector { get; set; } =

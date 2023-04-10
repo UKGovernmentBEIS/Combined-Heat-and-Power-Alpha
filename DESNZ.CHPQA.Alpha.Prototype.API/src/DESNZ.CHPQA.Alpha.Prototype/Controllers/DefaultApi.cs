@@ -351,6 +351,27 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                         YearInstalled = meter.yearInstalled,
                         Uncertainty = meter.uncertainty
                     };
+                    // Readings
+                    if (meter.reading != null)
+                    {
+                        var meterReading = new MeterReadings();
+                        meterReading.FuelCategory = meter.reading.fuelCategory;
+                        meterReading.FuelType = meter.reading.fuelType;
+                        meterReading.HaveUsedCalculations = meter.reading.haveUsedCalculations;
+                        var meterReadingValues = new List<MeterReadingValue>();
+                        foreach (var reading in meter.reading.values)
+                        {
+                            var readingValue = new MeterReadingValue
+                            {
+                                Value = reading.value,
+                                Month = reading.month
+                            };
+                            meterReadingValues.Add(readingValue);
+                        }
+                        meterReading.MeterReadingValuesOfMeterReading = meterReadingValues.ToArray();
+                        var meterReadings = new List<MeterReadings>() { meterReading };
+                        submissionMeter.MeterReadingssOfMeter = meterReadings.ToArray();
+                    }
                     submissionMeters.Add(submissionMeter);
                 }
                 submission.MetersOfSubmission = submissionMeters.ToArray();
