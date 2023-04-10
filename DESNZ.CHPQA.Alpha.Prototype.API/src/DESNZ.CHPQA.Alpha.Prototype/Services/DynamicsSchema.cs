@@ -12307,6 +12307,52 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			}
 		}
 
+		[AttributeLogicalName("chpqa_months"), Range(-2147483648,2147483647)]
+		public int? Months
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("chpqa_months");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_months"))
+				    value = (int?) backupAttributeCollection["chpqa_months"];
+			    return value;
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'chpqa_Months_Date'.<br />
+        /// Last Updated time of rollup field Months.
+        /// </summary>
+		[AttributeLogicalName("chpqa_months_date")]
+		public DateTime? MonthsLastUpdatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("chpqa_months_date");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_months_date"))
+				    value = (DateTime?) backupAttributeCollection["chpqa_months_date"];
+			    return value;
+			}
+		}
+
+        /// <summary>
+        /// [Range(-2147483648, 2147483647)] 
+		/// 'chpqa_Months_State'.<br />
+        /// State of rollup field Months.
+        /// </summary>
+		[AttributeLogicalName("chpqa_months_state"), Range(-2147483648,2147483647)]
+		public int? MonthsState
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("chpqa_months_state");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_months_state"))
+				    value = (int?) backupAttributeCollection["chpqa_months_state"];
+			    return value;
+			}
+		}
+
 		[AttributeLogicalName("chpqa_name"), Required, MaxLength(100), StringLength(100)]
 		public string Name
 		{
@@ -12355,6 +12401,84 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
                         };
             }
         }
+
+		[AttributeLogicalName("chpqa_submission"), Required]
+		public Guid? Submission
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("chpqa_submission");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_submission"))
+				    value = (EntityReference) backupAttributeCollection["chpqa_submission"];
+                return value?.Id;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("chpqa_submission", new EntityReference("chpqa_submission", value.Value));
+                else
+	                SetAttributeValue("chpqa_submission", value);
+			}
+		}
+
+        public string SubmissionName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("chpqa_submission");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_submission"))
+				    value = (EntityReference) backupAttributeCollection["chpqa_submission"];
+                return value?.Name;
+            }
+        }
+
+		[Label("1033_chpqa_name", "chpqa_submission", "chpqa_submissionid", "chpqa_submission")]
+        public IDictionary<int, string> SubmissionLabels { get; set; }
+
+		[AttributeLogicalName("chpqa_total"), Range(-100000000000,100000000000)]
+		public decimal? Total
+		{
+			get
+			{
+				var value = GetAttributeValue<decimal?>("chpqa_total");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_total"))
+				    value = (decimal?) backupAttributeCollection["chpqa_total"];
+			    return value;
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'chpqa_Total_Date'.<br />
+        /// Last Updated time of rollup field Total.
+        /// </summary>
+		[AttributeLogicalName("chpqa_total_date")]
+		public DateTime? TotalLastUpdatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("chpqa_total_date");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_total_date"))
+				    value = (DateTime?) backupAttributeCollection["chpqa_total_date"];
+			    return value;
+			}
+		}
+
+        /// <summary>
+        /// [Range(-2147483648, 2147483647)] 
+		/// 'chpqa_Total_State'.<br />
+        /// State of rollup field Total.
+        /// </summary>
+		[AttributeLogicalName("chpqa_total_state"), Range(-2147483648,2147483647)]
+		public int? TotalState
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("chpqa_total_state");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_total_state"))
+				    value = (int?) backupAttributeCollection["chpqa_total_state"];
+			    return value;
+			}
+		}
 
         /// <summary>
         ///  
@@ -13035,6 +13159,70 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 		}
 		
 		/// <summary>
+		/// N:1, 'chpqa_chpqa_meterreadings_Submission_chpqa_subm'
+		/// </summary>
+		[RelationshipSchemaName("chpqa_chpqa_meterreadings_Submission_chpqa_subm"), AttributeLogicalName("chpqa_submission")]
+		public Submission SubmissionAsSubmission
+		{
+			get => GetRelatedEntity<Submission>("chpqa_chpqa_meterreadings_Submission_chpqa_subm", null);
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null) value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<Submission>("chpqa_chpqa_meterreadings_Submission_chpqa_subm", null, value);
+			}
+		}
+
+		/// <summary>
+		/// Fetch the record related to this entity on this relationship.
+        /// To specify columns to fetch, the attributes param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch.
+		/// </summary>
+		public Submission LoadSubmissionAsSubmission(IOrganizationService service, XrmServiceContext context, params string[] attributes)
+		{
+			if (context.MergeOption == MergeOption.NoTracking) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            var result = GeneratorHelpers.LoadRelation(this, service, "chpqa_submission", LogicalName, "chpqa_submissionid", "chpqa_submission", "chpqa_meterreadingsid", "chpqa_meterreadingsid",
+				-1, -1, null, attributes: attributes).FirstOrDefault();
+			if (result == null) { return null; }
+			var alreadyTracked = context.GetAttachedEntities().FirstOrDefault(attached => attached.Id == result.Id);
+			if (alreadyTracked == null) { context.Attach(result); alreadyTracked = result; }
+			try { context.AttachLink(this, new Relationship("chpqa_chpqa_meterreadings_Submission_chpqa_subm"), alreadyTracked); } catch { }
+			if (SubmissionAsSubmission == null || SubmissionAsSubmission.Id != result.Id) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            return result.ToEntity<Submission>();
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship.
+        /// To specify columns to fetch, the attributes param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch. If 'deferred', then loading will be added to the queue to be executed later upon request.
+		/// </summary>
+		public Submission LoadSubmissionAsSubmission(IOrganizationService service, bool isDeferred = false, params string[] attributes)
+		{
+			if (RelatedEntities.IsReadOnly) {
+				throw new Exception("Relationship collection is ready only. The context that loaded this entity from CRM must be passed as a parameter, " +
+					"or set 'MergeOption' to 'NoTracking' in the context before fetching this entity using LINQ.");
+			}
+			Submission result = null;
+			var queryActionObject = new QueryAction(GeneratorHelpers.GetLoadRelationQuery(this, service, "chpqa_submission", LogicalName, "chpqa_submissionid", "chpqa_submission", "chpqa_meterreadingsid", "chpqa_meterreadingsid",
+					-1, -1, filter: null, attributes: attributes));
+			var queryAction = queryActionObject.Action =
+				resultQ => {
+					var response = resultQ as RetrieveMultipleResponse;
+					var resultTemp = response == null ? ((List<Entity>) resultQ).FirstOrDefault()
+						: response.EntityCollection.Entities.FirstOrDefault();
+					DeferredQueriesList.Remove(queryActionObject);
+					SubmissionAsSubmission = result = (resultTemp == null ? null : resultTemp.ToEntity<Submission>());
+				};
+			if (isDeferred) DeferredQueriesList.Add(queryActionObject);
+			else queryAction.Invoke(GeneratorHelpers.LoadRelation(service, queryActionObject.Query));
+			return result;
+		}
+		
+		/// <summary>
 		/// N:1, 'chpqa_Meter_chpqa_Meter_chpqa_MeterReadin'
 		/// </summary>
 		[RelationshipSchemaName("chpqa_Meter_chpqa_Meter_chpqa_MeterReadin"), AttributeLogicalName("chpqa_meter")]
@@ -13102,6 +13290,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public static RelationName MeterReadingValuesOfMeterReading = new RelationName("MeterReadingValuesOfMeterReading");
 			public static RelationName FuelCategoryAsFuelCategory = new RelationName("FuelCategoryAsFuelCategory");
 			public static RelationName FuelTypeAsFuelType = new RelationName("FuelTypeAsFuelType");
+			public static RelationName SubmissionAsSubmission = new RelationName("SubmissionAsSubmission");
 			public static RelationName MeterAsMeter = new RelationName("MeterAsMeter");
 		}
 
@@ -13111,6 +13300,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			relationProperties["MeterReadingValuesOfMeterReading"] = new object[] { "MeterReadingValuesOfMeterReading", "chpqa_meterreadingvalue", "chpqa_meterreadings", "chpqa_meterreading", "chpqa_meterreadingsid", "chpqa_meterreadingsid", "chpqa_meterreadingsid", "chpqa_chpqa_meterreadingvalue_MeterReading_chpq", typeof (MeterReadingValue[]) };
 			relationProperties["FuelCategoryAsFuelCategory"] = new object[] { "FuelCategoryAsFuelCategory", "chpqa_fuelcategory", "chpqa_meterreadings", "chpqa_fuelcategoryid", "chpqa_fuelcategory", "chpqa_meterreadingsid", "chpqa_meterreadingsid", "chpqa_chpqa_meterreadings_FuelCategory_chpqa_fu", typeof (FuelCategory) };
 			relationProperties["FuelTypeAsFuelType"] = new object[] { "FuelTypeAsFuelType", "chpqa_fueltype", "chpqa_meterreadings", "chpqa_fueltypeid", "chpqa_fueltype", "chpqa_meterreadingsid", "chpqa_meterreadingsid", "chpqa_chpqa_meterreadings_FuelType_chpqa_fuelty", typeof (FuelType) };
+			relationProperties["SubmissionAsSubmission"] = new object[] { "SubmissionAsSubmission", "chpqa_submission", "chpqa_meterreadings", "chpqa_submissionid", "chpqa_submission", "chpqa_meterreadingsid", "chpqa_meterreadingsid", "chpqa_chpqa_meterreadings_Submission_chpqa_subm", typeof (Submission) };
 			relationProperties["MeterAsMeter"] = new object[] { "MeterAsMeter", "chpqa_meter", "chpqa_meterreadings", "chpqa_meterid", "chpqa_meter", "chpqa_meterreadingsid", "chpqa_meterreadingsid", "chpqa_Meter_chpqa_Meter_chpqa_MeterReadin", typeof (Meter) };
 			return relationProperties; } }
 
@@ -13287,8 +13477,15 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public const string HeatType = "chpqa_heattype";
 			public const string Meter = "chpqa_meter";
 			public const string MeterReadingsId = "chpqa_meterreadingsid";
+			public const string Months = "chpqa_months";
+			public const string MonthsLastUpdatedOn = "chpqa_months_date";
+			public const string MonthsState = "chpqa_months_state";
 			public const string Name = "chpqa_name";
 			public const string PowerOutputType = "chpqa_poweroutputtype";
+			public const string Submission = "chpqa_submission";
+			public const string Total = "chpqa_total";
+			public const string TotalLastUpdatedOn = "chpqa_total_date";
+			public const string TotalState = "chpqa_total_state";
 			public const string CreatedBy = "createdby";
 			public const string CreatedOn = "createdon";
 			public const string CreatedByDelegate = "createdonbehalfby";
@@ -13319,8 +13516,15 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 				public const string HeatType = "chpqa_HeatType";
 				public const string Meter = "chpqa_Meter";
 				public const string MeterReadingsId = "chpqa_MeterReadingsId";
+				public const string Months = "chpqa_Months";
+				public const string MonthsLastUpdatedOn = "chpqa_Months_Date";
+				public const string MonthsState = "chpqa_Months_State";
 				public const string Name = "chpqa_Name";
 				public const string PowerOutputType = "chpqa_PowerOutputType";
+				public const string Submission = "chpqa_Submission";
+				public const string Total = "chpqa_Total";
+				public const string TotalLastUpdatedOn = "chpqa_Total_Date";
+				public const string TotalState = "chpqa_Total_State";
 				public const string CreatedBy = "CreatedBy";
 				public const string CreatedOn = "CreatedOn";
 				public const string CreatedByDelegate = "CreatedOnBehalfBy";
@@ -13382,6 +13586,24 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 						{ 1033, "Meter Readings"},
 					};
 
+				public static IDictionary<int, string> Months { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Months"},
+					};
+
+				public static IDictionary<int, string> MonthsLastUpdatedOn { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Months (Last Updated On)"},
+					};
+
+				public static IDictionary<int, string> MonthsState { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Months (State)"},
+					};
+
 				public static IDictionary<int, string> Name { get; set; } =
 					new Dictionary<int, string>
 					{
@@ -13392,6 +13614,30 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 					new Dictionary<int, string>
 					{
 						{ 1033, "Power Output Type"},
+					};
+
+				public static IDictionary<int, string> Submission { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Submission"},
+					};
+
+				public static IDictionary<int, string> Total { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Total"},
+					};
+
+				public static IDictionary<int, string> TotalLastUpdatedOn { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Total (Last Updated On)"},
+					};
+
+				public static IDictionary<int, string> TotalState { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Total (State)"},
 					};
 
 				public static IDictionary<int, string> CreatedBy { get; set; } =
@@ -13516,12 +13762,14 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			{
 				public const string FuelCategoryAsFuelCategory = "chpqa_chpqa_meterreadings_FuelCategory_chpqa_fu";
 				public const string FuelTypeAsFuelType = "chpqa_chpqa_meterreadings_FuelType_chpqa_fuelty";
+				public const string SubmissionAsSubmission = "chpqa_chpqa_meterreadings_Submission_chpqa_subm";
 				public const string MeterAsMeter = "chpqa_Meter_chpqa_Meter_chpqa_MeterReadin";
 
 				public static class Lookups
 				{
 					public const string FuelCategoryAsFuelCategory = "chpqa_fuelcategory";
 					public const string FuelTypeAsFuelType = "chpqa_fueltype";
+					public const string SubmissionAsSubmission = "chpqa_submission";
 					public const string MeterAsMeter = "chpqa_meter";
 				}
 			}
@@ -13676,6 +13924,38 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
                 SetAttributeValue("chpqa_name", value);
 			}
 		}
+
+		[AttributeLogicalName("chpqa_submission"), Required]
+		public Guid? Submission
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("chpqa_submission");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_submission"))
+				    value = (EntityReference) backupAttributeCollection["chpqa_submission"];
+                return value?.Id;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("chpqa_submission", new EntityReference("chpqa_submission", value.Value));
+                else
+	                SetAttributeValue("chpqa_submission", value);
+			}
+		}
+
+        public string SubmissionName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("chpqa_submission");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_submission"))
+				    value = (EntityReference) backupAttributeCollection["chpqa_submission"];
+                return value?.Name;
+            }
+        }
+
+		[Label("1033_chpqa_name", "chpqa_submission", "chpqa_submissionid", "chpqa_submission")]
+        public IDictionary<int, string> SubmissionLabels { get; set; }
 
 		[AttributeLogicalName("chpqa_value"), Required, Range(-100000000000,100000000000)]
 		public decimal? Value
@@ -14224,14 +14504,80 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			return result;
 		}
 		
+		/// <summary>
+		/// N:1, 'chpqa_chpqa_meterreadingvalue_Submission_chpqa_'
+		/// </summary>
+		[RelationshipSchemaName("chpqa_chpqa_meterreadingvalue_Submission_chpqa_"), AttributeLogicalName("chpqa_submission")]
+		public Submission SubmissionAsSubmission
+		{
+			get => GetRelatedEntity<Submission>("chpqa_chpqa_meterreadingvalue_Submission_chpqa_", null);
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null) value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<Submission>("chpqa_chpqa_meterreadingvalue_Submission_chpqa_", null, value);
+			}
+		}
+
+		/// <summary>
+		/// Fetch the record related to this entity on this relationship.
+        /// To specify columns to fetch, the attributes param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch.
+		/// </summary>
+		public Submission LoadSubmissionAsSubmission(IOrganizationService service, XrmServiceContext context, params string[] attributes)
+		{
+			if (context.MergeOption == MergeOption.NoTracking) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            var result = GeneratorHelpers.LoadRelation(this, service, "chpqa_submission", LogicalName, "chpqa_submissionid", "chpqa_submission", "chpqa_meterreadingvalueid", "chpqa_meterreadingvalueid",
+				-1, -1, null, attributes: attributes).FirstOrDefault();
+			if (result == null) { return null; }
+			var alreadyTracked = context.GetAttachedEntities().FirstOrDefault(attached => attached.Id == result.Id);
+			if (alreadyTracked == null) { context.Attach(result); alreadyTracked = result; }
+			try { context.AttachLink(this, new Relationship("chpqa_chpqa_meterreadingvalue_Submission_chpqa_"), alreadyTracked); } catch { }
+			if (SubmissionAsSubmission == null || SubmissionAsSubmission.Id != result.Id) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            return result.ToEntity<Submission>();
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship.
+        /// To specify columns to fetch, the attributes param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch. If 'deferred', then loading will be added to the queue to be executed later upon request.
+		/// </summary>
+		public Submission LoadSubmissionAsSubmission(IOrganizationService service, bool isDeferred = false, params string[] attributes)
+		{
+			if (RelatedEntities.IsReadOnly) {
+				throw new Exception("Relationship collection is ready only. The context that loaded this entity from CRM must be passed as a parameter, " +
+					"or set 'MergeOption' to 'NoTracking' in the context before fetching this entity using LINQ.");
+			}
+			Submission result = null;
+			var queryActionObject = new QueryAction(GeneratorHelpers.GetLoadRelationQuery(this, service, "chpqa_submission", LogicalName, "chpqa_submissionid", "chpqa_submission", "chpqa_meterreadingvalueid", "chpqa_meterreadingvalueid",
+					-1, -1, filter: null, attributes: attributes));
+			var queryAction = queryActionObject.Action =
+				resultQ => {
+					var response = resultQ as RetrieveMultipleResponse;
+					var resultTemp = response == null ? ((List<Entity>) resultQ).FirstOrDefault()
+						: response.EntityCollection.Entities.FirstOrDefault();
+					DeferredQueriesList.Remove(queryActionObject);
+					SubmissionAsSubmission = result = (resultTemp == null ? null : resultTemp.ToEntity<Submission>());
+				};
+			if (isDeferred) DeferredQueriesList.Add(queryActionObject);
+			else queryAction.Invoke(GeneratorHelpers.LoadRelation(service, queryActionObject.Query));
+			return result;
+		}
+		
 		public static class RelationNames {
 			public static RelationName MeterReadingsAsMeterReading = new RelationName("MeterReadingsAsMeterReading");
+			public static RelationName SubmissionAsSubmission = new RelationName("SubmissionAsSubmission");
 		}
 
 		public override IDictionary<string, object[]> RelationProperties { get {
 			if (relationProperties != null) return relationProperties;
 			relationProperties = new Dictionary<string, object[]>();
 			relationProperties["MeterReadingsAsMeterReading"] = new object[] { "MeterReadingsAsMeterReading", "chpqa_meterreadings", "chpqa_meterreadingvalue", "chpqa_meterreadingsid", "chpqa_meterreading", "chpqa_meterreadingvalueid", "chpqa_meterreadingvalueid", "chpqa_chpqa_meterreadingvalue_MeterReading_chpq", typeof (MeterReadings) };
+			relationProperties["SubmissionAsSubmission"] = new object[] { "SubmissionAsSubmission", "chpqa_submission", "chpqa_meterreadingvalue", "chpqa_submissionid", "chpqa_submission", "chpqa_meterreadingvalueid", "chpqa_meterreadingvalueid", "chpqa_chpqa_meterreadingvalue_Submission_chpqa_", typeof (Submission) };
 			return relationProperties; } }
 
 		#endregion
@@ -14360,6 +14706,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public const string MeterReadingValueId = "chpqa_meterreadingvalueid";
 			public const string Month = "chpqa_month";
 			public const string Name = "chpqa_name";
+			public const string Submission = "chpqa_submission";
 			public const string Value = "chpqa_value";
 			public const string CreatedBy = "createdby";
 			public const string CreatedOn = "createdon";
@@ -14389,6 +14736,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 				public const string MeterReadingValueId = "chpqa_MeterReadingValueId";
 				public const string Month = "chpqa_Month";
 				public const string Name = "chpqa_Name";
+				public const string Submission = "chpqa_Submission";
 				public const string Value = "chpqa_Value";
 				public const string CreatedBy = "CreatedBy";
 				public const string CreatedOn = "CreatedOn";
@@ -14437,6 +14785,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 					new Dictionary<int, string>
 					{
 						{ 1033, "Name"},
+					};
+
+				public static IDictionary<int, string> Submission { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Submission"},
 					};
 
 				public static IDictionary<int, string> Value { get; set; } =
@@ -14565,10 +14919,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public static class NToOne
 			{
 				public const string MeterReadingsAsMeterReading = "chpqa_chpqa_meterreadingvalue_MeterReading_chpq";
+				public const string SubmissionAsSubmission = "chpqa_chpqa_meterreadingvalue_Submission_chpqa_";
 
 				public static class Lookups
 				{
 					public const string MeterReadingsAsMeterReading = "chpqa_meterreading";
+					public const string SubmissionAsSubmission = "chpqa_submission";
 				}
 			}
 
@@ -22038,6 +22394,172 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 		}
 		
 		/// <summary>
+		/// 1:N, 'chpqa_chpqa_meterreadings_Submission_chpqa_subm'
+		/// </summary>
+		[RelationshipSchemaName("chpqa_chpqa_meterreadings_Submission_chpqa_subm")]
+		public MeterReadings[] MeterReadingssOfSubmission
+		{
+			get => GetRelatedEntities<MeterReadings>("chpqa_chpqa_meterreadings_Submission_chpqa_subm", null)?.ToArray();
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                value?.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities("chpqa_chpqa_meterreadings_Submission_chpqa_subm", null, value);
+			}
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship. The record limit accepts '-1', which means 'unlimited'.
+		/// The page param accepts '-1', which means 'all pages'. If a page is specified, the record limit won't exceed '5000' internally.
+        /// To specify columns to fetch, the "attributes" param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch.
+		/// </summary>
+		public MeterReadings[] LoadMeterReadingssOfSubmission(IOrganizationService service, XrmServiceContext context,
+			int recordCountLimit = -1, int page = -1, FilterExpression filter = null, params string[] attributes)
+		{
+			if (context.MergeOption == MergeOption.NoTracking) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            var result = GeneratorHelpers.LoadRelation(this, service, "chpqa_meterreadings", LogicalName, "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid",
+				recordCountLimit, page, filter, attributes: attributes).Select(entity => entity.ToEntity<MeterReadings>()).ToArray();
+			if (result.Length <= 0) return null;
+			Array.ForEach(result,
+				entity =>
+			    {
+				    var alreadyTracked = context.GetAttachedEntities().FirstOrDefault(attached => attached.Id == entity.Id);
+				    if (alreadyTracked == null) { context.Attach(entity); alreadyTracked = entity; }
+					try { context.AttachLink(this, new Relationship("chpqa_chpqa_meterreadings_Submission_chpqa_subm"), alreadyTracked); } catch { }
+			    });
+			if (MeterReadingssOfSubmission == null || MeterReadingssOfSubmission.Length != result.Length) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            return result;
+		}
+
+		public MeterReadings[] LoadMeterReadingssOfSubmission(IOrganizationService service, params string[] attributes)
+		{
+			return LoadMeterReadingssOfSubmission(service, -1, -1, null, false, attributes);
+		}
+
+		public MeterReadings[] LoadMeterReadingssOfSubmission(IOrganizationService service, bool isDeferred, params string[] attributes)
+		{
+			return LoadMeterReadingssOfSubmission(service, -1, -1, null, isDeferred, attributes);
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship. The record limit accepts '-1', which means 'unlimited'.
+		/// The page param accepts '-1', which means 'all pages'. If a page is specified, the record limit won't exceed '5000' internally.
+        /// To specify columns to fetch, the "attributes" param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch. If 'deferred', then loading will be added to the queue to be executed later upon request.
+		/// </summary>
+		public MeterReadings[] LoadMeterReadingssOfSubmission(IOrganizationService service, int recordCountLimit, int page = -1,
+			FilterExpression filter = null, bool isDeferred = false, params string[] attributes)
+		{
+			if (RelatedEntities.IsReadOnly)
+				throw new Exception("Relationship collection is ready only. The context that loaded this entity from CRM must be passed as a parameter, " +
+									"or set 'MergeOption' to 'NoTracking' in the context before fetching this entity using LINQ.");
+			MeterReadings[] resultArray = null;
+			var queryActionObject = new QueryAction(GeneratorHelpers.GetLoadRelationQuery(this, service, "chpqa_meterreadings", LogicalName, "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid",
+				recordCountLimit, page, filter: filter, attributes: attributes));
+			var queryAction = queryActionObject.Action =
+				result => {
+					var response = result as RetrieveMultipleResponse;
+					resultArray = response == null ? resultArray = ((List<Entity>) result).Select(entityQ => entityQ.ToEntity<MeterReadings>()).ToArray()
+	    				: response.EntityCollection.Entities.Select(entityQ => entityQ.ToEntity<MeterReadings>()).ToArray();
+					DeferredQueriesList.Remove(queryActionObject);
+					if (resultArray.Length <= 0) return;
+					if (MeterReadingssOfSubmission == null) { MeterReadingssOfSubmission = resultArray; return; }
+					MeterReadingssOfSubmission = MeterReadingssOfSubmission.Union(resultArray).Distinct<MeterReadings>(new EntityComparer()).ToArray();
+				};
+			if (isDeferred) DeferredQueriesList.Add(queryActionObject);
+			else queryAction.Invoke(GeneratorHelpers.LoadRelation(service, queryActionObject.Query, recordCountLimit, page));
+			return resultArray;
+		}
+		
+		/// <summary>
+		/// 1:N, 'chpqa_chpqa_meterreadingvalue_Submission_chpqa_'
+		/// </summary>
+		[RelationshipSchemaName("chpqa_chpqa_meterreadingvalue_Submission_chpqa_")]
+		public MeterReadingValue[] MeterReadingValuesOfSubmission
+		{
+			get => GetRelatedEntities<MeterReadingValue>("chpqa_chpqa_meterreadingvalue_Submission_chpqa_", null)?.ToArray();
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                value?.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities("chpqa_chpqa_meterreadingvalue_Submission_chpqa_", null, value);
+			}
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship. The record limit accepts '-1', which means 'unlimited'.
+		/// The page param accepts '-1', which means 'all pages'. If a page is specified, the record limit won't exceed '5000' internally.
+        /// To specify columns to fetch, the "attributes" param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch.
+		/// </summary>
+		public MeterReadingValue[] LoadMeterReadingValuesOfSubmission(IOrganizationService service, XrmServiceContext context,
+			int recordCountLimit = -1, int page = -1, FilterExpression filter = null, params string[] attributes)
+		{
+			if (context.MergeOption == MergeOption.NoTracking) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            var result = GeneratorHelpers.LoadRelation(this, service, "chpqa_meterreadingvalue", LogicalName, "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid",
+				recordCountLimit, page, filter, attributes: attributes).Select(entity => entity.ToEntity<MeterReadingValue>()).ToArray();
+			if (result.Length <= 0) return null;
+			Array.ForEach(result,
+				entity =>
+			    {
+				    var alreadyTracked = context.GetAttachedEntities().FirstOrDefault(attached => attached.Id == entity.Id);
+				    if (alreadyTracked == null) { context.Attach(entity); alreadyTracked = entity; }
+					try { context.AttachLink(this, new Relationship("chpqa_chpqa_meterreadingvalue_Submission_chpqa_"), alreadyTracked); } catch { }
+			    });
+			if (MeterReadingValuesOfSubmission == null || MeterReadingValuesOfSubmission.Length != result.Length) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            return result;
+		}
+
+		public MeterReadingValue[] LoadMeterReadingValuesOfSubmission(IOrganizationService service, params string[] attributes)
+		{
+			return LoadMeterReadingValuesOfSubmission(service, -1, -1, null, false, attributes);
+		}
+
+		public MeterReadingValue[] LoadMeterReadingValuesOfSubmission(IOrganizationService service, bool isDeferred, params string[] attributes)
+		{
+			return LoadMeterReadingValuesOfSubmission(service, -1, -1, null, isDeferred, attributes);
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship. The record limit accepts '-1', which means 'unlimited'.
+		/// The page param accepts '-1', which means 'all pages'. If a page is specified, the record limit won't exceed '5000' internally.
+        /// To specify columns to fetch, the "attributes" param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch. If 'deferred', then loading will be added to the queue to be executed later upon request.
+		/// </summary>
+		public MeterReadingValue[] LoadMeterReadingValuesOfSubmission(IOrganizationService service, int recordCountLimit, int page = -1,
+			FilterExpression filter = null, bool isDeferred = false, params string[] attributes)
+		{
+			if (RelatedEntities.IsReadOnly)
+				throw new Exception("Relationship collection is ready only. The context that loaded this entity from CRM must be passed as a parameter, " +
+									"or set 'MergeOption' to 'NoTracking' in the context before fetching this entity using LINQ.");
+			MeterReadingValue[] resultArray = null;
+			var queryActionObject = new QueryAction(GeneratorHelpers.GetLoadRelationQuery(this, service, "chpqa_meterreadingvalue", LogicalName, "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid",
+				recordCountLimit, page, filter: filter, attributes: attributes));
+			var queryAction = queryActionObject.Action =
+				result => {
+					var response = result as RetrieveMultipleResponse;
+					resultArray = response == null ? resultArray = ((List<Entity>) result).Select(entityQ => entityQ.ToEntity<MeterReadingValue>()).ToArray()
+	    				: response.EntityCollection.Entities.Select(entityQ => entityQ.ToEntity<MeterReadingValue>()).ToArray();
+					DeferredQueriesList.Remove(queryActionObject);
+					if (resultArray.Length <= 0) return;
+					if (MeterReadingValuesOfSubmission == null) { MeterReadingValuesOfSubmission = resultArray; return; }
+					MeterReadingValuesOfSubmission = MeterReadingValuesOfSubmission.Union(resultArray).Distinct<MeterReadingValue>(new EntityComparer()).ToArray();
+				};
+			if (isDeferred) DeferredQueriesList.Add(queryActionObject);
+			else queryAction.Invoke(GeneratorHelpers.LoadRelation(service, queryActionObject.Query, recordCountLimit, page));
+			return resultArray;
+		}
+		
+		/// <summary>
 		/// 1:N, 'chpqa_Diagram_chpqa_Submission_chpqa_Subm'
 		/// </summary>
 		[RelationshipSchemaName("chpqa_Diagram_chpqa_Submission_chpqa_Subm")]
@@ -22352,6 +22874,8 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 		
 		public static class RelationNames {
 			public static RelationName BoilersOfSubmission = new RelationName("BoilersOfSubmission");
+			public static RelationName MeterReadingssOfSubmission = new RelationName("MeterReadingssOfSubmission");
+			public static RelationName MeterReadingValuesOfSubmission = new RelationName("MeterReadingValuesOfSubmission");
 			public static RelationName DiagramsOfSubmission = new RelationName("DiagramsOfSubmission");
 			public static RelationName MetersOfSubmission = new RelationName("MetersOfSubmission");
 			public static RelationName PrimeMoversOfSubmission = new RelationName("PrimeMoversOfSubmission");
@@ -22362,6 +22886,8 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			if (relationProperties != null) return relationProperties;
 			relationProperties = new Dictionary<string, object[]>();
 			relationProperties["BoilersOfSubmission"] = new object[] { "BoilersOfSubmission", "chpqa_boiler", "chpqa_submission", "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid", "chpqa_Boiler_chpqa_Submission_chpqa_Submi", typeof (Boiler[]) };
+			relationProperties["MeterReadingssOfSubmission"] = new object[] { "MeterReadingssOfSubmission", "chpqa_meterreadings", "chpqa_submission", "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid", "chpqa_chpqa_meterreadings_Submission_chpqa_subm", typeof (MeterReadings[]) };
+			relationProperties["MeterReadingValuesOfSubmission"] = new object[] { "MeterReadingValuesOfSubmission", "chpqa_meterreadingvalue", "chpqa_submission", "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid", "chpqa_chpqa_meterreadingvalue_Submission_chpqa_", typeof (MeterReadingValue[]) };
 			relationProperties["DiagramsOfSubmission"] = new object[] { "DiagramsOfSubmission", "chpqa_diagram", "chpqa_submission", "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid", "chpqa_Diagram_chpqa_Submission_chpqa_Subm", typeof (Diagram[]) };
 			relationProperties["MetersOfSubmission"] = new object[] { "MetersOfSubmission", "chpqa_meter", "chpqa_submission", "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid", "chpqa_Meter_chpqa_Submission_chpqa_Submis", typeof (Meter[]) };
 			relationProperties["PrimeMoversOfSubmission"] = new object[] { "PrimeMoversOfSubmission", "chpqa_primemover", "chpqa_submission", "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid", "chpqa_PrimeMover_chpqa_Submission_chpqa_S", typeof (PrimeMover[]) };
@@ -22774,6 +23300,8 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public static class OneToN
 			{
 				public const string BoilersOfSubmission = "chpqa_Boiler_chpqa_Submission_chpqa_Submi";
+				public const string MeterReadingssOfSubmission = "chpqa_chpqa_meterreadings_Submission_chpqa_subm";
+				public const string MeterReadingValuesOfSubmission = "chpqa_chpqa_meterreadingvalue_Submission_chpqa_";
 				public const string DiagramsOfSubmission = "chpqa_Diagram_chpqa_Submission_chpqa_Subm";
 				public const string MetersOfSubmission = "chpqa_Meter_chpqa_Submission_chpqa_Submis";
 				public const string PrimeMoversOfSubmission = "chpqa_PrimeMover_chpqa_Submission_chpqa_S";

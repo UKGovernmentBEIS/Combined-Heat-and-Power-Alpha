@@ -311,18 +311,20 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                     service.LoadProperty(existingScheme, relationship.Key);
                 }
 
-                var submission = new Submission();
-                submission.Ref = _ref;
-                submission.Scheme = existingScheme.SchemeId;
-                submission.Company = existingScheme.Company;
-                submission.Site = existingScheme.Site;
+                var submission = new Submission
+                {
+                    Ref = _ref,
+                    Scheme = existingScheme.SchemeId,
+                    Company = existingScheme.Company,
+                    Site = existingScheme.Site,
 
-                // Details (Sector, FuelBillFrequency)
-                submission.Sector = scheme.scheme.details.sector;
-                submission.FuelBillFrequency = scheme.scheme.details.fuelBillFrequency;
+                    // Details (Sector, FuelBillFrequency)
+                    Sector = scheme.scheme.details.sector,
+                    FuelBillFrequency = scheme.scheme.details.fuelBillFrequency,
 
-                // Additional information
-                submission.AdditionalInformation = scheme.scheme.additionalInformation.details;
+                    // Additional information
+                    AdditionalInformation = scheme.scheme.additionalInformation.details
+                };
 
                 // Meters & readings
                 var meters = new List<dynamic>();
@@ -357,6 +359,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                     if (meter.reading != null)
                     {
                         var meterReading = new MeterReadings();
+                        meterReading.SubmissionAsSubmission = submission;
                         meterReading.FuelCategory = meter.reading.fuelCategory;
                         meterReading.FuelType = meter.reading.fuelType;
                         meterReading.HaveUsedCalculations = meter.reading.haveUsedCalculations;
@@ -366,7 +369,8 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                             var readingValue = new MeterReadingValue
                             {
                                 Value = reading.value,
-                                Month = reading.month
+                                Month = reading.month,
+                                SubmissionAsSubmission = submission
                             };
                             meterReadingValues.Add(readingValue);
                         }
