@@ -13909,6 +13909,39 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			}
 		}
 
+		[AttributeLogicalName("chpqa_monthname"), Required]
+		public GlobalEnums.Month? MonthName
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("chpqa_monthname");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_monthname"))
+				    value = (OptionSetValue) backupAttributeCollection["chpqa_monthname"];
+				return (GlobalEnums.Month?)value?.Value;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("chpqa_monthname", new OptionSetValue((int) value.Value));
+                else
+	                SetAttributeValue("chpqa_monthname", value);
+			}
+		}
+
+        public IDictionary<int, string> MonthNameLabels
+        {
+		    get
+		    {
+                var value = GetAttributeValue<OptionSetValue>("chpqa_monthname");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_monthname"))
+				    value = (OptionSetValue) backupAttributeCollection["chpqa_monthname"];
+                if (value == null) return null;
+                return new Dictionary<int, string>
+                        {
+                             { 1033, Enums.GetLabel("chpqa_monthname", value.Value, 1033) },
+                        };
+            }
+        }
+
 		[AttributeLogicalName("chpqa_name"), Required, MaxLength(100), StringLength(100)]
 		public string Name
 		{
@@ -14655,6 +14688,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 
 			public static class Names
 			{
+				public const string MonthName = "chpqa_monthname";
 				public const string Status = "statecode";
 				public const string StatusReason = "statuscode";
 			}
@@ -14665,6 +14699,28 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 
 			public static class Labels
 			{
+				public static IDictionary<int, IDictionary<int, string>> MonthName { get; set; } =
+					new Dictionary<int, IDictionary<int, string>>
+					{
+						{ 1033,
+							new Dictionary<int, string>
+							{
+								{0, "January"},
+								{1, "February"},
+								{2, "March"},
+								{3, "April"},
+								{4, "May"},
+								{5, "June"},
+								{6, "July"},
+								{7, "August"},
+								{8, "September"},
+								{9, "October"},
+								{10, "November"},
+								{11, "December"},
+							}
+						},
+					};
+
 				public static IDictionary<int, IDictionary<int, string>> Status { get; set; } =
 					new Dictionary<int, IDictionary<int, string>>
 					{
@@ -14705,6 +14761,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public const string MeterReading = "chpqa_meterreading";
 			public const string MeterReadingValueId = "chpqa_meterreadingvalueid";
 			public const string Month = "chpqa_month";
+			public const string MonthName = "chpqa_monthname";
 			public const string Name = "chpqa_name";
 			public const string Submission = "chpqa_submission";
 			public const string Value = "chpqa_value";
@@ -14735,6 +14792,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 				public const string MeterReading = "chpqa_MeterReading";
 				public const string MeterReadingValueId = "chpqa_MeterReadingValueId";
 				public const string Month = "chpqa_Month";
+				public const string MonthName = "chpqa_MonthName";
 				public const string Name = "chpqa_Name";
 				public const string Submission = "chpqa_Submission";
 				public const string Value = "chpqa_Value";
@@ -14779,6 +14837,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 					new Dictionary<int, string>
 					{
 						{ 1033, "Month"},
+					};
+
+				public static IDictionary<int, string> MonthName { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Month Name"},
 					};
 
 				public static IDictionary<int, string> Name { get; set; } =
@@ -23358,6 +23422,22 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			[EnumMember]Generated = 709570000,
 			[EnumMember]Exported = 709570001,
 			[EnumMember]Imported = 709570002,
+		}
+
+		public enum Month
+		{
+			[EnumMember]January = 0,
+			[EnumMember]February = 1,
+			[EnumMember]March = 2,
+			[EnumMember]April = 3,
+			[EnumMember]May = 4,
+			[EnumMember]June = 5,
+			[EnumMember]July = 6,
+			[EnumMember]August = 7,
+			[EnumMember]September = 8,
+			[EnumMember]October = 9,
+			[EnumMember]November = 10,
+			[EnumMember]December = 11,
 		}
 
 		public enum FuelBillFrequency

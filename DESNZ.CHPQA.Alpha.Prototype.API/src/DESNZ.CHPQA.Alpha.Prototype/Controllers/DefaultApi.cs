@@ -314,9 +314,10 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                 var submission = new Submission
                 {
                     Ref = _ref,
+                    SchemeRef = existingScheme.SchemeRef,
                     Scheme = existingScheme.SchemeId,
-                    Company = existingScheme.Company,
-                    Site = existingScheme.Site,
+                    Company = existingScheme.Company.Value,
+                    Site = existingScheme.Site.Value,
 
                     // Details (Sector, FuelBillFrequency)
                     Sector = scheme.scheme.details.sector,
@@ -328,25 +329,33 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
 
                 // Meters & readings
                 var meters = new List<dynamic>();
+                foreach (var meter in scheme.scheme.meters.fuelMeters)
+                {
+                    meter.meterType = GlobalEnums.MeterType.Fuel;
+                }
+                foreach (var meter in scheme.scheme.meters.electricityMeters)
+                {
+                    meter.meterType = GlobalEnums.MeterType.Electricity;
+                }
+                foreach (var meter in scheme.scheme.meters.heatMeters)
+                {
+                    meter.meterType = GlobalEnums.MeterType.Heat;
+                }
                 meters.AddRange(scheme.scheme.meters.fuelMeters);
                 meters.AddRange(scheme.scheme.meters.electricityMeters);
                 meters.AddRange(scheme.scheme.meters.heatMeters);
 
+                var fuelCategories = service.FuelCategorySet.ToList();
+                var fuelTypes = service.FuelTypeSet.ToList();
+
                 var submissionMeters = new List<Services.Meter>();
                 foreach (var meter in meters)
                 {
-                    var meterType = GlobalEnums.MeterType.Fuel;
-                    switch (meter.meterType)
-                    {
-                        case "fuel": meterType = GlobalEnums.MeterType.Fuel; break;
-                        case "electricity": meterType = GlobalEnums.MeterType.Electricity; break;
-                        case "heat": meterType = GlobalEnums.MeterType.Heat; break;
-                    }
                     var submissionMeter = new Services.Meter()
                     {
                         DiagramReferenceNumber = meter.diagramReferenceNumber,
                         MeterPointReference = meter.meterPointReference,
-                        MeterType = meterType,
+                        MeterType = meter.meterType,
                         ModelType = meter.modelType,
                         OutputsRange = meter.outputsRange,
                         OutputsUnit = meter.outputsUnit,
@@ -360,8 +369,17 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                     {
                         var meterReading = new MeterReadings();
                         meterReading.SubmissionAsSubmission = submission;
-                        meterReading.FuelCategoryAsFuelCategory = meter.reading.fuelCategory;
-                        meterReading.FuelTypeAsFuelType = meter.reading.fuelType;
+
+                        if (meter.reading.fuelCategory != null)
+                        {
+                            var fuelCategoryName = meter.reading.fuelCategory.ToString().ToLower();
+                            var fuelTypeName = meter.reading.fuelType.ToString().ToLower();
+                            var fuelCategory = fuelCategories.FirstOrDefault(x => x.Name.ToLower() == fuelCategoryName);
+                            var fuelType = fuelTypes.FirstOrDefault(x => x.Name.ToLower() == fuelTypeName);
+                            meterReading.FuelCategory = fuelCategory.FuelCategoryId;
+                            meterReading.FuelType = fuelType.FuelTypeId;
+                        }
+
                         meterReading.HaveUsedCalculations = meter.reading.haveUsedCalculations;
                         var meterReadingValues = new List<MeterReadingValue>();
                         foreach (var reading in meter.reading.values)
@@ -370,6 +388,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                             {
                                 Value = reading.value,
                                 Month = reading.month,
+                                MonthName = reading.month,
                                 SubmissionAsSubmission = submission
                             };
                             meterReadingValues.Add(readingValue);
