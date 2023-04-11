@@ -230,7 +230,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                         },
                         details = new
                         {
-                            sector = GetSectorString(scheme.Sector.Value),
+                            sector = GetSectorString(scheme.Sector.Value).ToUpper(),
                             fuelBillFrequency = scheme.FuelBillFrequency.ToString().ToUpper(),
                             diagrams = scheme.DiagramsOfScheme?.Select(diagram => diagram.Filename),
                             primeMovers = scheme.PrimeMoversOfScheme?.Select(primeMover => new
