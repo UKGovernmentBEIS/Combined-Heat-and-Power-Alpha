@@ -342,7 +342,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                 // Prime movers
                 var primeMovers = new List<Services.PrimeMover>();
                 var primeMoverTypes = service.PrimeMoverTypeSet.ToList();
-                var primeMoverFuels = service.FuelTypeSet.ToList();
+                var primeMoverFuels = service.FuelSet.ToList();
                 var manufacturers = service.ManufacturerSet.ToList();
                 var models = service.ModelSet.ToList();
                 foreach (var primeMover in scheme.scheme.details.primeMovers)
@@ -351,7 +351,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                     {
                         TagNumber = primeMover.tagNumber,
                         Type = primeMoverTypes.FirstOrDefault(x => x.Name == primeMover.type.ToString())?.PrimeMoverTypeId,
-                        Fuel = primeMoverFuels.FirstOrDefault(x => x.Name == primeMover.fuel.ToString())?.FuelTypeId,
+                        Fuel = primeMoverFuels.FirstOrDefault(x => x.Name.ToLower() == primeMover.fuel.ToString().ToLower())?.FuelId,
                         Manufacturer = manufacturers.FirstOrDefault(x => x.Name == primeMover.manufacturer.ToString())?.ManufacturerId,
                         Model = models.FirstOrDefault(x => x.Name == primeMover.model.ToString())?.ModelId,
                         YearCommissioned = primeMover.yearCommissioned,
@@ -364,12 +364,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                 // Boilers
                 var boilers = new List<Services.Boiler>();
                 var boilerTypes = service.BoilerTypeSet.ToList();
-                var boilerFuels = service.FuelTypeSet.ToList();
                 foreach (var boiler in scheme.scheme.details.boilers)
                 {
                     boilers.Add(new Services.Boiler()
                     {
                         TagNumber = boiler.tagNumber,
+                        Details = boiler.details,
                         Type = boilerTypes.FirstOrDefault(x => x.Name == boiler.type.ToString())?.BoilerTypeId,
                         Manufacturer = manufacturers.FirstOrDefault(x => x.Name == boiler.manufacturer.ToString())?.ManufacturerId,
                         Model = models.FirstOrDefault(x => x.Name == boiler.model.ToString())?.ModelId,
