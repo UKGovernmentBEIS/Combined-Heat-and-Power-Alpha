@@ -12480,6 +12480,52 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			}
 		}
 
+		[AttributeLogicalName("chpqa_totalreadingsvalue"), Range(-100000000000,100000000000)]
+		public decimal? TotalReadingsValue
+		{
+			get
+			{
+				var value = GetAttributeValue<decimal?>("chpqa_totalreadingsvalue");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_totalreadingsvalue"))
+				    value = (decimal?) backupAttributeCollection["chpqa_totalreadingsvalue"];
+			    return value;
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'chpqa_TotalReadingsValue_Date'.<br />
+        /// Last Updated time of rollup field Total Readings Value.
+        /// </summary>
+		[AttributeLogicalName("chpqa_totalreadingsvalue_date")]
+		public DateTime? TotalReadingsValueLastUpdatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("chpqa_totalreadingsvalue_date");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_totalreadingsvalue_date"))
+				    value = (DateTime?) backupAttributeCollection["chpqa_totalreadingsvalue_date"];
+			    return value;
+			}
+		}
+
+        /// <summary>
+        /// [Range(-2147483648, 2147483647)] 
+		/// 'chpqa_TotalReadingsValue_State'.<br />
+        /// State of rollup field Total Readings Value.
+        /// </summary>
+		[AttributeLogicalName("chpqa_totalreadingsvalue_state"), Range(-2147483648,2147483647)]
+		public int? TotalReadingsValueState
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("chpqa_totalreadingsvalue_state");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_totalreadingsvalue_state"))
+				    value = (int?) backupAttributeCollection["chpqa_totalreadingsvalue_state"];
+			    return value;
+			}
+		}
+
         /// <summary>
         ///  
 		/// 'CreatedBy'.<br />
@@ -13486,6 +13532,9 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public const string Total = "chpqa_total";
 			public const string TotalLastUpdatedOn = "chpqa_total_date";
 			public const string TotalState = "chpqa_total_state";
+			public const string TotalReadingsValue = "chpqa_totalreadingsvalue";
+			public const string TotalReadingsValueLastUpdatedOn = "chpqa_totalreadingsvalue_date";
+			public const string TotalReadingsValueState = "chpqa_totalreadingsvalue_state";
 			public const string CreatedBy = "createdby";
 			public const string CreatedOn = "createdon";
 			public const string CreatedByDelegate = "createdonbehalfby";
@@ -13525,6 +13574,9 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 				public const string Total = "chpqa_Total";
 				public const string TotalLastUpdatedOn = "chpqa_Total_Date";
 				public const string TotalState = "chpqa_Total_State";
+				public const string TotalReadingsValue = "chpqa_TotalReadingsValue";
+				public const string TotalReadingsValueLastUpdatedOn = "chpqa_TotalReadingsValue_Date";
+				public const string TotalReadingsValueState = "chpqa_TotalReadingsValue_State";
 				public const string CreatedBy = "CreatedBy";
 				public const string CreatedOn = "CreatedOn";
 				public const string CreatedByDelegate = "CreatedOnBehalfBy";
@@ -13638,6 +13690,24 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 					new Dictionary<int, string>
 					{
 						{ 1033, "Total (State)"},
+					};
+
+				public static IDictionary<int, string> TotalReadingsValue { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Total Readings Value"},
+					};
+
+				public static IDictionary<int, string> TotalReadingsValueLastUpdatedOn { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Total Readings Value (Last Updated On)"},
+					};
+
+				public static IDictionary<int, string> TotalReadingsValueState { get; set; } =
+					new Dictionary<int, string>
+					{
+						{ 1033, "Total Readings Value (State)"},
 					};
 
 				public static IDictionary<int, string> CreatedBy { get; set; } =
@@ -19021,14 +19091,14 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 		}
 
 		[AttributeLogicalName("chpqa_sector"), Required]
-		public GlobalEnums.Sector? Sector
+		public GlobalEnums.chpqa_sector? Sector
 		{
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("chpqa_sector");
 				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_sector"))
 				    value = (OptionSetValue) backupAttributeCollection["chpqa_sector"];
-				return (GlobalEnums.Sector?)value?.Value;
+				return (GlobalEnums.chpqa_sector?)value?.Value;
 			}
 			set
 			{
@@ -20158,27 +20228,26 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 						{ 1033,
 							new Dictionary<int, string>
 							{
-								{709570000, "Chemical industry"},
-								{709570001, "Commerce"},
-								{709570002, "Construction"},
-								{709570003, "Electrical and instrument engineering"},
-								{709570004, "Extraction, mining and agglomeration"},
-								{709570005, "Food, beverages and tobacco"},
-								{303150001, "Health"},
-								{709570006, "Iron and steel"},
-								{709570007, "Mechanical engineering and metal products"},
-								{709570008, "Mineral products (eg glass, cement, bricks)"},
-								{709570009, "Non ferrous metals"},
-								{709570010, "Oil refineries"},
-								{709570011, "Other industrial branches"},
-								{709570012, "Paper, publishing and printing"},
-								{709570013, "Power generation"},
-								{709570014, "Public Administration"},
-								{709570015, "Sewage treatment"},
-								{709570016, "Textiles, clothing and footwear"},
-								{709570017, "Transport"},
-								{709570018, "Vehicles"},
-								{709570019, "Other"},
+								{709570009, "Non-ferrous metals"},
+								{303150002, "Offices"},
+								{303150003, "Airports"},
+								{303150004, "Chemical and pharmaceutical industry"},
+								{303150005, "Defence"},
+								{303150006, "Education"},
+								{303150007, "Horticulture"},
+								{303150008, "Hotels"},
+								{303150009, "Local or national government"},
+								{303150010, "Manufacturing and retail"},
+								{303150011, "Mixed community heating"},
+								{303150012, "Other commerce"},
+								{303150013, "Other public administration"},
+								{303150014, "Post Office"},
+								{303150015, "Private hospitals"},
+								{303150016, "Public sector housing"},
+								{303150017, "Royal Household"},
+								{303150018, "Scientific research"},
+								{303150019, "Sports and leisure"},
+								{303150020, "Timber"},
 							}
 						},
 					};
@@ -20324,7 +20393,6 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 				public static IDictionary<int, string> Sector { get; set; } =
 					new Dictionary<int, string>
 					{
-						{ 1033, "Sector"},
 					};
 
 				public static IDictionary<int, string> Site { get; set; } =
@@ -21239,14 +21307,99 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			return resultArray;
 		}
 		
+		/// <summary>
+		/// 1:N, 'chpqa_chpqa_submission_Site_chpqa_site'
+		/// </summary>
+		[RelationshipSchemaName("chpqa_chpqa_submission_Site_chpqa_site")]
+		public Submission[] SubmissionsOfSite
+		{
+			get => GetRelatedEntities<Submission>("chpqa_chpqa_submission_Site_chpqa_site", null)?.ToArray();
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                value?.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities("chpqa_chpqa_submission_Site_chpqa_site", null, value);
+			}
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship. The record limit accepts '-1', which means 'unlimited'.
+		/// The page param accepts '-1', which means 'all pages'. If a page is specified, the record limit won't exceed '5000' internally.
+        /// To specify columns to fetch, the "attributes" param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch.
+		/// </summary>
+		public Submission[] LoadSubmissionsOfSite(IOrganizationService service, XrmServiceContext context,
+			int recordCountLimit = -1, int page = -1, FilterExpression filter = null, params string[] attributes)
+		{
+			if (context.MergeOption == MergeOption.NoTracking) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            var result = GeneratorHelpers.LoadRelation(this, service, "chpqa_submission", LogicalName, "chpqa_site", "chpqa_siteid", "chpqa_siteid", "chpqa_siteid",
+				recordCountLimit, page, filter, attributes: attributes).Select(entity => entity.ToEntity<Submission>()).ToArray();
+			if (result.Length <= 0) return null;
+			Array.ForEach(result,
+				entity =>
+			    {
+				    var alreadyTracked = context.GetAttachedEntities().FirstOrDefault(attached => attached.Id == entity.Id);
+				    if (alreadyTracked == null) { context.Attach(entity); alreadyTracked = entity; }
+					try { context.AttachLink(this, new Relationship("chpqa_chpqa_submission_Site_chpqa_site"), alreadyTracked); } catch { }
+			    });
+			if (SubmissionsOfSite == null || SubmissionsOfSite.Length != result.Length) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            return result;
+		}
+
+		public Submission[] LoadSubmissionsOfSite(IOrganizationService service, params string[] attributes)
+		{
+			return LoadSubmissionsOfSite(service, -1, -1, null, false, attributes);
+		}
+
+		public Submission[] LoadSubmissionsOfSite(IOrganizationService service, bool isDeferred, params string[] attributes)
+		{
+			return LoadSubmissionsOfSite(service, -1, -1, null, isDeferred, attributes);
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship. The record limit accepts '-1', which means 'unlimited'.
+		/// The page param accepts '-1', which means 'all pages'. If a page is specified, the record limit won't exceed '5000' internally.
+        /// To specify columns to fetch, the "attributes" param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch. If 'deferred', then loading will be added to the queue to be executed later upon request.
+		/// </summary>
+		public Submission[] LoadSubmissionsOfSite(IOrganizationService service, int recordCountLimit, int page = -1,
+			FilterExpression filter = null, bool isDeferred = false, params string[] attributes)
+		{
+			if (RelatedEntities.IsReadOnly)
+				throw new Exception("Relationship collection is ready only. The context that loaded this entity from CRM must be passed as a parameter, " +
+									"or set 'MergeOption' to 'NoTracking' in the context before fetching this entity using LINQ.");
+			Submission[] resultArray = null;
+			var queryActionObject = new QueryAction(GeneratorHelpers.GetLoadRelationQuery(this, service, "chpqa_submission", LogicalName, "chpqa_site", "chpqa_siteid", "chpqa_siteid", "chpqa_siteid",
+				recordCountLimit, page, filter: filter, attributes: attributes));
+			var queryAction = queryActionObject.Action =
+				result => {
+					var response = result as RetrieveMultipleResponse;
+					resultArray = response == null ? resultArray = ((List<Entity>) result).Select(entityQ => entityQ.ToEntity<Submission>()).ToArray()
+	    				: response.EntityCollection.Entities.Select(entityQ => entityQ.ToEntity<Submission>()).ToArray();
+					DeferredQueriesList.Remove(queryActionObject);
+					if (resultArray.Length <= 0) return;
+					if (SubmissionsOfSite == null) { SubmissionsOfSite = resultArray; return; }
+					SubmissionsOfSite = SubmissionsOfSite.Union(resultArray).Distinct<Submission>(new EntityComparer()).ToArray();
+				};
+			if (isDeferred) DeferredQueriesList.Add(queryActionObject);
+			else queryAction.Invoke(GeneratorHelpers.LoadRelation(service, queryActionObject.Query, recordCountLimit, page));
+			return resultArray;
+		}
+		
 		public static class RelationNames {
 			public static RelationName SchemesOfSite = new RelationName("SchemesOfSite");
+			public static RelationName SubmissionsOfSite = new RelationName("SubmissionsOfSite");
 		}
 
 		public override IDictionary<string, object[]> RelationProperties { get {
 			if (relationProperties != null) return relationProperties;
 			relationProperties = new Dictionary<string, object[]>();
 			relationProperties["SchemesOfSite"] = new object[] { "SchemesOfSite", "chpqa_scheme", "chpqa_site", "chpqa_site", "chpqa_siteid", "chpqa_siteid", "chpqa_siteid", "chpqa_chpqa_scheme_Site_chpqa_site", typeof (Scheme[]) };
+			relationProperties["SubmissionsOfSite"] = new object[] { "SubmissionsOfSite", "chpqa_submission", "chpqa_site", "chpqa_site", "chpqa_siteid", "chpqa_siteid", "chpqa_siteid", "chpqa_chpqa_submission_Site_chpqa_site", typeof (Submission[]) };
 			return relationProperties; } }
 
 		#endregion
@@ -21600,6 +21753,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public static class OneToN
 			{
 				public const string SchemesOfSite = "chpqa_chpqa_scheme_Site_chpqa_site";
+				public const string SubmissionsOfSite = "chpqa_chpqa_submission_Site_chpqa_site";
 			}
 			
 			public static class NToOne
@@ -21819,14 +21973,14 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 		}
 
 		[AttributeLogicalName("chpqa_sector"), Required]
-		public GlobalEnums.Sector? Sector
+		public GlobalEnums.chpqa_sector? Sector
 		{
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("chpqa_sector");
 				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_sector"))
 				    value = (OptionSetValue) backupAttributeCollection["chpqa_sector"];
-				return (GlobalEnums.Sector?)value?.Value;
+				return (GlobalEnums.chpqa_sector?)value?.Value;
 			}
 			set
 			{
@@ -21863,7 +22017,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			}
 			set
 			{
-                if (value != null) SetAttributeValue("chpqa_site", new EntityReference("site", value.Value));
+                if (value != null) SetAttributeValue("chpqa_site", new EntityReference("chpqa_site", value.Value));
                 else
 	                SetAttributeValue("chpqa_site", value);
 			}
@@ -21880,7 +22034,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
             }
         }
 
-		[Label("1033_name", "site", "siteid", "chpqa_site")]
+		[Label("1033_chpqa_name", "chpqa_site", "chpqa_siteid", "chpqa_site")]
         public IDictionary<int, string> SiteLabels { get; set; }
 
         /// <summary>
@@ -22936,6 +23090,70 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			return result;
 		}
 		
+		/// <summary>
+		/// N:1, 'chpqa_chpqa_submission_Site_chpqa_site'
+		/// </summary>
+		[RelationshipSchemaName("chpqa_chpqa_submission_Site_chpqa_site"), AttributeLogicalName("chpqa_site")]
+		public Site SiteAsSite
+		{
+			get => GetRelatedEntity<Site>("chpqa_chpqa_submission_Site_chpqa_site", null);
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null) value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<Site>("chpqa_chpqa_submission_Site_chpqa_site", null, value);
+			}
+		}
+
+		/// <summary>
+		/// Fetch the record related to this entity on this relationship.
+        /// To specify columns to fetch, the attributes param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch.
+		/// </summary>
+		public Site LoadSiteAsSite(IOrganizationService service, XrmServiceContext context, params string[] attributes)
+		{
+			if (context.MergeOption == MergeOption.NoTracking) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            var result = GeneratorHelpers.LoadRelation(this, service, "chpqa_site", LogicalName, "chpqa_siteid", "chpqa_site", "chpqa_submissionid", "chpqa_submissionid",
+				-1, -1, null, attributes: attributes).FirstOrDefault();
+			if (result == null) { return null; }
+			var alreadyTracked = context.GetAttachedEntities().FirstOrDefault(attached => attached.Id == result.Id);
+			if (alreadyTracked == null) { context.Attach(result); alreadyTracked = result; }
+			try { context.AttachLink(this, new Relationship("chpqa_chpqa_submission_Site_chpqa_site"), alreadyTracked); } catch { }
+			if (SiteAsSite == null || SiteAsSite.Id != result.Id) {
+				throw new Exception("Set 'MergeOption' to anything other than 'NoTracking' in the context before loading relationships.");
+			}
+            return result.ToEntity<Site>();
+		}
+
+		/// <summary>
+		/// Fetch the records related to this entity on this relationship.
+        /// To specify columns to fetch, the attributes param accepts either "*", which means all attributes; empty, which means no attributes;
+        /// or a list of column names to fetch. If 'deferred', then loading will be added to the queue to be executed later upon request.
+		/// </summary>
+		public Site LoadSiteAsSite(IOrganizationService service, bool isDeferred = false, params string[] attributes)
+		{
+			if (RelatedEntities.IsReadOnly) {
+				throw new Exception("Relationship collection is ready only. The context that loaded this entity from CRM must be passed as a parameter, " +
+					"or set 'MergeOption' to 'NoTracking' in the context before fetching this entity using LINQ.");
+			}
+			Site result = null;
+			var queryActionObject = new QueryAction(GeneratorHelpers.GetLoadRelationQuery(this, service, "chpqa_site", LogicalName, "chpqa_siteid", "chpqa_site", "chpqa_submissionid", "chpqa_submissionid",
+					-1, -1, filter: null, attributes: attributes));
+			var queryAction = queryActionObject.Action =
+				resultQ => {
+					var response = resultQ as RetrieveMultipleResponse;
+					var resultTemp = response == null ? ((List<Entity>) resultQ).FirstOrDefault()
+						: response.EntityCollection.Entities.FirstOrDefault();
+					DeferredQueriesList.Remove(queryActionObject);
+					SiteAsSite = result = (resultTemp == null ? null : resultTemp.ToEntity<Site>());
+				};
+			if (isDeferred) DeferredQueriesList.Add(queryActionObject);
+			else queryAction.Invoke(GeneratorHelpers.LoadRelation(service, queryActionObject.Query));
+			return result;
+		}
+		
 		public static class RelationNames {
 			public static RelationName BoilersOfSubmission = new RelationName("BoilersOfSubmission");
 			public static RelationName MeterReadingssOfSubmission = new RelationName("MeterReadingssOfSubmission");
@@ -22944,6 +23162,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public static RelationName MetersOfSubmission = new RelationName("MetersOfSubmission");
 			public static RelationName PrimeMoversOfSubmission = new RelationName("PrimeMoversOfSubmission");
 			public static RelationName SchemeAsScheme = new RelationName("SchemeAsScheme");
+			public static RelationName SiteAsSite = new RelationName("SiteAsSite");
 		}
 
 		public override IDictionary<string, object[]> RelationProperties { get {
@@ -22956,6 +23175,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			relationProperties["MetersOfSubmission"] = new object[] { "MetersOfSubmission", "chpqa_meter", "chpqa_submission", "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid", "chpqa_Meter_chpqa_Submission_chpqa_Submis", typeof (Meter[]) };
 			relationProperties["PrimeMoversOfSubmission"] = new object[] { "PrimeMoversOfSubmission", "chpqa_primemover", "chpqa_submission", "chpqa_submission", "chpqa_submissionid", "chpqa_submissionid", "chpqa_submissionid", "chpqa_PrimeMover_chpqa_Submission_chpqa_S", typeof (PrimeMover[]) };
 			relationProperties["SchemeAsScheme"] = new object[] { "SchemeAsScheme", "chpqa_scheme", "chpqa_submission", "chpqa_schemeid", "chpqa_scheme", "chpqa_submissionid", "chpqa_submissionid", "chpqa_chpqa_submission_Scheme_chpqa_scheme", typeof (Scheme) };
+			relationProperties["SiteAsSite"] = new object[] { "SiteAsSite", "chpqa_site", "chpqa_submission", "chpqa_siteid", "chpqa_site", "chpqa_submissionid", "chpqa_submissionid", "chpqa_chpqa_submission_Site_chpqa_site", typeof (Site) };
 			return relationProperties; } }
 
 		#endregion
@@ -23065,27 +23285,26 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 						{ 1033,
 							new Dictionary<int, string>
 							{
-								{709570000, "Chemical industry"},
-								{709570001, "Commerce"},
-								{709570002, "Construction"},
-								{709570003, "Electrical and instrument engineering"},
-								{709570004, "Extraction, mining and agglomeration"},
-								{709570005, "Food, beverages and tobacco"},
-								{303150001, "Health"},
-								{709570006, "Iron and steel"},
-								{709570007, "Mechanical engineering and metal products"},
-								{709570008, "Mineral products (eg glass, cement, bricks)"},
-								{709570009, "Non ferrous metals"},
-								{709570010, "Oil refineries"},
-								{709570011, "Other industrial branches"},
-								{709570012, "Paper, publishing and printing"},
-								{709570013, "Power generation"},
-								{709570014, "Public Administration"},
-								{709570015, "Sewage treatment"},
-								{709570016, "Textiles, clothing and footwear"},
-								{709570017, "Transport"},
-								{709570018, "Vehicles"},
-								{709570019, "Other"},
+								{709570009, "Non-ferrous metals"},
+								{303150002, "Offices"},
+								{303150003, "Airports"},
+								{303150004, "Chemical and pharmaceutical industry"},
+								{303150005, "Defence"},
+								{303150006, "Education"},
+								{303150007, "Horticulture"},
+								{303150008, "Hotels"},
+								{303150009, "Local or national government"},
+								{303150010, "Manufacturing and retail"},
+								{303150011, "Mixed community heating"},
+								{303150012, "Other commerce"},
+								{303150013, "Other public administration"},
+								{303150014, "Post Office"},
+								{303150015, "Private hospitals"},
+								{303150016, "Public sector housing"},
+								{303150017, "Royal Household"},
+								{303150018, "Scientific research"},
+								{303150019, "Sports and leisure"},
+								{303150020, "Timber"},
 							}
 						},
 					};
@@ -23233,7 +23452,6 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 				public static IDictionary<int, string> Sector { get; set; } =
 					new Dictionary<int, string>
 					{
-						{ 1033, "Sector"},
 					};
 
 				public static IDictionary<int, string> Site { get; set; } =
@@ -23374,10 +23592,12 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			public static class NToOne
 			{
 				public const string SchemeAsScheme = "chpqa_chpqa_submission_Scheme_chpqa_scheme";
+				public const string SiteAsSite = "chpqa_chpqa_submission_Site_chpqa_site";
 
 				public static class Lookups
 				{
 					public const string SchemeAsScheme = "chpqa_scheme";
+					public const string SiteAsSite = "chpqa_site";
 				}
 			}
 
@@ -23448,29 +23668,28 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			[EnumMember]Other = 709570003,
 		}
 
-		public enum Sector
+		public enum chpqa_sector
 		{
-			[EnumMember]Chemicalindustry = 709570000,
-			[EnumMember]Commerce = 709570001,
-			[EnumMember]Construction = 709570002,
-			[EnumMember]Electricalandinstrumentengineering = 709570003,
-			[EnumMember]Extractionminingandagglomeration = 709570004,
-			[EnumMember]Foodbeveragesandtobacco = 709570005,
-			[EnumMember]Health = 303150001,
-			[EnumMember]Ironandsteel = 709570006,
-			[EnumMember]Mechanicalengineeringandmetalproducts = 709570007,
-			[EnumMember]Mineralproductsegglasscementbricks = 709570008,
 			[EnumMember]Nonferrousmetals = 709570009,
-			[EnumMember]Oilrefineries = 709570010,
-			[EnumMember]Otherindustrialbranches = 709570011,
-			[EnumMember]Paperpublishingandprinting = 709570012,
-			[EnumMember]Powergeneration = 709570013,
-			[EnumMember]PublicAdministration = 709570014,
-			[EnumMember]Sewagetreatment = 709570015,
-			[EnumMember]Textilesclothingandfootwear = 709570016,
-			[EnumMember]Transport = 709570017,
-			[EnumMember]Vehicles = 709570018,
-			[EnumMember]Other = 709570019,
+			[EnumMember]Offices = 303150002,
+			[EnumMember]Airports = 303150003,
+			[EnumMember]Chemicalandpharmaceuticalindustry = 303150004,
+			[EnumMember]Defence = 303150005,
+			[EnumMember]Education = 303150006,
+			[EnumMember]Horticulture = 303150007,
+			[EnumMember]Hotels = 303150008,
+			[EnumMember]Localornationalgovernment = 303150009,
+			[EnumMember]Manufacturingandretail = 303150010,
+			[EnumMember]Mixedcommunityheating = 303150011,
+			[EnumMember]Othercommerce = 303150012,
+			[EnumMember]Otherpublicadministration = 303150013,
+			[EnumMember]PostOffice = 303150014,
+			[EnumMember]Privatehospitals = 303150015,
+			[EnumMember]Publicsectorhousing = 303150016,
+			[EnumMember]RoyalHousehold = 303150017,
+			[EnumMember]Scientificresearch = 303150018,
+			[EnumMember]Sportsandleisure = 303150019,
+			[EnumMember]Timber = 303150020,
 		}
 
 	}

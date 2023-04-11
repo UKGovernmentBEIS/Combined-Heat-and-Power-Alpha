@@ -327,6 +327,59 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                     AdditionalInformation = scheme.scheme.additionalInformation.details
                 };
 
+                // Diagrams
+                var diagrams = new List<Services.Diagram>();
+                foreach (var diagram in scheme.scheme.details.diagrams)
+                {
+                    diagrams.Add(new Diagram
+                    {
+                        Name = diagram.ToString(),
+                        Filename = diagram.ToString()
+                    });
+                }
+                submission.DiagramsOfSubmission = diagrams.ToArray();
+
+                // Prime movers
+                var primeMovers = new List<Services.PrimeMover>();
+                var primeMoverTypes = service.PrimeMoverTypeSet.ToList();
+                var primeMoverFuels = service.FuelTypeSet.ToList();
+                var manufacturers = service.ManufacturerSet.ToList();
+                var models = service.ModelSet.ToList();
+                foreach (var primeMover in scheme.scheme.details.primeMovers)
+                {
+                    primeMovers.Add(new Services.PrimeMover()
+                    {
+                        TagNumber = primeMover.tagNumber,
+                        Type = primeMoverTypes.FirstOrDefault(x => x.Name == primeMover.type.ToString())?.PrimeMoverTypeId,
+                        Fuel = primeMoverFuels.FirstOrDefault(x => x.Name == primeMover.fuel.ToString())?.FuelTypeId,
+                        Manufacturer = manufacturers.FirstOrDefault(x => x.Name == primeMover.manufacturer.ToString())?.ManufacturerId,
+                        Model = models.FirstOrDefault(x => x.Name == primeMover.model.ToString())?.ModelId,
+                        YearCommissioned = primeMover.yearCommissioned,
+                        MaximumRatedHeat = primeMover.maximumRatedHeat,
+                        MaximumRatedPower = primeMover.maximumRatedPower
+                    });
+                }
+                submission.PrimeMoversOfSubmission = primeMovers.ToArray();
+
+                // Boilers
+                var boilers = new List<Services.Boiler>();
+                var boilerTypes = service.BoilerTypeSet.ToList();
+                var boilerFuels = service.FuelTypeSet.ToList();
+                foreach (var boiler in scheme.scheme.details.boilers)
+                {
+                    boilers.Add(new Services.Boiler()
+                    {
+                        TagNumber = boiler.tagNumber,
+                        Type = boilerTypes.FirstOrDefault(x => x.Name == boiler.type.ToString())?.BoilerTypeId,
+                        Manufacturer = manufacturers.FirstOrDefault(x => x.Name == boiler.manufacturer.ToString())?.ManufacturerId,
+                        Model = models.FirstOrDefault(x => x.Name == boiler.model.ToString())?.ModelId,
+                        YearCommissioned = boiler.yearCommissioned,
+                        MaximumRatedHeat = boiler.maximumRatedHeat,
+                        MaximumRatedPower = boiler.maximumRatedPower
+                    });
+                }
+                submission.BoilersOfSubmission = boilers.ToArray();
+
                 // Meters & readings
                 var meters = new List<dynamic>();
                 foreach (var meter in scheme.scheme.meters.fuelMeters)
