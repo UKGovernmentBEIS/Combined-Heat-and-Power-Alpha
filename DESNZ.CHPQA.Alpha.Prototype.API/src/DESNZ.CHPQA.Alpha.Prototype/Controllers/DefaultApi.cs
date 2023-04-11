@@ -3,6 +3,7 @@ using DESNZ.CHPQA.Alpha.Prototype.Models;
 using DESNZ.CHPQA.Alpha.Prototype.Services;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.PowerPlatform.Dataverse.Client;
 using Newtonsoft.Json;
@@ -91,49 +92,92 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
             }
         }
 
-        private string GetSectorKey(string sector)
+        private string GetSectorString(GlobalEnums.Sector sector)
         {
             switch (sector)
             {
-                case "Airports": return "AIRPORT";
-                case "Chemical and pharmaceutical industry": return "CHEM";
-                case "Construction": return "CON";
-                case "Defence": return "DEF";
-                case "Education": return "EDU";
-                case "Electrical and instrument engineering": return "ELEC";
-                case "Extraction, mining and agglomeration": return "EXTRACT";
-                case "Food, beverages and tobacco": return "FOOD";
-                case "Health": return "HEALTH";
-                case "Horticulture": return "HORT";
-                case "Hotels": return "HOTELS";
-                case "Iron and steel": return "IRON";
-                case "Local or national government": return "GOV";
-                case "Manufacturing and retail": return "MANUF";
-                case "Mechanical engineering and metal products": return "MECH";
-                case "Mineral products (for example - glass, cement, bricks)": return "MINERAL";
-                case "Mixed community heating": return "MIXED";
-                case "Non-ferrous metals": return "NONFERROUS";
-                case "Offices": return "OFFICES";
-                case "Oil refineries": return "OIL";
-                case "Other commerce": return "OCOMM";
-                case "Other industrial branches": return "OIND";
-                case "Other public administration": return "OADMIN";
-                case "Paper, publishing and printing": return "PAPER";
-                case "Post Office": return "PO";
-                case "Private hospitals": return "PHOSP";
-                case "Public sector housing": return "PHOUSING";
-                case "Royal Household": return "ROYAL";
-                case "Scientific research": return "SCI";
-                case "Sewage treatment": return "SEWAGE";
-                case "Sports and leisure": return "SPORT";
-                case "Textiles, clothing and footwear": return "TEXTILES";
-                case "Timber": return "TIMBER";
-                case "Transport": return "TRANSPORT";
-                case "Vehicles": return "VEH";
-                default:
-                    return sector.ToUpper();
+                case GlobalEnums.Sector.Airports: return "Airports";
+                case GlobalEnums.Sector.Chemicalandpharmaceuticalindustry: return "Chemical and pharmaceutical industry";
+                case GlobalEnums.Sector.Construction: return "Construction";
+                case GlobalEnums.Sector.Defence: return "Defence";
+                case GlobalEnums.Sector.Education: return "Education";
+                case GlobalEnums.Sector.Electricalandinstrumentengineering: return "Electrical and instrument engineering";
+                case GlobalEnums.Sector.Extractionminingandagglomeration: return "Extraction, mining and agglomeration";
+                case GlobalEnums.Sector.Foodbeveragesandtobacco: return "Food, beverages and tobacco";
+                case GlobalEnums.Sector.Health: return "Health";
+                case GlobalEnums.Sector.Horticulture: return "Horticulture";
+                case GlobalEnums.Sector.Hotels: return "Hotels";
+                case GlobalEnums.Sector.Ironandsteel: return "Iron and steel";
+                case GlobalEnums.Sector.Localornationalgovernment: return "Local or national government";
+                case GlobalEnums.Sector.Manufacturingandretail: return "Manufacturing and retail";
+                case GlobalEnums.Sector.Mechanicalengineeringandmetalproducts: return "Mechanical engineering and metal products";
+                case GlobalEnums.Sector.Mineralproductsegglasscementbricks: return "Mineral products (for example - glass, cement, bricks)";
+                case GlobalEnums.Sector.Mixedcommunityheating: return "Mixed community heating";
+                case GlobalEnums.Sector.Nonferrousmetals: return "Non-ferrous metals";
+                case GlobalEnums.Sector.Offices: return "Offices";
+                case GlobalEnums.Sector.Oilrefineries: return "Oil refineries";
+                case GlobalEnums.Sector.Othercommerce: return "Other commerce";
+                case GlobalEnums.Sector.Otherindustrialbranches: return "Other industrial branches";
+                case GlobalEnums.Sector.Otherpublicadministration: return "Other public administration";
+                case GlobalEnums.Sector.Paperpublishingandprinting: return "Paper, publishing and printing";
+                case GlobalEnums.Sector.PostOffice: return "Post Office";
+                case GlobalEnums.Sector.Privatehospitals: return "Private hospitals";
+                case GlobalEnums.Sector.Publicsectorhousing: return "Public sector housing";
+                case GlobalEnums.Sector.RoyalHousehold: return "Royal Household";
+                case GlobalEnums.Sector.Scientificresearch: return "Scientific research";
+                case GlobalEnums.Sector.Sewagetreatment: return "Sewage treatment";
+                case GlobalEnums.Sector.Sportsandleisure: return "Sports and leisure";
+                case GlobalEnums.Sector.Textilesclothingandfootwear: return "Textiles, clothing and footwear";
+                case GlobalEnums.Sector.Timber: return "Timber";
+                case GlobalEnums.Sector.Transport: return "Transport";
+                case GlobalEnums.Sector.Vehicles: return "Vehicles";
+                default
+                    : return "Other";
             }
-            return "";
+        }
+
+        private GlobalEnums.Sector GetSectorEnum(string sector)
+        {
+            switch (sector)
+            {
+                case "Airports": return GlobalEnums.Sector.Airports;
+                case "Chemical and pharmaceutical industry": return GlobalEnums.Sector.Chemicalandpharmaceuticalindustry;
+                case "Construction": return GlobalEnums.Sector.Construction;
+                case "Defence": return GlobalEnums.Sector.Defence;
+                case "Education": return GlobalEnums.Sector.Education;
+                case "Electrical and instrument engineering": return GlobalEnums.Sector.Electricalandinstrumentengineering;
+                case "Extraction, mining and agglomeration": return GlobalEnums.Sector.Extractionminingandagglomeration;
+                case "Food, beverages and tobacco": return GlobalEnums.Sector.Foodbeveragesandtobacco;
+                case "Health": return GlobalEnums.Sector.Health;
+                case "Horticulture": return GlobalEnums.Sector.Horticulture;
+                case "Hotels": return GlobalEnums.Sector.Hotels;
+                case "Iron and steel": return GlobalEnums.Sector.Ironandsteel;
+                case "Local or national government": return GlobalEnums.Sector.Localornationalgovernment;
+                case "Manufacturing and retail": return GlobalEnums.Sector.Manufacturingandretail;
+                case "Mechanical engineering and metal products": return GlobalEnums.Sector.Mechanicalengineeringandmetalproducts;
+                case "Mineral products (for example - glass, cement, bricks)": return GlobalEnums.Sector.Mineralproductsegglasscementbricks;
+                case "Mixed community heating": return GlobalEnums.Sector.Mixedcommunityheating;
+                case "Non-ferrous metals": return GlobalEnums.Sector.Nonferrousmetals;
+                case "Offices": return GlobalEnums.Sector.Offices;
+                case "Oil refineries": return GlobalEnums.Sector.Oilrefineries;
+                case "Other commerce": return GlobalEnums.Sector.Othercommerce;
+                case "Other industrial branches": return GlobalEnums.Sector.Otherindustrialbranches;
+                case "Other public administration": return GlobalEnums.Sector.Otherpublicadministration;
+                case "Paper, publishing and printing": return GlobalEnums.Sector.Paperpublishingandprinting;
+                case "Post Office": return GlobalEnums.Sector.PostOffice;
+                case "Private hospitals": return GlobalEnums.Sector.Privatehospitals;
+                case "Public sector housing": return GlobalEnums.Sector.Publicsectorhousing;
+                case "Royal Household": return GlobalEnums.Sector.RoyalHousehold;
+                case "Scientific research": return GlobalEnums.Sector.Scientificresearch;
+                case "Sewage treatment": return GlobalEnums.Sector.Sewagetreatment;
+                case "Sports and leisure": return GlobalEnums.Sector.Sportsandleisure;
+                case "Textiles, clothing and footwear": return GlobalEnums.Sector.Textilesclothingandfootwear;
+                case "Timber": return GlobalEnums.Sector.Timber;
+                case "Transport": return GlobalEnums.Sector.Transport;
+                case "Vehicles": return GlobalEnums.Sector.Vehicles;
+                default:
+                    return GlobalEnums.Sector.Other;
+            }
         }
 
         /// <summary>
@@ -186,7 +230,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                         },
                         details = new
                         {
-                            sector = GetSectorKey(scheme.Sector.ToString()),
+                            sector = GetSectorString(scheme.Sector.Value),
                             fuelBillFrequency = scheme.FuelBillFrequency.ToString().ToUpper(),
                             diagrams = scheme.DiagramsOfScheme?.Select(diagram => diagram.Filename),
                             primeMovers = scheme.PrimeMoversOfScheme?.Select(primeMover => new
@@ -320,7 +364,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                     Site = existingScheme.Site.Value,
 
                     // Details (Sector, FuelBillFrequency)
-                    Sector = scheme.scheme.details.sector,
+                    Sector = GetSectorEnum(scheme.scheme.details.sector.ToString()),
                     FuelBillFrequency = scheme.scheme.details.fuelBillFrequency,
 
                     // Additional information

@@ -19091,14 +19091,14 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 		}
 
 		[AttributeLogicalName("chpqa_sector"), Required]
-		public GlobalEnums.chpqa_sector? Sector
+		public GlobalEnums.Sector? Sector
 		{
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("chpqa_sector");
 				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_sector"))
 				    value = (OptionSetValue) backupAttributeCollection["chpqa_sector"];
-				return (GlobalEnums.chpqa_sector?)value?.Value;
+				return (GlobalEnums.Sector?)value?.Value;
 			}
 			set
 			{
@@ -20228,8 +20228,28 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 						{ 1033,
 							new Dictionary<int, string>
 							{
+								{709570000, "Chemical industry"},
+								{709570001, "Commerce"},
+								{709570002, "Construction"},
+								{709570003, "Electrical and instrument engineering"},
+								{709570004, "Extraction, mining and agglomeration"},
+								{709570005, "Food, beverages and tobacco"},
+								{303150001, "Health"},
+								{709570006, "Iron and steel"},
+								{709570007, "Mechanical engineering and metal products"},
+								{709570008, "Mineral products (eg glass, cement, bricks)"},
 								{709570009, "Non-ferrous metals"},
 								{303150002, "Offices"},
+								{709570010, "Oil refineries"},
+								{709570011, "Other industrial branches"},
+								{709570012, "Paper, publishing and printing"},
+								{709570013, "Power generation"},
+								{709570014, "Public Administration"},
+								{709570015, "Sewage treatment"},
+								{709570016, "Textiles, clothing and footwear"},
+								{709570017, "Transport"},
+								{709570018, "Vehicles"},
+								{709570019, "Other"},
 								{303150003, "Airports"},
 								{303150004, "Chemical and pharmaceutical industry"},
 								{303150005, "Defence"},
@@ -20393,6 +20413,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 				public static IDictionary<int, string> Sector { get; set; } =
 					new Dictionary<int, string>
 					{
+						{ 1033, "Sector"},
 					};
 
 				public static IDictionary<int, string> Site { get; set; } =
@@ -21973,14 +21994,14 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 		}
 
 		[AttributeLogicalName("chpqa_sector"), Required]
-		public GlobalEnums.chpqa_sector? Sector
+		public GlobalEnums.Sector? Sector
 		{
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("chpqa_sector");
 				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("chpqa_sector"))
 				    value = (OptionSetValue) backupAttributeCollection["chpqa_sector"];
-				return (GlobalEnums.chpqa_sector?)value?.Value;
+				return (GlobalEnums.Sector?)value?.Value;
 			}
 			set
 			{
@@ -23285,8 +23306,28 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 						{ 1033,
 							new Dictionary<int, string>
 							{
+								{709570000, "Chemical industry"},
+								{709570001, "Commerce"},
+								{709570002, "Construction"},
+								{709570003, "Electrical and instrument engineering"},
+								{709570004, "Extraction, mining and agglomeration"},
+								{709570005, "Food, beverages and tobacco"},
+								{303150001, "Health"},
+								{709570006, "Iron and steel"},
+								{709570007, "Mechanical engineering and metal products"},
+								{709570008, "Mineral products (eg glass, cement, bricks)"},
 								{709570009, "Non-ferrous metals"},
 								{303150002, "Offices"},
+								{709570010, "Oil refineries"},
+								{709570011, "Other industrial branches"},
+								{709570012, "Paper, publishing and printing"},
+								{709570013, "Power generation"},
+								{709570014, "Public Administration"},
+								{709570015, "Sewage treatment"},
+								{709570016, "Textiles, clothing and footwear"},
+								{709570017, "Transport"},
+								{709570018, "Vehicles"},
+								{709570019, "Other"},
 								{303150003, "Airports"},
 								{303150004, "Chemical and pharmaceutical industry"},
 								{303150005, "Defence"},
@@ -23452,6 +23493,7 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 				public static IDictionary<int, string> Sector { get; set; } =
 					new Dictionary<int, string>
 					{
+						{ 1033, "Sector"},
 					};
 
 				public static IDictionary<int, string> Site { get; set; } =
@@ -23668,10 +23710,30 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Services
 			[EnumMember]Other = 709570003,
 		}
 
-		public enum chpqa_sector
+		public enum Sector
 		{
+			[EnumMember]Chemicalindustry = 709570000,
+			[EnumMember]Commerce = 709570001,
+			[EnumMember]Construction = 709570002,
+			[EnumMember]Electricalandinstrumentengineering = 709570003,
+			[EnumMember]Extractionminingandagglomeration = 709570004,
+			[EnumMember]Foodbeveragesandtobacco = 709570005,
+			[EnumMember]Health = 303150001,
+			[EnumMember]Ironandsteel = 709570006,
+			[EnumMember]Mechanicalengineeringandmetalproducts = 709570007,
+			[EnumMember]Mineralproductsegglasscementbricks = 709570008,
 			[EnumMember]Nonferrousmetals = 709570009,
 			[EnumMember]Offices = 303150002,
+			[EnumMember]Oilrefineries = 709570010,
+			[EnumMember]Otherindustrialbranches = 709570011,
+			[EnumMember]Paperpublishingandprinting = 709570012,
+			[EnumMember]Powergeneration = 709570013,
+			[EnumMember]PublicAdministration = 709570014,
+			[EnumMember]Sewagetreatment = 709570015,
+			[EnumMember]Textilesclothingandfootwear = 709570016,
+			[EnumMember]Transport = 709570017,
+			[EnumMember]Vehicles = 709570018,
+			[EnumMember]Other = 709570019,
 			[EnumMember]Airports = 303150003,
 			[EnumMember]Chemicalandpharmaceuticalindustry = 303150004,
 			[EnumMember]Defence = 303150005,
