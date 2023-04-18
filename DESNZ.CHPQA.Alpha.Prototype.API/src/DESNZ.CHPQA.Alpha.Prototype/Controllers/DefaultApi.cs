@@ -448,9 +448,11 @@ namespace DESNZ.CHPQA.Alpha.Prototype.Controllers
                 var submissionMeters = new List<Services.Meter>();
                 foreach (var meter in meters)
                 {
-                    meter.Name = $"{meter.meterType} {meter.tag}";
+                    var meterTag = meter.tag.ToString();
+                    var meterName = $"{meter.meterType} {(meterTag.Length > 2 ? string.Empty : " ")}{meter.tag}";
                     var submissionMeter = new Services.Meter()
                     {
+                        Name = meterName,
                         DiagramReferenceNumber = meter.diagramReferenceNumber,
                         MeterPointReference = meter.meterPointReference,
                         MeterType = meter.meterType,
