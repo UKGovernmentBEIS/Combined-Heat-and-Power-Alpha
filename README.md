@@ -19,3 +19,4 @@
 - [API Prototype](/DESNZ.CHPQA.Alpha.Prototype.API/)
 - [Postman API Design](.postman/api)
 - [Postman Outputs](/postman/)
+- [Re-creating the prototype in new environments](./Wiki/prototype.md)
