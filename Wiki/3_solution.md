@@ -1,4 +1,4 @@
-# Solution Overview
+# Solution Design
 
 ## Conceptual Architecture Diagram
 
